@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>销售合同搜索结果</title>
+<link rel=’stylesheet’ href=’/stylesheets/style.css’ />
+</head>
+<body>
+<div style=margin:20px>
+<div >
+	<h1>销售合同搜索结果</h1>
+	<table bgcolor="#EAEAEA">
+		<tr>
+			<td><input type="button" onclick="location='/salescontract'" value="返回销售状态"></td>
+			<td><input type="button" onclick="location='/search?flag=1'" value="查询"></td>
+		</tr>
+		<tr>
+			<td>
+				<table >
+					<tr>
+						<td bgcolor="#BFEFFF">合同号</td>
+						<td bgcolor="#aaaa00">客户名称</td>
+						<td bgcolor="#BFEFFF">合同金额</td>
+						<td bgcolor="#aaaa00">应收账款</td>
+						<td bgcolor="#aaaa00">毛利率</td>
+						<td bgcolor="#BFEFFF">服务到期日</td>
+						<td bgcolor="#aaaa00">合同状态</td>
+						<td bgcolor="#BFEFFF">合同简介</td>
+					</tr>
+					<%
+					var totalvalue = 0;
+					var totalaccount = 0;
+					var totalgross = 0;
+					for(var i in result){
+						totalvalue = totalvalue + parseInt(result[i].ctrctValue);
+						totalaccount = totalaccount + parseInt(result[i].ctrctValue - result[i].billtotalvalue);
+						totalgross = totalgross + parseInt(result[i].ctrctGross);
+					%>
+					<tr>
+						<td bgcolor="#BFEFFF"><a href="/contractdetail?id=<%=result[i].ctrctId%>"><%=result[i].ctrctId%></a></td>
+						<td bgcolor="#aaaa00"><a href="/customerview?name=<%=encodeURI(result[i].cstmName)%>"><%=result[i].cstmName%></a></td>
+						<td bgcolor="#BFEFFF"><%=result[i].ctrctValue%></td>
+						<td bgcolor="#aaaa00"><%=result[i].ctrctValue - result[i].billtotalvalue%></td>
+						<td bgcolor="#BFEFFF"><%=result[i].ctrctGross%></td>
+						<td bgcolor="#BFEFFF"><%=result[i].ctrctTime%></td>
+						<td  bgcolor="#BFEFFF"><%=result[i].ctrctStatus%></td>
+						<td bgcolor="#BFEFFF"><%=result[i].ctrctBrief%></td>
+					</tr>
+					<% } %>
+					<tr>
+						<td></td>
+						<td></td>
+						<td bgcolor="#BFEFFF"><%=totalvalue%></td>
+						<td bgcolor="#aaaa00"><%=totalaccount%></td>
+						<td bgcolor="#BFEFFF"><%=totalgross%></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>	
+</div>
+
+</body>
+</html>

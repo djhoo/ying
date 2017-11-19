@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>新增收款</title>
+<link rel=’stylesheet’ href=’/stylesheets/style.css’ />
+<script language="javascript" type="text/javascript" src="javascripts/My97DatePicker/WdatePicker.js"></script>
+</head>
+<body>
+<div id="addgather" style=margin:20px>
+	<h1>新增收款</h1>
+	<form name="addgather" method="post" action="/addgather?id=<%= id%>">
+		<table bgcolor="#EAEAEA">
+	     	<tr><td>到款金额：</td><td><input type="number" required="required" name="gathervalue"></td></tr>
+			<tr><td>到款时间：</td><td><input id="" name="gathertime" required="required" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" /></td></tr>
+			<tr><td></td><td><input type="submit" value="确定"></td></tr>
+		</table >
+	</form>
+</div>	
+</body>
+</html>

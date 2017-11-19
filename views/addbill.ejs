@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>新增发票</title>
+<link rel=’stylesheet’ href=’/stylesheets/style.css’ />
+<script language="javascript" type="text/javascript" src="javascripts/My97DatePicker/WdatePicker.js"></script>
+</head>
+<body>
+<div id="addbill" style=margin:20px>
+	<h1>新增发票</h1>
+	<form name="addbill" method="post" action="/addbill?id=<%= id%>">
+		<table bgcolor="#EAEAEA">
+	     	<tr><td>开票金额：</td><td><input type="number" required="required"  name="billvalue"></td></tr>
+			<tr><td>发票编号：</td><td><input type="text" required="required" name="billno"></td></tr>
+			<tr><td>收票人：</td><td><input type="text"  required="required" name="billowner"></td></tr>
+			<tr><td>快递单：</td><td><input type="text"  required="required" name="billsheet"></td></tr>
+			<tr><td>送票时间：</td><td><input type="text"  class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" name="billtime"></td></tr>
+			<tr><td></td><td><input type="submit" value="确定"></td></tr>
+		</table >
+	</form>
+
+</div>	
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>新增采购合同</title>
+<link rel=’stylesheet’ href=’/stylesheets/style.css’ />
+<script language="javascript" type="text/javascript" src="javascripts/My97DatePicker/WdatePicker.js"></script>
+</head>
+<body>
+<div id="addpurchase" style=margin:20px>
+	<h1>新增采购合同</h1>
+	<form name="addpurchase" method="post" enctype="multipart/form-data" action="/addpurchase?id=<%= id%>&owner=<%=encodeURI(owner)%>">
+		<table bgcolor="#EAEAEA">
+	     	<tr><td>合同号：</td><td><input type="text" required="required" name="purchsId"></td></tr>
+			<tr><td>签约客户：</td>
+				<td><select name="purchsName">
+				<%
+					for(var i in customer){
+				%>
+					<option value="<%=customer[i].cstmName%>"><%=customer[i].cstmName%></option>
+				<%
+					}
+				%></td>
+				<td><input type="button" onclick="location='/addcustomer'" value="新增客户"></td></tr>
+			<tr><td>合同金额：</td><td><input type="number" required="required" name="purchsValue"></td></tr>
+			<tr><td>签约时间：</td><td><input id="" name="purchsTime" required="required"  class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" /></td></tr>			
+			<tr><td>合同简介：</td><td><input type="text"  name="purchsBrief"></td></tr>
+			<tr><td>合同附件：</td><td><input type="file" name="attachpur"></td></tr>
+			<tr><td></td><td><input type="submit" value="确定"></td></tr>
+		</table >
+	</form>
+
+</div>	
+</body>
+</html>

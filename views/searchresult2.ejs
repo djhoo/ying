@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>采购合同搜索结果</title>
+<link rel=’stylesheet’ href=’/stylesheets/style.css’ />
+</head>
+<body>
+<div style=margin:20px>
+<div >
+	<h1>采购合同搜索结果</h1>
+	<table bgcolor="#EAEAEA">
+		<tr>
+			<td><input type="button" onclick="location='/salescontract'" value="返回销售状态"></td>
+			<td><input type="button" onclick="location='/search?flag=2'" value="查询"></td>
+		</tr>
+		<tr>
+			<td>
+				<table >
+					<tr>
+						<td bgcolor="#BFEFFF">合同号</td>
+						<td bgcolor="#aaaa00">客户名称</td>
+						<td bgcolor="#BFEFFF">合同金额</td>
+						<td bgcolor="#aaaa00">应付账款</td>
+						<td bgcolor="#BFEFFF">服务到期日</td>
+						<td bgcolor="#aaaa00">合同状态</td>
+						<td bgcolor="#BFEFFF">合同简介</td>
+					</tr>
+					<%
+					var totalvalue = 0;
+					var totalaccount = 0;
+					for(var i in result){
+						totalvalue = totalvalue + parseInt(result[i].purchsValue);
+						totalaccount = totalaccount + parseInt(result[i].purchsValue - result[i].paytotalvalue);
+					%>
+					<tr>
+						<td bgcolor="#BFEFFF"><a href="/purchasedetail?id=<%=result[i].purchsId%>"><%=result[i].purchsId%></a></td>
+						<td bgcolor="#aaaa00"><a href="/customerview?name=<%=encodeURI(result[i].purchsName)%>"><%=result[i].purchsName%></a></td>
+						<td bgcolor="#BFEFFF"><%=result[i].purchsValue%></td>
+						<td bgcolor="#aaaa00"><%=result[i].purchsValue - result[i].paytotalvalue%></td>
+						<td bgcolor="#BFEFFF"><%=result[i].purchsTime%></td>
+						<td  bgcolor="#aaaa00"><%=result[i].purchsStatus%></td>
+						<td bgcolor="#BFEFFF"><%=result[i].purchsBrief%></td>
+					</tr>
+					<% } %>
+					<tr>
+						<td></td>
+						<td></td>
+						<td bgcolor="#BFEFFF"><%=totalvalue%></td>
+						<td bgcolor="#aaaa00"><%=totalaccount%></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>	
+</div>
+
+</body>
+</html>

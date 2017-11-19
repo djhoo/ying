@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>客户与供应商</title>
+<link rel=’stylesheet’ href=’/stylesheets/style.css’ />
+</head>
+<body>
+<div id="customerview">
+	<h1>客户与供应商</h1>
+     <%
+     if( customer[0] != null ){
+     %>
+          <table bgcolor="#EAEAEA">
+          <tr>
+          	<td>公司名称：</td><td><%=customer[0].cstmName%></td>
+     	</tr>
+          <tr>
+              <td>公司地址：</td><td><%=customer[0].cstmAddr%></td>
+     	</tr>
+     		<tr>
+     			<td>联系人：</td><td><%=customer[0].owner1%></td>
+     			<td>手机：</td><td><%=customer[0].cellno1%></td>
+     			<td>固话：</td><td><%=customer[0].telno1%></td>
+     			<td>邮箱：</td><td><%=customer[0].mail1%></td>
+     		</tr>	
+     		<tr>
+     			<td>联系人：</td><td><%=customer[0].owner2%></td>
+                    <td>手机：</td><td><%=customer[0].cellno2%></td>
+                    <td>固话：</td><td><%=customer[0].telno2%></td>
+                    <td>邮箱：</td><td><%=customer[0].mail2%></td>
+     		</tr>	
+
+          <tr>
+          <tr>
+          <td>其他备注：</td><td><%=customer[0].otherinfo%></td>
+          </tr>
+		<td>公司附件：</td>
+		</tr>
+          <%
+          if(customer[0].attach != null){
+               for(var i in customer[0].attach){
+          %>
+          <tr><td><a href="/download?flag=3&name=<%=customer[0].attach[i].filename%>"><%=customer[0].attach[i].originalname%></a></td></tr>
+          <% }} %>
+          
+     </table>
+     <%
+     }
+     else{
+     %>
+     <h1>没有数据</h1>
+     <%}%>
+
+
+</div>	
+</body>
+</html>

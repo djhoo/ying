@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>新增备注</title>
+<link rel=’stylesheet’ href=’/stylesheets/style.css’ />
+</head>
+<body>
+<div id="addcomment1" style=margin:20px>
+	<h1>新增备注</h1>
+	<form name="addcomment1" method="post" action="/addcomment1?id=<%= id%>">
+		<table bgcolor="#EAEAEA">
+	     	<tr><td>备注内容：</td><td><input type="text" size = 100 required="required" name="content"></td></tr>
+			<tr><td></td><td><input type="submit" value="确定"></td></tr>
+		</table >
+	</form>
+</div>	
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>上传附件</title>
+<link rel=’stylesheet’ href=’/stylesheets/style.css’ />
+<script language="javascript" type="text/javascript" src="javascripts/My97DatePicker/WdatePicker.js"></script>
+</head>
+<body>
+<div style=margin:20px>
+	<form name="addattach" method="post" enctype="multipart/form-data" action="/addattach?id=<%= id%>&flag=<%=flag%>">
+		<table bgcolor="#EAEAEA">
+			<input type="file" name="attach" required="required" >
+			<input type="submit" value="上传">
+		</table>
+	</form>
+</div>
+</body>
+</html>

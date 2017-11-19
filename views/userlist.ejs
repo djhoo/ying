@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>销售合同状态</title>
+<link rel=’stylesheet’ href=’/stylesheets/style.css’ />
+</head>
+<body>
+<div id="header">
+	<h1>销售合同状态
+	<input type="button" onclick="alert('Hello World!')" value="更新">
+	<input type="button" onclick="alert('Hello World!')" value="新增合同">
+	<input type="button" onclick="alert('Hello World!')" value="查询">
+	</h1>
+</div>	
+
+<div id="shanghaidata">
+	<h2>签约方：上海怡宣怡宣信息技术有限公司</h2>
+	<ul>
+	<%
+	for(var i in userlist){
+	%>
+	<li><a href=”mailto:<%=userlist[i].email%>”><%=userlist[i].username%></a></li>
+	<% } %>
+	</ul>
+</div>	
+
+<div id="anhuidata">
+	<h2>签约方：安徽怡宣怡宣信息技术有限公司</h2>
+	<ul>
+	<%
+	for(var i in userlist){
+	%>
+	<li><a href=”mailto:<%=userlist[i].email%>”><%=userlist[i].username%></a></li>
+	<% } %>
+	</ul>
+</div>	
+
+</body>
+</html>

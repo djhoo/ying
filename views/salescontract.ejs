@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>销售合同状态</title>
+<link rel=’stylesheet’ href=’/stylesheets/style.css’ />
+</head>
+<body>
+<div style=margin:20px>
+<div id="header">
+	<table bgcolor="#EAEAEA">
+		<tr>
+			<td>销售合同状态</td>
+			<td><input type="button" onclick="location='/addcontract'" value="新增合同"></td>
+			<td><input type="button" onclick="location='/search?flag=1'" value="查询"></td>
+		</tr>
+		<tr>
+			<td>签约方：</td><td>上海怡宣怡宣信息技术有限公司</td>
+		</tr>
+		<tr>
+			<td></td><td>
+				<table >
+					<tr>
+						<td bgcolor="#BFEFFF">合同编号</td>
+						<td bgcolor="#aaaa00">客户名称</td>
+						<td bgcolor="#BFEFFF">合同金额</td>
+						<td bgcolor="#aaaa00">合同状态</td>
+						<td bgcolor="#BFEFFF">合同内容简介</td>
+					</tr>
+					<%
+					for(var i in saleslist){
+						if( saleslist[i].ctrctOwner == "上海怡宣怡宣信息技术有限公司" ){
+					%>
+					<tr>
+						<td bgcolor="#BFEFFF"><a href="/contractdetail?id=<%=saleslist[i].ctrctId%>"><%=saleslist[i].ctrctId%></a></td>
+						<td bgcolor="#aaaa00"><a href="/customerview?name=<%=encodeURI(saleslist[i].cstmName)%>"><%=saleslist[i].cstmName%></a></td>
+						<td bgcolor="#BFEFFF"><%=saleslist[i].ctrctValue%></td>
+						<td  bgcolor="#aaaa00"><%=saleslist[i].ctrctStatus%></td>
+						<td bgcolor="#BFEFFF"><%=saleslist[i].ctrctBrief%></td>
+					</tr>
+					<% }} %>
+					<tr></tr>
+					<%
+					var totalValue=0;
+					for(var i in saleslist){
+						if( saleslist[i].ctrctOwner == "上海怡宣怡宣信息技术有限公司" ){
+							totalValue = parseInt(saleslist[i].ctrctValue) + totalValue;
+						}
+					}
+					%>
+					<tr>
+						<td></td><td>累计金额：</td><td bgcolor="#BFEFFF"><%=totalValue%></td>
+					</tr>	
+				</table>
+			</td>
+		</tr>
+		<tr><td>签约方：</td><td>安徽怡宣怡宣信息技术有限公司</td>
+		</tr>
+		<tr>
+			<td></td><td>
+				<table >
+					<tr>
+						<td bgcolor="#BFEFFF">合同编号</td><td bgcolor="#aaaa00">客户名称</td><td bgcolor="#BFEFFF">合同金额</td><td bgcolor="#aaaa00">合同状态</td><td  bgcolor="#BFEFFF">合同内容简介</td>
+					</tr>
+					<%
+					for(var i in saleslist){
+						if( saleslist[i].ctrctOwner == "安徽怡宣怡宣信息技术有限公司" ){
+					%>
+					<tr>
+						<td bgcolor="#BFEFFF"><a href="/contractdetail?id=<%=saleslist[i].ctrctId%>"><%=saleslist[i].ctrctId%></td>
+						<td bgcolor="#aaaa00"><a href="/customerview?name=<%=encodeURI(saleslist[i].cstmName)%>"><%=saleslist[i].cstmName%></a></td>
+						<td bgcolor="#BFEFFF"><%=saleslist[i].ctrctValue%></td>
+						<td  bgcolor="#aaaa00"><%=saleslist[i].ctrctStatus%></td>
+						<td bgcolor="#BFEFFF"><%=saleslist[i].ctrctBrief%></td>
+					</tr>
+					<% }} %>
+					<tr></tr>
+					<%
+					var totalValue=0;
+					for(var i in saleslist){
+						if( saleslist[i].ctrctOwner == "安徽怡宣怡宣信息技术有限公司" ){
+							totalValue = parseInt(saleslist[i].ctrctValue) + totalValue;
+						}
+					}
+					%>
+					<tr>
+						<td></td><td>累计金额：</td><td bgcolor="#BFEFFF"><%=totalValue%></td>
+					</tr>	
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>	
+</div>
+
+</body>
+</html>

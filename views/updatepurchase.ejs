@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>变更采购合同</title>
+<link rel=’stylesheet’ href=’/stylesheets/style.css’ />
+<script language="javascript" type="text/javascript" src="javascripts/My97DatePicker/WdatePicker.js"></script>
+</head>
+<body>
+<div id="updatepurchase" style=margin:20px>
+	<h1>变更采购合同</h1>
+	<form name="updatepurchase" method="post" action="/updatepurchase?id=<%= purchaselist[0].purchsId%>&ctrctId=<%= purchaselist[0].sales[0].ctrctId%>">
+		<table bgcolor="#EAEAEA">
+	     	<tr><td>合同号：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].purchsId%></td></tr>
+			<tr><td>签约客户：</td>	<td bgcolor="#BFEFFF"><%=purchaselist[0].purchsName%></td></tr>
+			<tr><td>合同金额：</td><td><input type="number" required="required" value='<%=purchaselist[0].purchsValue%>' name="purchsValue"></td></tr>
+			<tr><td>签约时间：</td><td><input id="" name="purchsTime" required="required" value='<%=purchaselist[0].purchsTime%>' class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" /></td></tr>			
+			<tr><td>合同简介：</td><td><input type="text" value='<%=purchaselist[0].purchsBrief%>'  name="purchsBrief"></td></tr>
+			<tr><td>合同状态：</td>
+				<td><select name="purchsStatus">
+				<option value="进行中">进行中</option>
+				<option value="完成">完成</option>
+			</select></td></tr>		
+			<tr><td></td><td><input type="submit" value="确定"></td></tr>
+		</table >
+	</form>
+
+</div>	
+</body>
+</html>

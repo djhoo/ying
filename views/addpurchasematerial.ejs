@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>新增采购实物交付</title>
+<link rel=’stylesheet’ href=’/stylesheets/style.css’ />
+<script language="javascript" type="text/javascript" src="javascripts/My97DatePicker/WdatePicker.js"></script>
+</head>
+<body>
+<div id="addpurchasematerial" style=margin:20px>
+	<h1>新增采购实物交付</h1>
+	<form name="addpurchasematerial" method="post" action="/addpurchasematerial?id=<%= id%>">
+		<table bgcolor="#EAEAEA">
+	     	<tr><td>设备型号：</td><td><input type="text" required="required" name="unittype"></td></tr>
+			<tr><td>序列号：</td><td><input type="text" required="required" name="serialno"></td></tr>
+			<tr><td>MAC：</td><td><input type="text" required="required" name="mac"></td></tr>
+			<tr><td>服务终止时间：</td><td><input id="" name="endtime" required="required" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" /></td></tr>
+			<tr><td>送货时间：</td><td><input id="" name="deliverytime" required="required" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" /></td></tr>
+			<tr><td></td><td><input type="submit" value="确定"></td></tr>
+		</table >
+	</form>
+
+</div>	
+</body>
+</html>

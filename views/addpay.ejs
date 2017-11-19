@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>新增付款</title>
+<link rel=’stylesheet’ href=’/stylesheets/style.css’ />
+<script language="javascript" type="text/javascript" src="javascripts/My97DatePicker/WdatePicker.js"></script>
+</head>
+<body>
+<div id="addpay" style=margin:20px>
+	<h1>新增付款</h1>
+	<form name="addpay" method="post" action="/addpay?id=<%= id%>">
+		<table bgcolor="#EAEAEA">
+	     	<tr><td>发票金额：</td><td><input type="number" required="required" name="payvalue"></td></tr>
+			<tr><td>付款时间</td><td><input id="" name="paytime" required="required" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" /></td></tr>
+			<tr><td></td><td><input type="submit" value="确定"></td></tr>
+		</table >
+	</form>
+</div>	
+</body>
+</html>

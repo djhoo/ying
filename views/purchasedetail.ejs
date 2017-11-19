@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>采购合同细节</title>
+<link rel=’stylesheet’ href=’/stylesheets/style.css’ />
+</head>
+<body>
+	<div style=margin:20px>
+		<table bgcolor="#EAEAEA">
+		<tr><td>
+			<table>
+			<tr>
+				<td>采购合同细节</td>
+				<td><input type="button" onclick="location='/salescontract'" value="返回销售状态"></td>
+				<td><input type="button" onclick="location='/search?flag=2'" value="查询"></td>
+				<%
+						if(purchaselist[0].purchsStatus != "完成"){
+			    %>
+				<td>
+				<form name="deletepurchase" method="post" action="/deletepurchase?id=<%= purchaselist[0].purchsId%>&ctrctId=<%=purchaselist[0].sales[0].ctrctId%>" onSubmit="javascript:return window.confirm('确认删除吗？')"> 
+					<input type="submit" value="删除">
+				</form>
+				</td>
+				<%
+				}
+				%>
+			</tr>
+			</table>
+		</td></tr>
+		<tr><td>
+			<table>
+				<tr>
+					<td>签约方</td><td bgcolor="#BFEFFF"><%=purchaselist[0].purchsOwner%></td>
+					<%
+						if(purchaselist[0].purchsStatus != "完成"){
+			    	%>
+					<td><input type="button" onclick="location='/updatepurchase?id=<%= purchaselist[0].purchsId%>'" value="变更合同"></td>
+					<%
+					}
+					%>
+				</tr>
+				<tr>
+					<td>合同号：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].purchsId%></td>
+					<td>合同金额：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].purchsValue%></td>
+					<td>签订时间：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].purchsTime%></td>
+					<td>合同简介：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].purchsBrief%></td>
+				</tr>
+				<tr>
+					<td>客户名称：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].purchsName%></td>
+					<td>&nbsp</td><td>&nbsp</td>
+					<td>合同状态：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].purchsStatus%></td>
+				</tr>
+			</table>
+		</td></tr>
+		<tr><td>
+			<table>
+				<tr>
+					<td>发票状态：</td>
+					<td>累计金额：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].billtotalvalue%></td>
+					<%
+						var ratio = purchaselist[0].billtotalvalue/purchaselist[0].purchsValue * 100;
+						var ratio2 = ratio.toFixed(2);
+					%>
+					<td>累计比例：</td><td bgcolor="#BFEFFF"><%=ratio2%>%</td>
+					<td>应付账款：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].purchsValue-purchaselist[0].billtotalvalue%></td>
+				</tr>
+				<%
+				if(purchaselist[0].bill != null){
+			    	for(var i in purchaselist[0].bill){
+				%>
+				<tr>
+					<td></td>
+					<td>收票金额：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].bill[i].billvalue%></td>
+					<%
+						var ratio = purchaselist[0].bill[i].billvalue/purchaselist[0].purchsValue * 100;
+						var ratio2 = ratio.toFixed(2);
+					%>
+					<td>比例：</td><td bgcolor="#BFEFFF"><%=ratio2%>%</td>
+					<td>发票编号：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].bill[i].billno%></td>
+					<td>送票时间：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].bill[i].billtime%></td>
+				</tr>
+				<% }} %>
+				<tr>
+					<td></td>
+					<%
+						if(purchaselist[0].purchsStatus != "完成"){
+			    	%>
+					<td><input type="button" onclick="location='/addpurchasebill?id=<%= purchaselist[0].purchsId%>'" value="增加"></td>
+					<%
+					}
+					%>
+				</tr>
+				<tr>
+					<td>付款状态：</td>
+					<td>累计金额：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].paytotalvalue%></td>
+					<%
+						var ratio = purchaselist[0].paytotalvalue/purchaselist[0].purchsValue * 100;
+						var ratio2 = ratio.toFixed(2);
+					%>
+					<td>付款比例：</td><td bgcolor="#BFEFFF"><%=ratio2%>%</td>
+				</tr>
+				<%
+				if(purchaselist[0].pay != null){
+			    	for(var i in purchaselist[0].pay){
+				%>
+				<tr>
+					<td></td>
+					<td>发票金额：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].pay[i].payvalue%></td>
+					<%
+						var ratio = purchaselist[0].pay[i].payvalue/purchaselist[0].purchsValue * 100;
+						var ratio2 = ratio.toFixed(2);
+					%>
+					<td>发票比例：</td><td bgcolor="#BFEFFF"><%=ratio2%>%</td>
+					<td>付款时间</td><td bgcolor="#BFEFFF"><%=purchaselist[0].pay[i].paytime%></td>
+				</tr>
+				<% }} %>
+				<tr>
+					<td></td>
+					<%
+						if(purchaselist[0].purchsStatus != "完成"){
+			    	%>
+					<td><input type="button" onclick="location='/addpay?id=<%= purchaselist[0].purchsId%>'" value="增加"></td>
+					<%
+					}
+					%>
+				</tr>
+				<tr>
+				</tr>
+			</table>
+		</td></tr>
+		<tr><td>
+			<table>
+				<tr>
+					<td>实物交付：</td>
+				</tr>
+				<tr>
+					<td>&nbsp</td>
+					<td>
+						<table border="1" cellspacing="0">
+							<tr>
+								<td bgcolor="#8FBC8F">编号</td>
+								<td bgcolor="#8FBC8F">设备型号</td>
+								<td bgcolor="#8FBC8F">序列号</td>
+								<td bgcolor="#8FBC8F">MAC</td>
+								<td bgcolor="#8FBC8F">服务终止时间</td>
+								<td bgcolor="#8FBC8F">送货时间</td>
+							</tr>
+							<%
+							if(purchaselist[0].material != null){
+						    	for(var i in purchaselist[0].material){
+							%>
+							<tr>
+								<td bgcolor="#BFEFFF"><%=parseInt(i)+1%></td>
+								<td bgcolor="#BFEFFF"><%=purchaselist[0].material[i].unittype%></td>
+								<td bgcolor="#BFEFFF"><%=purchaselist[0].material[i].serialno%></td>
+								<td bgcolor="#BFEFFF"><%=purchaselist[0].material[i].mac%></td>
+								<td bgcolor="#BFEFFF"><%=purchaselist[0].material[i].endtime%></td>
+								<td bgcolor="#BFEFFF"><%=purchaselist[0].material[i].deliverytime%></td>
+							</tr>
+							<% }} %>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<%
+						if(purchaselist[0].purchsStatus != "完成"){
+			    	%>
+					<td><input type="button" onclick="location='/addpurchasematerial?id=<%= purchaselist[0].purchsId%>'" value="增加"></td>
+					<%
+					}
+					%>
+				</tr>
+			</table>
+		</td></tr>
+		<tr><td>
+			<table>
+				<tr>
+					<td>关联销售合同：</td>
+				</tr>
+				<%
+				if(purchaselist[0].sales != null){
+			    	for(var i in purchaselist[0].sales){
+				%>
+				<tr>
+					<td>&nbsp</td>
+					<td>合同号：</td><td bgcolor="#BFEFFF"><a href="/contractdetail?id=<%=purchaselist[0].sales[i].ctrctId%>"><%=purchaselist[0].sales[i].ctrctId%></a></td>
+					<td>客户名称：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].sales[i].cstmName%></td>
+					<td>合同简介：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].sales[i].ctrctBrief%></td>
+				</tr>
+				<% }} %>
+			</table>
+		</td></tr>
+		<tr>
+			<td>
+				<table>
+				<tr>
+					<td>其他备注：</td>
+				</tr>
+				<%
+				if(purchaselist[0].comment != null){
+			    	for(var i in purchaselist[0].comment){
+				%>
+				<tr>
+					<td>&nbsp</td>
+					<td bgcolor="#BFEFFF"><%=purchaselist[0].comment[i].time%>   <%=purchaselist[0].comment[i].content%></td>
+				</tr>
+				<% }} %>
+				<tr>
+					<td>&nbsp</td>
+					<td><input type="button" onclick="location='/addcomment2?id=<%= purchaselist[0].purchsId%>'" value="增加备注"></td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			合同附件：<input type="button" onclick="location='/addattach?id=<%= purchaselist[0].purchsId%>&flag=2'" value="上传">
+			</td>
+		</tr>
+		<%
+		if(purchaselist[0].attach != null){
+		   	for(var i in purchaselist[0].attach){
+		%>
+		<tr><td><a href="/download?flag=2&name=<%=purchaselist[0].attach[i].filename%>"><%=purchaselist[0].attach[i].originalname%></a></td></tr>
+		<% }} %>
+	</table>
+	</div>
+</body>
+</html>

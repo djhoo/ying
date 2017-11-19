@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>查询</title>
+<link rel=’stylesheet’ href=’/stylesheets/style.css’ />
+<script language="javascript" type="text/javascript" src="javascripts/My97DatePicker/WdatePicker.js"></script>
+</head>
+<body>
+<div id="search" style=margin:20px>
+	<%
+	if(flag == 1){
+	%>
+	<h1>销售合同查询</h1>
+	<input type="button" onclick="location='/search?flag=2'" value="采购合同查询"></td>
+	<%
+	}
+	else{
+	%>
+	<h1>采购合同查询</h1>
+	<input type="button" onclick="location='/search?flag=1'" value="销售合同查询"></td>
+	<%
+	}
+	%>
+	<form name="search" method="post" action="/search?flag=<%= flag%>">
+	<table bgcolor="#EAEAEA">
+	<tr>
+	<td>	
+		<table >
+			<tr>
+				<td><select name="searchitem" id = "mySelect">
+				<option value="name">基于客户名称的查询</option>
+				<option value="id">基于合同号的查询</option>
+				<option value="status">基于合同状态的查询</option>
+				<option value="serialno">基于产品序列号的查询</option>
+				<option value="mac">基于MAC地址的查询</option>
+				</select>
+				</td><td>&nbsp</td>
+				<td id="inputtype"><input id ="inputid" type="text" name="content" size="40"></td>
+				<td id="customername">
+				<select name="content1">
+				<%
+					for(var i in customer){
+				%>
+					<option value="<%=customer[i].cstmName%>"><%=customer[i].cstmName%></option>
+				<%
+					}
+				%>
+				</td>
+				<td id="customerstatus">
+				<select name="content2">
+				<option value="进行中">进行中</option>
+				<option value="已完成">已完成</option>
+				</td>				
+
+			</tr>
+		</table>
+	</td>
+    </tr>
+    <tr>
+	<td>
+		<%
+		if(flag == 1){
+		%>
+		<table id = "t1">
+			<tr id >
+				<td>基于合同签订时间段查询</td>
+				<td>开始：</td><td><input type="text" name="starttime1" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" size="30"></td>
+				<td>结束：</td><td><input type="text" name="endtime1" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" size="30"></td>
+			</tr>
+			<tr id >
+				<td>基于合同服务到期时间段查询</td>
+				<td>开始：</td><td><input type="text" name="starttime2" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" size="30"></td>
+				<td>结束：</td><td><input type="text" name="endtime2" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" size="30"></td>
+			</tr>
+			<tr id = "bill"><td>应收款汇总（应收款大于0）</td><td><input type="checkbox" name="box1" /></td></tr>
+		</table>
+	</td>
+    </tr>
+    <tr>
+	<td>
+		<%
+		}else{
+		%>
+		<table id = "t1">
+			<tr>
+				<td>基于合同签订时间段查询</td>
+				<td>开始：</td><td id="time1"><input type="text" name="starttime3" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" size="30"></td>
+				<td>结束：</td><td id="time2"><input type="text" name="endtime3" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" size="30"></td>
+			</tr>
+			<tr id = "pay"><td>应付款汇总（应付款大于0）</td><td><input type="checkbox" name="box2"/></td></tr>
+		</table >
+		<%
+		}
+		%>
+	</td>
+    </tr>
+    <tr>
+	<td>
+		<input type="submit" value="查询">
+	</td>
+    </tr>
+	</form>
+</div>	
+</body>
+<script language=JavaScript>
+	var obj=document.getElementById('mySelect');
+	var index=obj.selectedIndex;
+		document.getElementById('inputid').required=false;
+		document.getElementById( "inputtype").style.display= "none"; 
+		document.getElementById( "customername").style.display= "inline"; 
+		document.getElementById( "customerstatus").style.display= "none"; 
+
+		document.getElementById('mySelect').onchange=function(){
+		var index=obj.selectedIndex;
+		if((index == 0)){
+				document.getElementById('t1').style.display = "";
+				document.getElementById( "inputtype").style.display= "none"; 
+				document.getElementById( "customername").style.display= "inline"; 
+				document.getElementById( "customerstatus").style.display= "none"; 
+				document.getElementById('inputid').required=false;
+		}
+		else if(index == 2){
+			document.getElementById('t1').style.display = "none"; 
+			document.getElementById('inputid').required=false;
+			document.getElementById( "inputtype").style.display= "none"; 
+			document.getElementById( "customername").style.display= "none"; 
+			document.getElementById( "customerstatus").style.display= "inline"; 
+		}
+		else{
+			document.getElementById('t1').style.display = "none"; 
+			document.getElementById( "inputtype").style.display= "inline"; 
+			document.getElementById( "customername").style.display= "none"; 
+			document.getElementById( "customerstatus").style.display= "none"; 
+			document.getElementById('inputid').required=true;
+		}		
+	}	
+//document.getElementById( "控件ID ").style.display= "none "; 
+//document.getElementById( "控件ID ").style.display= "inline "; 
+</script>
+
+
+</html>
+
