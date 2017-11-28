@@ -37,14 +37,14 @@
 				</td><td>&nbsp</td>
 				<td id="inputtype"><input id ="inputid" type="text" name="content" size="40"></td>
 				<td id="customername">
-				<select name="content1">
-				<%
-					for(var i in customer){
-				%>
-					<option value="<%=customer[i].cstmName%>"><%=customer[i].cstmName%></option>
-				<%
-					}
-				%>
+					<select name="content1">
+					<%
+						for(var i in customer){
+					%>
+						<option value="<%=customer[i].cstmName%>"><%=customer[i].cstmName%></option>
+					<%
+						}
+					%>
 				</td>
 				<td id="customerstatus">
 				<select name="content2">

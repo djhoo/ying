@@ -31,12 +31,12 @@
 					var totalaccount = 0;
 					var totalgross = 0;
 					for(var i in result){
-						totalvalue = totalvalue + parseInt(result[i].ctrctValue);
-						totalaccount = totalaccount + parseInt(result[i].ctrctValue - result[i].billtotalvalue);
-						totalgross = totalgross + parseInt(result[i].ctrctGross);
+						totalvalue = totalvalue + parseFloat(result[i].ctrctValue);
+						totalaccount = totalaccount + parseFloat(result[i].ctrctValue - result[i].billtotalvalue);
+						totalgross = totalgross + parseFloat(result[i].ctrctGross);
 					%>
 					<tr>
-						<td bgcolor="#BFEFFF"><a href="/contractdetail?id=<%=result[i].ctrctId%>"><%=result[i].ctrctId%></a></td>
+						<td bgcolor="#BFEFFF"><a href="/contractdetail?id=<%=encodeURIComponent(result[i].ctrctId)%>"><%=result[i].ctrctId%></a></td>
 						<td bgcolor="#aaaa00"><a href="/customerview?name=<%=encodeURI(result[i].cstmName)%>"><%=result[i].cstmName%></a></td>
 						<td bgcolor="#BFEFFF"><%=result[i].ctrctValue%></td>
 						<td bgcolor="#aaaa00"><%=result[i].ctrctValue - result[i].billtotalvalue%></td>

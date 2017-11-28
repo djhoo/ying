@@ -10,7 +10,7 @@
 	<h1>新增收款</h1>
 	<form name="addgather" method="post" action="/addgather?id=<%= id%>">
 		<table bgcolor="#EAEAEA">
-	     	<tr><td>到款金额：</td><td><input type="number" required="required" name="gathervalue"></td></tr>
+	     	<tr><td>到款金额：</td><td><input type="number" required="required" step="0.01" name="gathervalue"></td></tr>
 			<tr><td>到款时间：</td><td><input id="" name="gathertime" required="required" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" /></td></tr>
 			<tr><td></td><td><input type="submit" value="确定"></td></tr>
 		</table >

@@ -129,8 +129,7 @@ router.post('/addcontract', upload.single('attach1'), function(req, res) {
     var db = req.db;
     var file = req.file;
     // Get our form values. These rely on the "name" attributes
-    var ctrctId1 = req.body.ctrctId;
-    var ctrctId = ctrctId1.replace(/(^\s*)|(\s*$)/g, ""); 
+    var ctrctId = decodeURIComponent(req.body.ctrctId);
     var ctrctOwner = req.body.ctrctOwner;
     var cstmName = req.body.cstmName;
     var ctrctValue = req.body.ctrctValue;
@@ -261,7 +260,9 @@ router.get('/contractdetail', function(req, res) {
     }
     var db = req.db;
     var sales = db.get('salescontract');
-    var id = req.query.id;
+    var id = decodeURIComponent(req.query.id);
+    
+    console.log(id);
     sales.find({'ctrctId':id},{},function(e,docs){
         if(docs.length == 0){
                 res.render('helloworld');
@@ -280,13 +281,13 @@ router.get('/addbill', function(req, res) {
     if (!req.session.loginUser) {
         return res.redirect("/");
     }
-    res.render('addbill', { title: '新增发票',id:req.query.id});
+    res.render('addbill', { title: '新增发票',id:encodeURIComponent(req.query.id)});
 });
 
 
 router.post('/addbill', function(req, res) {
     var db = req.db;
-    var id = req.query.id;
+    var id = decodeURIComponent(req.query.id);
     // Get our form values. These rely on the "name" attributes
     var billvalue = req.body.billvalue;
     var billno = req.body.billno;
@@ -301,7 +302,7 @@ router.post('/addbill', function(req, res) {
     //get billtotalvalue 
     sales.find({'ctrctId':id},{},function(e,docs){
         if(docs[0].billtotalvalue != null){
-            billtotalvalue = parseInt(docs[0].billtotalvalue);
+            billtotalvalue = parseFloat(docs[0].billtotalvalue);
         }
 
         // update to the DB
@@ -324,7 +325,7 @@ router.post('/addbill', function(req, res) {
             }
         });
 
-        billtotalvalue = billtotalvalue + parseInt(billvalue);
+        billtotalvalue = billtotalvalue + parseFloat(billvalue);
 
         //update   billtotalvalue  to db
         sales.update({"ctrctId" : id}, 
@@ -337,7 +338,7 @@ router.post('/addbill', function(req, res) {
             }
             else {
                 // And forward to success page
-                res.redirect("contractdetail?id="+id);
+                res.redirect("contractdetail?id="+encodeURIComponent(id));
             }
         });
     });
@@ -347,12 +348,12 @@ router.get('/addgather', function(req, res) {
     if (!req.session.loginUser) {
         return res.redirect("/");
     }
-    res.render('addgather', { title: '新增收款',id:req.query.id});
+    res.render('addgather', { title: '新增收款',id:encodeURIComponent(req.query.id)});
 });
 
 router.post('/addgather', function(req, res) {
     var db = req.db;
-    var id = req.query.id;
+    var id = decodeURIComponent(req.query.id);
     // Get our form values. These rely on the "name" attributes
     var gathervalue = req.body.gathervalue;
     var gathertime = req.body.gathertime;
@@ -364,7 +365,7 @@ router.post('/addgather', function(req, res) {
     //get billtotalvalue 
     sales.find({"ctrctId" : id},{},function(e,docs){
         if(docs[0].gathertotalvalue != null){
-            gathertotalvalue = parseInt(docs[0].gathertotalvalue);
+            gathertotalvalue = parseFloat(docs[0].gathertotalvalue);
         }
        
         // update to the DB
@@ -384,7 +385,7 @@ router.post('/addgather', function(req, res) {
             }
         });
 
-        gathertotalvalue = parseInt(gathervalue) + gathertotalvalue;
+        gathertotalvalue = parseFloat(gathervalue) + gathertotalvalue;
 
         //update   billtotalvalue   tp db
         sales.update({"ctrctId" : id}, 
@@ -397,7 +398,7 @@ router.post('/addgather', function(req, res) {
             }
             else {
                 // And forward to success page
-                res.redirect("contractdetail?id="+id);
+                res.redirect("contractdetail?id="+encodeURIComponent(id));
             }
         });
 
@@ -409,13 +410,13 @@ router.get('/addmaterial', function(req, res) {
     if (!req.session.loginUser) {
         return res.redirect("/");
     }
-    res.render('addmaterial', { title: '新增实物交付',id:req.query.id});
+    res.render('addmaterial', { title: '新增实物交付',id:encodeURIComponent(req.query.id)});
 });
 
 router.post('/addmaterial', upload.single('xls'), function(req, res) {
 //router.post('/addmaterial', function(req, res) {
     var db = req.db;
-    var id = req.query.id;
+    var id = decodeURIComponent(req.query.id);
     var flag = req.query.flag;
 
     if(flag == 1){
@@ -449,7 +450,7 @@ router.post('/addmaterial', upload.single('xls'), function(req, res) {
                 return;
             }
             else {
-                res.redirect("contractdetail?id="+id);
+                res.redirect("contractdetail?id="+encodeURIComponent(id));
             }
         });
     }
@@ -501,7 +502,7 @@ router.post('/addmaterial', upload.single('xls'), function(req, res) {
                 return;
             }
             else {
-                res.redirect("contractdetail?id="+id);
+                res.redirect("contractdetail?id="+encodeURIComponent(id));
             }
         });
        
@@ -572,7 +573,7 @@ router.get('/addpurchase', function(req, res) {
     customer.find({},{},function(e,docs){
         res.render('addpurchase', {
             "customer" : docs,
-            id:req.query.id,
+            id:encodeURIComponent(req.query.id),
             owner:req.query.owner
         });
         //console.log(docs[0].ctrctId);
@@ -582,12 +583,11 @@ router.get('/addpurchase', function(req, res) {
 
 router.post('/addpurchase', upload.single('attachpur'), function(req, res) {
     var db = req.db;
-    var id = req.query.id;
+    var id = decodeURIComponent(req.query.id);
     var owner = decodeURI(req.query.owner);
     var file = req.file;
     // Get our form values. These rely on the "name" attributes
-    var purchsId1 = req.body.purchsId;
-    var purchsId = purchsId1.replace(/(^\s*)|(\s*$)/g, "");
+    var purchsId = decodeURIComponent(req.body.purchsId);
     var purchsOwner = owner;
     var purchsName = req.body.purchsName;
     var purchsValue = req.body.purchsValue;
@@ -684,10 +684,10 @@ router.post('/addpurchase', upload.single('attachpur'), function(req, res) {
                 var purchstotalvalue = 0;
                 if(docs[0].purchase != null){
                    for(var i in docs[0].purchase){
-                        purchstotalvalue = parseInt(docs[0].purchase[i].purchsValue) + parseInt(purchstotalvalue);
+                        purchstotalvalue = parseFloat(docs[0].purchase[i].purchsValue) + parseFloat(purchstotalvalue);
                     }
                 }
-                ctrctgross = parseInt(docs[0].ctrctValue) - parseInt(purchstotalvalue);
+                ctrctgross = parseFloat(docs[0].ctrctValue) - parseFloat(purchstotalvalue);
 
                  //update   合同毛利率 to db
                 sales.update({"ctrctId" : id}, 
@@ -704,7 +704,7 @@ router.post('/addpurchase', upload.single('attachpur'), function(req, res) {
                     }
                 });
             });
-            res.redirect("contractdetail?id="+id);
+            res.redirect("contractdetail?id="+encodeURIComponent(id));
         }
     });
 
@@ -719,7 +719,7 @@ router.get('/purchasedetail', function(req, res) {
     }
     var db = req.db;
     var purchase = db.get('purchasecontract');
-    var id = req.query.id;
+    var id = decodeURIComponent(req.query.id);
     purchase.find({'purchsId':id},{},function(e,docs){
         if(e){
             console.log(e);
@@ -742,13 +742,13 @@ router.get('/addpurchasebill', function(req, res) {
     if (!req.session.loginUser) {
         return res.redirect("/");
     }
-    res.render('addpurchasebill', { title: '新增采购发票',id:req.query.id});
+    res.render('addpurchasebill', { title: '新增采购发票',id:encodeURIComponent(req.query.id)});
 });
 
 
 router.post('/addpurchasebill', function(req, res) {
     var db = req.db;
-    var id = req.query.id;
+    var id = decodeURIComponent(req.query.id);
     // Get our form values. These rely on the "name" attributes
     var billvalue = req.body.billvalue;
     var billno = req.body.billno;
@@ -762,7 +762,7 @@ router.post('/addpurchasebill', function(req, res) {
     //get billtotalvalue 
     purchase.find({'purchsId':id},{},function(e,docs){
         if(docs[0].billtotalvalue != null){
-            billtotalvalue = parseInt(docs[0].billtotalvalue);
+            billtotalvalue = parseFloat(docs[0].billtotalvalue);
         }
 
         // update to the DB
@@ -783,7 +783,7 @@ router.post('/addpurchasebill', function(req, res) {
             }
         });
 
-        billtotalvalue = billtotalvalue + parseInt(billvalue);
+        billtotalvalue = billtotalvalue + parseFloat(billvalue);
 
         //update   billtotalvalue   to db
         purchase.update({"purchsId" : id}, 
@@ -796,7 +796,7 @@ router.post('/addpurchasebill', function(req, res) {
             }
             else {
                 // And forward to success page
-                res.redirect("purchasedetail?id="+id);
+                res.redirect("purchasedetail?id="+encodeURIComponent(id));
             }
         });
     });
@@ -806,12 +806,12 @@ router.get('/addpay', function(req, res) {
     if (!req.session.loginUser) {
         return res.redirect("/");
     }
-    res.render('addpay', { title: '新增付款',id:req.query.id});
+    res.render('addpay', { title: '新增付款',id:encodeURIComponent(req.query.id)});
 });
 
 router.post('/addpay', function(req, res) {
     var db = req.db;
-    var id = req.query.id;
+    var id = decodeURIComponent(req.query.id);
     // Get our form values. These rely on the "name" attributes
     var payvalue = req.body.payvalue;
     var paytime = req.body.paytime;
@@ -823,7 +823,7 @@ router.post('/addpay', function(req, res) {
     //get billtotalvalue 
     purchase.find({"purchsId" : id},{},function(e,docs){
         if(docs[0].paytotalvalue != null){
-            paytotalvalue = parseInt(docs[0].paytotalvalue);
+            paytotalvalue = parseFloat(docs[0].paytotalvalue);
         }
         
         // update to the DB
@@ -843,7 +843,7 @@ router.post('/addpay', function(req, res) {
             }
         });
 
-        paytotalvalue = parseInt(payvalue) + paytotalvalue;
+        paytotalvalue = parseFloat(payvalue) + paytotalvalue;
 
 
         //update   billtotalvalue to db
@@ -857,7 +857,7 @@ router.post('/addpay', function(req, res) {
             }
             else {
                 // And forward to success page
-                res.redirect("purchasedetail?id="+id);
+                res.redirect("purchasedetail?id="+encodeURIComponent(id));
             }
         });
 
@@ -869,12 +869,12 @@ router.get('/addpurchasematerial', function(req, res) {
     if (!req.session.loginUser) {
         return res.redirect("/");
     }
-    res.render('addpurchasematerial', { title: '新增采购实物交付',id:req.query.id});
+    res.render('addpurchasematerial', { title: '新增采购实物交付',id:encodeURIComponent(req.query.id)});
 });
 
 router.post('/addpurchasematerial', function(req, res) {
     var db = req.db;
-    var id = req.query.id;
+    var id = decodeURIComponent(req.query.id);
     // Get our form values. These rely on the "name" attributes
     var unittype = req.body.unittype;
     var serialno = req.body.serialno;
@@ -900,7 +900,7 @@ router.post('/addpurchasematerial', function(req, res) {
             return;
         }
         else {
-            res.redirect("purchasedetail?id="+id);
+            res.redirect("purchasedetail?id="+encodeURIComponent(id));
         }
     });
         
@@ -911,12 +911,12 @@ router.get('/addcomment1', function(req, res) {
     if (!req.session.loginUser) {
         return res.redirect("/");
     }
-    res.render('addcomment1', { title: '新增备注',id:req.query.id});
+    res.render('addcomment1', { title: '新增备注',id:encodeURIComponent(req.query.id)});
 });
 
 router.post('/addcomment1', function(req, res) {
     var db = req.db;
-    var id = req.query.id;
+    var id = decodeURIComponent(req.query.id);
     // Get our form values. These rely on the "name" attributes
     var content = req.body.content;
     // Set our collection
@@ -945,7 +945,7 @@ router.post('/addcomment1', function(req, res) {
         }
         else {
             
-            res.redirect("contractdetail?id="+id);
+            res.redirect("contractdetail?id="+encodeURIComponent(id));
         }
     });
         
@@ -955,12 +955,12 @@ router.get('/addcomment2', function(req, res) {
     if (!req.session.loginUser) {
         return res.redirect("/");
     }
-    res.render('addcomment2', { title: '新增备注',id:req.query.id});
+    res.render('addcomment2', { title: '新增备注',id:encodeURIComponent(req.query.id)});
 });
 
 router.post('/addcomment2', function(req, res) {
     var db = req.db;
-    var id = req.query.id;
+    var id = decodeURIComponent(req.query.id);
     // Get our form values. These rely on the "name" attributes
     var content = req.body.content;
     // Set our collection
@@ -987,7 +987,7 @@ router.post('/addcomment2', function(req, res) {
             return;
         }
         else {
-            res.redirect("purchasedetail?id="+id);
+            res.redirect("purchasedetail?id="+encodeURIComponent(id));
         }
     });
         
@@ -1034,11 +1034,13 @@ router.post('/search', function(req, res) {
     
     if(searchitem == "name"){
         content = req.body.content1;
+        console.log("cntent1");
     }
     else if(searchitem == "status"){
         content = req.body.content2;
     }
 
+    console.log(content);
     console.log(box1);
     console.log(box2);
     
@@ -1256,13 +1258,13 @@ router.get('/addattach', function(req, res) {
     if (!req.session.loginUser) {
         return res.redirect("/");
     }
-    res.render('addattach', { title: '上传附件',id:req.query.id,flag:req.query.flag});
+    res.render('addattach', { title: '上传附件',id:encodeURIComponent(req.query.id),flag:req.query.flag});
 });
 
 router.post('/addattach', upload.single('attach'), function(req, res) {
 //router.post('/addmaterial', function(req, res) {
     var db = req.db;
-    var id = req.query.id;
+    var id = decodeURIComponent(req.query.id);
     var flag = req.query.flag;
     var file = req.file;
     var sales = db.get('salescontract');
@@ -1291,7 +1293,7 @@ router.post('/addattach', upload.single('attach'), function(req, res) {
             }
             else {
                 
-                res.redirect("contractdetail?id="+id);
+                res.redirect("contractdetail?id="+encodeURIComponent(id));
             }
         });
     }
@@ -1310,7 +1312,7 @@ router.post('/addattach', upload.single('attach'), function(req, res) {
                 return;
             }
             else {
-                res.redirect("purchasedetail?id="+id);
+                res.redirect("purchasedetail?id="+encodeURIComponent(id));
             }
         });  
     }
@@ -1369,7 +1371,7 @@ router.get('/updatecontract', function(req, res) {
     if (!req.session.loginUser) {
         return res.redirect("/");
     }
-    var id = req.query.id;
+    var id = decodeURIComponent(req.query.id);
     var db = req.db;
     var sales = db.get('salescontract');
     //console.log(sales);
@@ -1392,20 +1394,23 @@ router.post('/updatecontract', function(req, res) {
     var sales = db.get('salescontract');
     var purchase = db.get('purchasecontract');
     //console.log(sales);
-    var ctrctId = req.query.id;
+    var ctrctId = decodeURIComponent(req.query.id);
     var ctrctValue = req.body.ctrctValue;
     var ctrctTime = req.body.ctrctTime;
     var ctrctEndTime = req.body.ctrctEndTime;
     var ctrctBrief = req.body.ctrctBrief;
     var ctrctStatus = req.body.ctrctStatus;
-    
+    var ctrctOwner = req.body.ctrctOwner;
+
     sales.update({"ctrctId" : ctrctId}, 
         {$set:{
             "ctrctValue" : ctrctValue,
             "ctrctTime" : ctrctTime,
             "ctrctEndTime" : ctrctEndTime,
             "ctrctBrief" : ctrctBrief,
-            "ctrctStatus" : ctrctStatus
+            "ctrctStatus" : ctrctStatus,
+            "ctrctOwner":ctrctOwner
+
             }},
          function (err, doc) {
             if (err) {
@@ -1415,7 +1420,7 @@ router.post('/updatecontract', function(req, res) {
             }
             else {
                 // And forward to success page
-                res.redirect("contractdetail?id="+ctrctId);
+                res.redirect("contractdetail?id="+encodeURIComponent(ctrctId));
             }
         });
 
@@ -1449,7 +1454,7 @@ router.post('/deletecontract', function(req, res) {
      if (!req.session.loginUser) {
         return res.redirect("/");
     }
-    var ctrctId = req.query.id;
+    var ctrctId = decodeURIComponent(req.query.id);
     console.log(ctrctId);
     var db = req.db;
     var sales = db.get('salescontract');
@@ -1486,7 +1491,7 @@ router.get('/updatepurchase', function(req, res) {
     if (!req.session.loginUser) {
         return res.redirect("/");
     }
-    var id = req.query.id;
+    var id = decodeURIComponent(req.query.id);
     var db = req.db;
     var purchase = db.get('purchasecontract');
     //console.log(sales);
@@ -1508,8 +1513,8 @@ router.post('/updatepurchase', function(req, res) {
     var db = req.db;
     var purchase = db.get('purchasecontract');
     //console.log(sales);
-    var ctrctId = req.query.ctrctId;
-    var purchsId = req.query.id;
+    var ctrctId = decodeURIComponent(req.query.ctrctId);
+    var purchsId = decodeURIComponent(req.query.id);
     var purchsValue = req.body.purchsValue;
     var purchsTime = req.body.purchsTime;
     var purchsBrief = req.body.purchsBrief;
@@ -1536,7 +1541,7 @@ router.post('/updatepurchase', function(req, res) {
         });
     //res.render('updatecontract', { title: '变更销售合同'});
     if(ctrctId == ""){
-        res.redirect("purchasedetail?id="+purchsId);
+        res.redirect("purchasedetail?id="+encodeURIComponent(purchsId));
         return;
     }
 
@@ -1563,10 +1568,10 @@ router.post('/updatepurchase', function(req, res) {
                     var purchstotalvalue = 0;
                     if(docs[0].purchase != null){
                        for(var i in docs[0].purchase){
-                            purchstotalvalue = parseInt(docs[0].purchase[i].purchsValue) + parseInt(purchstotalvalue);
+                            purchstotalvalue = parseFloat(docs[0].purchase[i].purchsValue) + parseFloat(purchstotalvalue);
                         }
                     }
-                    ctrctgross = parseInt(docs[0].ctrctValue) - parseInt(purchstotalvalue);
+                    ctrctgross = parseFloat(docs[0].ctrctValue) - parseFloat(purchstotalvalue);
 
                      //update   合同毛利率 to db
                     sales.update({"ctrctId" : ctrctId}, 
@@ -1583,7 +1588,7 @@ router.post('/updatepurchase', function(req, res) {
                     });
                 });
 
-                res.redirect("purchasedetail?id="+purchsId);
+                res.redirect("purchasedetail?id="+encodeURIComponent(purchsId));
             }
         });
 });
@@ -1595,8 +1600,8 @@ router.post('/deletepurchase', function(req, res) {
      if (!req.session.loginUser) {
         return res.redirect("/");
     }
-    var purchsId = req.query.id;
-    var ctrctId = req.query.ctrctId;
+    var purchsId = decodeURIComponent(req.query.id);
+    var ctrctId = decodeURIComponent(req.query.ctrctId);
     console.log(purchsId);
     console.log(ctrctId);
     var db = req.db;
@@ -1618,7 +1623,7 @@ router.post('/deletepurchase', function(req, res) {
         if (error) {
           console.log('deletepurchase update salse Error:'+ error);
         }else{
-          res.redirect("contractdetail?id="+ctrctId);
+          res.redirect("contractdetail?id="+encodeURIComponent(ctrctId));
         }
     });
 

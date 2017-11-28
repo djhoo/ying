@@ -29,11 +29,11 @@
 					var totalvalue = 0;
 					var totalaccount = 0;
 					for(var i in result){
-						totalvalue = totalvalue + parseInt(result[i].purchsValue);
-						totalaccount = totalaccount + parseInt(result[i].purchsValue - result[i].paytotalvalue);
+						totalvalue = totalvalue + parseFloat(result[i].purchsValue);
+						totalaccount = totalaccount + parseFloat(result[i].purchsValue - result[i].paytotalvalue);
 					%>
 					<tr>
-						<td bgcolor="#BFEFFF"><a href="/purchasedetail?id=<%=result[i].purchsId%>"><%=result[i].purchsId%></a></td>
+						<td bgcolor="#BFEFFF"><a href="/purchasedetail?id=<%=encodeURIComponent(result[i].purchsId)%>"><%=result[i].purchsId%></a></td>
 						<td bgcolor="#aaaa00"><a href="/customerview?name=<%=encodeURI(result[i].purchsName)%>"><%=result[i].purchsName%></a></td>
 						<td bgcolor="#BFEFFF"><%=result[i].purchsValue%></td>
 						<td bgcolor="#aaaa00"><%=result[i].purchsValue - result[i].paytotalvalue%></td>

@@ -8,12 +8,27 @@
 <body>
 <div id="updatecontract" style=margin:20px>
 	<h1>变更销售合同</h1>
-	<form name="updatecontract" method="post" action="/updatecontract?id=<%=saleslist[0].ctrctId%>">
+	<form name="updatecontract" method="post" action="/updatecontract?id=<%=encodeURIComponent(saleslist[0].ctrctId)%>">
 		<table bgcolor="#EAEAEA">
 	     	<tr><td>合同号：</td><td bgcolor="#BFEFFF"><%=saleslist[0].ctrctId%></td></tr>
-			<tr><td>签约对象：</td>	<td bgcolor="#BFEFFF"><%=saleslist[0].ctrctOwner%></td></tr>
+			<tr><td>签约对象：</td>	
+				<td><select name="ctrctOwner" id="ownerselect">
+				<%
+					if(saleslist[0].ctrctOwner == "上海怡宣信息技术有限公司"){
+				%>
+				<option value="上海怡宣信息技术有限公司">上海怡宣信息技术有限公司</option>
+				<option value="安徽怡宣信息技术有限公司">安徽怡宣信息技术有限公司</option>
+				<%
+				}else{
+				%>
+				<option value="安徽怡宣信息技术有限公司">安徽怡宣信息技术有限公司</option>
+				<option value="上海怡宣信息技术有限公司">上海怡宣信息技术有限公司</option>
+				<%
+				}
+				%>
+			</select></td></tr>	
 			<tr><td>签约客户：</td><td bgcolor="#BFEFFF"><%=saleslist[0].cstmName%></td></tr>
-			<tr><td>合同金额：</td><td><input type="number" required="required" value='<%=saleslist[0].ctrctValue%>' name="ctrctValue"></td></tr>
+			<tr><td>合同金额：</td><td><input type="number" step="0.01" required="required" value='<%=saleslist[0].ctrctValue%>' name="ctrctValue"></td></tr>
 			<tr><td>签约时间：</td><td><input id="" name="ctrctTime" required="required" value='<%=saleslist[0].ctrctTime%>' class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" /></td></tr>
 			<tr><td>终止时间：</td><td><input id="" name="ctrctEndTime" required="required" value='<%=saleslist[0].ctrctEndTime%>' class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" /></td></tr>
 			<tr><td>合同简介：</td><td><input type="text"  value='<%=saleslist[0].ctrctBrief%>' name="ctrctBrief"></td></tr>
@@ -28,4 +43,11 @@
 	</form>
 </div>	
 </body>
+<script language=JavaScript>
+	var obj=document.getElementById('mySelect');
+	saleslist[0].ctrctOwner
+
+	var index=obj.selectedIndex;
+
+</script>
 </html>

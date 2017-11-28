@@ -14,7 +14,7 @@
 			<td><input type="button" onclick="location='/search?flag=1'" value="查询"></td>
 		</tr>
 		<tr>
-			<td>签约方：</td><td>上海怡宣怡宣信息技术有限公司</td>
+			<td>签约方：</td><td>上海怡宣信息技术有限公司</td>
 		</tr>
 		<tr>
 			<td></td><td>
@@ -28,10 +28,10 @@
 					</tr>
 					<%
 					for(var i in saleslist){
-						if( saleslist[i].ctrctOwner == "上海怡宣怡宣信息技术有限公司" ){
+						if( saleslist[i].ctrctOwner == "上海怡宣信息技术有限公司" ){
 					%>
 					<tr>
-						<td bgcolor="#BFEFFF"><a href="/contractdetail?id=<%=saleslist[i].ctrctId%>"><%=saleslist[i].ctrctId%></a></td>
+						<td bgcolor="#BFEFFF"><a href="/contractdetail?id=<%=encodeURIComponent(saleslist[i].ctrctId)%>"><%=saleslist[i].ctrctId%></a></td>
 						<td bgcolor="#aaaa00"><a href="/customerview?name=<%=encodeURI(saleslist[i].cstmName)%>"><%=saleslist[i].cstmName%></a></td>
 						<td bgcolor="#BFEFFF"><%=saleslist[i].ctrctValue%></td>
 						<td  bgcolor="#aaaa00"><%=saleslist[i].ctrctStatus%></td>
@@ -42,8 +42,8 @@
 					<%
 					var totalValue=0;
 					for(var i in saleslist){
-						if( saleslist[i].ctrctOwner == "上海怡宣怡宣信息技术有限公司" ){
-							totalValue = parseInt(saleslist[i].ctrctValue) + totalValue;
+						if( saleslist[i].ctrctOwner == "上海怡宣信息技术有限公司" ){
+							totalValue = parseFloat(saleslist[i].ctrctValue) + totalValue;
 						}
 					}
 					%>
@@ -53,7 +53,7 @@
 				</table>
 			</td>
 		</tr>
-		<tr><td>签约方：</td><td>安徽怡宣怡宣信息技术有限公司</td>
+		<tr><td>签约方：</td><td>安徽怡宣信息技术有限公司</td>
 		</tr>
 		<tr>
 			<td></td><td>
@@ -63,10 +63,10 @@
 					</tr>
 					<%
 					for(var i in saleslist){
-						if( saleslist[i].ctrctOwner == "安徽怡宣怡宣信息技术有限公司" ){
+						if( saleslist[i].ctrctOwner != "上海怡宣信息技术有限公司" ){
 					%>
 					<tr>
-						<td bgcolor="#BFEFFF"><a href="/contractdetail?id=<%=saleslist[i].ctrctId%>"><%=saleslist[i].ctrctId%></td>
+						<td bgcolor="#BFEFFF"><a href="/contractdetail?id=<%=encodeURIComponent(saleslist[i].ctrctId)%>"><%=saleslist[i].ctrctId%></td>
 						<td bgcolor="#aaaa00"><a href="/customerview?name=<%=encodeURI(saleslist[i].cstmName)%>"><%=saleslist[i].cstmName%></a></td>
 						<td bgcolor="#BFEFFF"><%=saleslist[i].ctrctValue%></td>
 						<td  bgcolor="#aaaa00"><%=saleslist[i].ctrctStatus%></td>
@@ -77,8 +77,8 @@
 					<%
 					var totalValue=0;
 					for(var i in saleslist){
-						if( saleslist[i].ctrctOwner == "安徽怡宣怡宣信息技术有限公司" ){
-							totalValue = parseInt(saleslist[i].ctrctValue) + totalValue;
+						if( saleslist[i].ctrctOwner != "上海怡宣信息技术有限公司" ){
+							totalValue = parseFloat(saleslist[i].ctrctValue) + totalValue;
 						}
 					}
 					%>

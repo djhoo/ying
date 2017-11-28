@@ -13,8 +13,8 @@
 	     	<tr><td>合同号：</td><td><input type="text" name="ctrctId" required="required" size="40"></td></tr>
 			<tr><td>签约对象：</td>
 				<td><select name="ctrctOwner">
-				<option value="上海怡宣怡宣信息技术有限公司">上海怡宣怡宣信息技术有限公司</option>
-				<option value="安徽怡宣怡宣信息技术有限公司">安徽怡宣怡宣信息技术有限公司</option>
+				<option value="上海怡宣信息技术有限公司">上海怡宣信息技术有限公司</option>
+				<option value="安徽怡宣信息技术有限公司">安徽怡宣信息技术有限公司</option>
 			</select></td></tr>
 			<tr><td>签约客户：</td><td>
 				<select name="cstmName">
@@ -27,7 +27,7 @@
 				%>
 				</td>
 				<td><input type="button" onclick="location='/addcustomer'" value="新增客户"></td></tr>
-			<tr><td>合同金额：</td><td><input type="number" required="required" name="ctrctValue"></td></tr>
+			<tr><td>合同金额：</td><td><input type="number" required="required" step="0.01" name="ctrctValue"></td></tr>
 			<tr><td>签约时间：</td><td><input id="" name="ctrctTime" required="required" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" /></td></tr>
 			<tr><td>终止时间：</td><td><input id="" name="ctrctEndTime" required="required" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" /></td></tr>
 			<tr><td>合同简介：</td><td><input type="text"  name="ctrctBrief"></td></tr>

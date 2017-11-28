@@ -24,7 +24,7 @@
 						if(saleslist[0].ctrctStatus != "完成"){
 			    %>
 				<td>
-				<form name="deletecontract" method="post" action="/deletecontract?id=<%= saleslist[0].ctrctId%>" onSubmit="javascript:return window.confirm('确认删除吗？')"> 
+				<form name="deletecontract" method="post" action="/deletecontract?id=<%= encodeURIComponent(saleslist[0].ctrctId)%>" onSubmit="javascript:return window.confirm('确认删除吗？')"> 
 					<input type="submit" value="删除">
 				</form>
 				</td>
@@ -41,7 +41,7 @@
 					<%
 						if(saleslist[0].ctrctStatus != "完成"){
 			    	%>
-					<td><input type="button" onclick="location='/updatecontract?id=<%= saleslist[0].ctrctId%>'" value="变更合同"></td>
+					<td><input type="button" onclick="location='/updatecontract?id=<%= encodeURIComponent(saleslist[0].ctrctId)%>'" value="变更合同"></td>
 					<%
 					}
 					%>
@@ -99,7 +99,7 @@
 					<%
 						if(saleslist[0].ctrctStatus == "进行中"){
 			    	%>
-					<td><input type="button" onclick="location='/addbill?id=<%= saleslist[0].ctrctId%>'" value="增加"></td>
+					<td><input type="button" onclick="location='/addbill?id=<%= encodeURIComponent(saleslist[0].ctrctId)%>'" value="增加"></td>
 					<% } %>
 				</tr>
 				<tr>
@@ -136,7 +136,7 @@
 					<%
 						if(saleslist[0].ctrctStatus == "进行中"){
 			    	%>
-					<td><input type="button" onclick="location='/addgather?id=<%= saleslist[0].ctrctId%>'" value="增加"></td>
+					<td><input type="button" onclick="location='/addgather?id=<%= encodeURIComponent(saleslist[0].ctrctId)%>'" value="增加"></td>
 					<% } %>
 				</tr>
 				<tr>
@@ -185,7 +185,7 @@
 					<%
 						if(saleslist[0].ctrctStatus == "进行中"){
 			    	%>
-					<td><input type="button" onclick="location='/addmaterial?id=<%= saleslist[0].ctrctId%>'" value="增加"></td>
+					<td><input type="button" onclick="location='/addmaterial?id=<%= encodeURIComponent(saleslist[0].ctrctId)%>'" value="增加"></td>
 					<% } %>
 				</tr>
 			</table>
@@ -201,7 +201,7 @@
 				%>
 				<tr>
 					<td>&nbsp</td>
-					<td>采购合同编号：</td><td bgcolor="#BFEFFF"><a href="/purchasedetail?id=<%=saleslist[0].purchase[i].purchsId%>"><%=saleslist[0].purchase[i].purchsId%></a></td>
+					<td>采购合同编号：</td><td bgcolor="#BFEFFF"><a href="/purchasedetail?id=<%=encodeURIComponent(saleslist[0].purchase[i].purchsId)%>"><%=saleslist[0].purchase[i].purchsId%></a></td>
 					<td>供应商：</td><td bgcolor="#BFEFFF"><%=saleslist[0].purchase[i].purchsName%></td>
 					<td>合同金额：</td><td bgcolor="#BFEFFF"><%=saleslist[0].purchase[i].purchsValue%></td>
 					<td>签订时间：</td><td bgcolor="#BFEFFF"><%=saleslist[0].purchase[i].purchsTime%></td>
@@ -210,7 +210,7 @@
 				<% }} %>
 				<tr>
 					<td>&nbsp</td>
-					<td><input type="button" onclick="location='/addpurchase?id=<%= saleslist[0].ctrctId%>&owner=<%=encodeURI(saleslist[0].ctrctOwner)%>'" value="增加采购合同"></td>
+					<td><input type="button" onclick="location='/addpurchase?id=<%= encodeURIComponent(saleslist[0].ctrctId)%>&owner=<%=encodeURI(saleslist[0].ctrctOwner)%>'" value="增加采购合同"></td>
 				</tr>
 			</table>
 		</td></tr>
@@ -231,7 +231,7 @@
 				<% }} %>
 				<tr>
 					<td>&nbsp</td>
-					<td><input type="button" onclick="location='/addcomment1?id=<%= saleslist[0].ctrctId%>'" value="增加备注"></td>
+					<td><input type="button" onclick="location='/addcomment1?id=<%= encodeURIComponent(saleslist[0].ctrctId)%>'" value="增加备注"></td>
 				</tr>
 			</table>
 			</td>	
@@ -239,7 +239,7 @@
 		<tr>
 
 		<td>
-			合同附件：<input type="button" onclick="location='/addattach?id=<%= saleslist[0].ctrctId%>&flag=1'" value="上传">
+			合同附件：<input type="button" onclick="location='/addattach?id=<%= encodeURIComponent(saleslist[0].ctrctId)%>&flag=1'" value="上传">
 		</td>
 	</tr>
 		<%
