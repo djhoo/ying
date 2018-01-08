@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>变更发票</title>
+<link rel=’stylesheet’ href=’/stylesheets/style.css’ />
+<script language="javascript" type="text/javascript" src="javascripts/My97DatePicker/WdatePicker.js"></script>
+</head>
+<body>
+<div id="updatebill" style=margin:20px>
+	<h1>变更发票</h1>
+	<form name="updatebill" method="post" action="/updatebill?id=<%= encodeURIComponent(saleslist[0].ctrctId)%>&flag=<%= flag%>">
+		<table bgcolor="#EAEAEA">
+	     	<tr><td>开票金额：</td><td><input type="number" required="required"  value='<%=saleslist[0].bill[flag].billvalue%>' step="0.01" name="billvalue"></td></tr>
+			<tr><td>发票编号：</td><td><input type="text" required="required" value='<%=saleslist[0].bill[flag].billno%>' name="billno"></td></tr>
+			<tr><td>收票人：</td><td><input type="text"  required="required" value='<%=saleslist[0].bill[flag].billowner%>' name="billowner"></td></tr>
+			<tr><td>快递单：</td><td><input type="text"  required="required" value='<%=saleslist[0].bill[flag].billsheet%>' name="billsheet"></td></tr>
+			<tr><td>送票时间：</td><td><input type="text"  class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" 
+				value='<%=saleslist[0].bill[flag].billtime%>' name="billtime"></td></tr>
+			<tr><td></td><td><input type="submit" value="确定"></td></tr>
+		</table >
+	</form>
+
+</div>	
+</body>
+</html>
