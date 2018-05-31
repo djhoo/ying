@@ -11,11 +11,19 @@
 	if(flag == 1){
 	%>
 	<h1>销售合同查询</h1>
+	<%
+	if(uid == "admin"){
+	%>
 	<input type="button" onclick="location='/search?flag=2'" value="采购合同查询"></td>
+	<%
+	}
+	%>
+
 	<%
 	}
 	else{
 	%>
+
 	<h1>采购合同查询</h1>
 	<input type="button" onclick="location='/search?flag=1'" value="销售合同查询"></td>
 	<%

@@ -16,6 +16,14 @@ router.post('/', function(req,res,next){
         username:'admin',  
         password:123456  
     };
+    var user2={
+        username:'user01',  
+        password:'Yeshare01'
+    }
+    var user3={
+        username:'david',  
+        password:'David001'
+    }
     if(req.body.username==user.username && req.body.password==user.password){  
         req.session.regenerate(function(err) {
             if(err){
@@ -26,7 +34,29 @@ router.post('/', function(req,res,next){
             //res.json({ret_code: 0, ret_msg: '登录成功'});
             res.redirect('salescontract');                            
         });     
-    } 
+    }
+    else if(req.body.username==user2.username && req.body.password==user2.password){  
+        req.session.regenerate(function(err) {
+            if(err){
+                return res.json({ret_code: 2, ret_msg: '登录失败'});                
+            }
+            
+            req.session.loginUser = user2.username;
+            //res.json({ret_code: 0, ret_msg: '登录成功'});
+            res.redirect('salescontract');                            
+        });     
+    }
+    else if(req.body.username==user3.username && req.body.password==user3.password){  
+        req.session.regenerate(function(err) {
+            if(err){
+                return res.json({ret_code: 2, ret_msg: '登录失败'});                
+            }
+            
+            req.session.loginUser = user3.username;
+            //res.json({ret_code: 0, ret_msg: '登录成功'});
+            res.redirect('salescontract');                            
+        });     
+    }
     else{ 
         res.redirect('/');
     }  
@@ -197,14 +227,16 @@ router.post('/addcustomer', upload.single('cstmAttach'), function(req, res) {
     var file = req.file;
     var cstmName = req.body.cstmName;
     var cstmAddr = req.body.cstmAddr;
-    var owner1 = req.body.owner1;
-    var cellno1 = req.body.cellno1;
-    var telno1 = req.body.telno1;
-    var mail1 = req.body.mail1;
+    var owner = req.body.owner;
+    var cellno = req.body.cellno;
+    var telno = req.body.telno;
+    var mail = req.body.mail;
+    /*
     var owner2 = req.body.owner2;
     var cellno2 = req.body.cellno2;
     var telno2 = req.body.telno2;
     var mail2 = req.body.mail2;
+    */
     var otherinfo = req.body.otherinfo;
     var originalname;
     var filename;
@@ -228,19 +260,27 @@ router.post('/addcustomer', upload.single('cstmAttach'), function(req, res) {
        // "cstmId" : cstmId,
         "cstmName" :cstmName,
         "cstmAddr" :cstmAddr,
-        "owner1" : owner1,
-        "cellno1" : cellno1,
-        "telno1" : telno1,
-        "mail1" : mail1,
+        /*
+        "owner" : owner,
+        "cellno" : cellno,
+        "telno" : telno,
+        "mail" : mail,
         "owner2" : owner2,
         "cellno2" : cellno2,
         "telno2" : telno2,
         "mail2" : mail2,
+        */
         "otherinfo" : otherinfo,
         "attach":[{
             "originalname":originalname,
             "filename":filename,
             "path":path
+        }],
+        "contact":[{
+                    "owner" : owner,
+                    "cellno" : cellno,
+                    "telno" : telno,
+                    "mail" : mail
         }]
     }, function (err, doc) {
         if (err) {
@@ -252,6 +292,27 @@ router.post('/addcustomer', upload.single('cstmAttach'), function(req, res) {
             res.redirect("addcontract");
         }
     });
+
+     // update to the DB
+     /*
+        custom.update({"cstmName" : cstmName}, 
+            {$push:{"contact":{
+                    "owner" : owner,
+                    "cellno" : cellno,
+                    "telno" : telno,
+                    "mail" : mail
+                }}},
+            function (err, doc) {
+            if (err) {
+                // If it failed, return error
+                res.send("There was a problem adding the information to the database.");
+                return;
+            }
+            else {
+                res.redirect("addcontract");
+            }
+        });
+    */
 });
 
 router.get('/contractdetail', function(req, res) {
@@ -269,7 +330,8 @@ router.get('/contractdetail', function(req, res) {
                 return;
         };
         res.render('contractdetail', {
-            "saleslist" : docs
+            "saleslist" : docs,
+            "uid":req.session.loginUser
         });
         //console.log(docs[0].ctrctId);
     });
@@ -931,11 +993,14 @@ router.post('/addcomment1', function(req, res) {
     var second = date.getSeconds();
     var time = year+"年"+month+"月"+day+"日"+hour+":"+minute+":"+second;
 
+    var uid = req.session.loginUser;
+
     // update to the DB
     sales.update({"ctrctId" : id}, 
         {$push:{"comment":{
                 "time":time,
-                "content":content
+                "content":content,
+                "uid":uid
             }}},
         function (err, doc) {
         if (err) {
@@ -974,11 +1039,14 @@ router.post('/addcomment2', function(req, res) {
     var second = date.getSeconds();
     var time = year+"年"+month+"月"+day+"日"+hour+":"+minute+":"+second;
 
+    var uid = req.session.loginUser;
+
     // update to the DB
     purchase.update({"purchsId" : id}, 
         {$push:{"comment":{
                 "time":time,
-                "content":content
+                "content":content,
+                "uid":uid
             }}},
         function (err, doc) {
         if (err) {
@@ -1008,7 +1076,9 @@ router.get('/search', function(req, res) {
     customer.find({},{},function(e,docs){
         res.render('search', {
             "customer" : docs,
-            title: '查找',flag:req.query.flag
+            title: '查找',
+            flag:req.query.flag,
+            "uid":req.session.loginUser
         });
         //console.log(docs[0].ctrctId);
     });
@@ -1401,28 +1471,37 @@ router.post('/updatecontract', function(req, res) {
     var ctrctBrief = req.body.ctrctBrief;
     var ctrctStatus = req.body.ctrctStatus;
     var ctrctOwner = req.body.ctrctOwner;
+    var ctrctGross ;
 
-    sales.update({"ctrctId" : ctrctId}, 
-        {$set:{
-            "ctrctValue" : ctrctValue,
-            "ctrctTime" : ctrctTime,
-            "ctrctEndTime" : ctrctEndTime,
-            "ctrctBrief" : ctrctBrief,
-            "ctrctStatus" : ctrctStatus,
-            "ctrctOwner":ctrctOwner
+    sales.find({"ctrctId" : ctrctId},{},function(e,docs){
+        //变更合同毛利
+        console.log('docs[0].ctrctValue:'+ docs[0].ctrctValue);
+        console.log('docs[0].ctrctGross:'+ docs[0].ctrctGross);
+        ctrctGross = parseFloat(ctrctValue) - (parseFloat(docs[0].ctrctValue) - parseFloat(docs[0].ctrctGross));
+        console.log('ctrctGross:'+ ctrctGross);
+        sales.update({"ctrctId" : ctrctId}, 
+            {$set:{
+                "ctrctValue" : ctrctValue,
+                "ctrctTime" : ctrctTime,
+                "ctrctEndTime" : ctrctEndTime,
+                "ctrctBrief" : ctrctBrief,
+                "ctrctStatus" : ctrctStatus,
+                "ctrctOwner":ctrctOwner,
+                "ctrctGross":ctrctGross
 
-            }},
-         function (err, doc) {
-            if (err) {
-                // If it failed, return error
-                res.send("There was a problem update the information to the database.");
-                return;
-            }
-            else {
-                // And forward to success page
-                res.redirect("contractdetail?id="+encodeURIComponent(ctrctId));
-            }
-        });
+                }},
+             function (err, doc) {
+                if (err) {
+                    // If it failed, return error
+                    res.send("There was a problem update the information to the database.");
+                    return;
+                }
+                else {
+                    // And forward to success page
+                    res.redirect("contractdetail?id="+encodeURIComponent(ctrctId));
+                }
+            });
+    });
 
     //查询该销售合同里面采购合同的ID
     sales.find({"ctrctId" : ctrctId},{},function(e,docs){
@@ -1628,6 +1707,283 @@ router.post('/deletepurchase', function(req, res) {
     });
 
 });
+/********************************************************************************/
+//变更销售合同的发票内容
+/********************************************************************************/
+router.get('/updatebill', function(req, res) {
+    if (!req.session.loginUser) {
+        return res.redirect("/");
+    }
+    var ctrctId = decodeURIComponent(req.query.id);
+    var flag = req.query.flag;
+    var db = req.db;
+    var sales = db.get('salescontract');
+    sales.find({"ctrctId" : ctrctId},{},function(e,docs){
+        res.render('updatebill', {
+            "saleslist" : docs,
+            flag:req.query.flag,
+            title: '变更发票'
+        });
+        //console.log(docs[0].ctrctId);
+    });
+    //res.render('updatecontract', { title: '变更销售合同'});
+});
+
+
+router.post('/updatebill', function(req, res) {
+     if (!req.session.loginUser) {
+        return res.redirect("/");
+    }
+    var ctrctId = decodeURIComponent(req.query.id);
+    var flag = req.query.flag;
+    var billvalue = req.body.billvalue;
+    var billno = req.body.billno;
+    var billowner = req.body.billowner;
+    var billsheet = req.body.billsheet;
+    var billtime = req.body.billtime;
+
+    var billvaluebef;
+    var billnobef;
+    var billownerbef;
+    var billsheetbef;
+    var billtimebef;
+
+    var billtotalvalue = 0;
+
+    var db = req.db;
+    var sales = db.get('salescontract');
+    sales.find({'ctrctId':ctrctId},{},function(e,docs){
+        if(docs.length == 0){
+                res.render('helloworld');
+                return;
+        };
+ 
+        billtotalvalue = parseFloat(docs[0].billtotalvalue);
+        billvaluebef = docs[0].bill[flag].billvalue;
+        billnobef = docs[0].bill[flag].billno;
+        billownerbef = docs[0].bill[flag].billowner;
+        billsheetbef = docs[0].bill[flag].billsheet;
+        billtimebef = docs[0].bill[flag].billtime;
+ 
+        sales.update({"ctrctId" : ctrctId,"bill.billvalue":billvaluebef,"bill.billno":billnobef,
+                        "bill.billowner":billownerbef,"bill.billsheet":billsheetbef,"bill.billtime":billtimebef}, 
+           {$set:{
+                        "bill.$.billvalue":billvalue,
+                        "bill.$.billno":billno,
+                        "bill.$.billowner":billowner,
+                        "bill.$.billsheet":billsheet,
+                        "bill.$.billtime":billtime
+            }},{upset:true},
+             function(error, result){
+            if (error) {
+              console.log('updatebill  Error:'+ error);
+            }else{
+              res.redirect("contractdetail?id="+encodeURIComponent(ctrctId));
+            }
+        });
+
+        billtotalvalue = billtotalvalue + parseFloat(billvalue) - parseFloat(billvaluebef);
+
+        ///update   billtotalvalue  to db
+        sales.update({"ctrctId" : ctrctId}, 
+            {$set:{"billtotalvalue":billtotalvalue}},
+            function (err, doc) {
+            if (err) {
+                // If it failed, return error
+                res.send("There was a problem adding the information to the database.");
+                return;
+            }
+            else {
+                // And forward to success page
+                //res.redirect("contractdetail?id="+encodeURIComponent(id));
+            }
+        });
+
+    });
+
+});
+
+/********************************************************************************/
+//删除销售合同的发票内容
+/********************************************************************************/
+router.post('/deletebill', function(req, res) {
+    if (!req.session.loginUser) {
+        return res.redirect("/");
+    }
+    var ctrctId = decodeURIComponent(req.query.id);
+    var flag = req.query.flag;
+    var billvaluebef = 0;
+    var billnobef = 0;
+    var billtotalvalue = 0;
+
+    var db = req.db;
+    var sales = db.get('salescontract');
+    sales.find({'ctrctId':ctrctId},{},function(e,docs){
+        if(docs.length == 0){
+                res.render('helloworld');
+                return;
+        };
+ 
+        billtotalvalue = parseFloat(docs[0].billtotalvalue);
+        billvaluebef = docs[0].bill[flag].billvalue;
+        billnobef = docs[0].bill[flag].billno;
+    
+        sales.update({"ctrctId" : ctrctId}, 
+           {$pull:{"bill":
+            {"billno":billnobef}}},
+             function(error, result){
+            if (error) {
+              console.log('deletebill  Error:'+ error);
+            }else{
+              //res.redirect("contractdetail?id="+encodeURIComponent(ctrctId));
+            }
+        });
+
+        billtotalvalue = billtotalvalue - parseFloat(billvaluebef);
+
+        ///update   billtotalvalue  to db
+        sales.update({"ctrctId" : ctrctId}, 
+            {$set:{"billtotalvalue":billtotalvalue}},
+            function (err, doc) {
+            if (err) {
+                // If it failed, return error
+                res.send("There was a problem adding the information to the database.");
+                return;
+            }
+            else {
+                // And forward to success page
+                res.redirect("contractdetail?id="+encodeURIComponent(ctrctId));
+            }
+        });
+
+    });
+
+});
+
+
+/********************************************************************************/
+//删除实物内容
+/********************************************************************************/
+router.post('/deletematerial', function(req, res) {
+    if (!req.session.loginUser) {
+        return res.redirect("/");
+    }
+    var ctrctId = decodeURIComponent(req.query.id);
+    var flag = req.query.flag;
+   
+    var unittype;
+    var serialno;
+    var mac;
+    var endtime;
+    var deliverytime;
+    var deliveryno;
+    var sender;
+
+    var db = req.db;
+    var sales = db.get('salescontract');
+    sales.find({'ctrctId':ctrctId},{},function(e,docs){
+        if(docs.length == 0){
+                res.render('helloworld');
+                return;
+        };
+ 
+        unittype = docs[0].material[flag].unittype;
+        serialno = docs[0].material[flag].serialno;
+        mac = docs[0].material[flag].mac;
+        endtime = docs[0].material[flag].endtime;
+        deliverytime = docs[0].material[flag].deliverytime;
+        deliveryno = docs[0].material[flag].deliveryno;
+        sender = docs[0].material[flag].sender;
+    
+        sales.update({"ctrctId" : ctrctId}, 
+           {$pull:{"material":
+            {"unittype":unittype,"serialno":serialno,"mac":mac,"endtime":endtime,"deliverytime":deliverytime,"deliveryno":deliveryno,"sender":sender}}},
+             function(error, result){
+            if (error) {
+              console.log('deletematerial  Error:'+ error);
+            }else{
+              res.redirect("contractdetail?id="+encodeURIComponent(ctrctId));
+            }
+        });
+
+    });
+
+});
+
+
+/********************************************************************************/
+//增加联系人内容
+/********************************************************************************/
+router.get('/addcontact', function(req, res) {
+    if (!req.session.loginUser) {
+        return res.redirect("/");
+    }
+    var cstmName = decodeURIComponent(req.query.cstmName);
+    res.render('addcontact', { title: '增加联系人',cstmName:encodeURIComponent(req.query.cstmName)});
+});
+
+router.post('/addcontact', function(req, res) {
+    if (!req.session.loginUser) {
+        return res.redirect("/");
+    }
+    var cstmName = decodeURIComponent(req.query.cstmName);
+
+    var owner = req.body.owner;
+    var cellno = req.body.cellno;
+    var telno = req.body.telno;
+    var mail = req.body.mail;
+//    console.log('cstmName:'+ mail);
+    var db = req.db;
+    var customer = db.get('customerlist');
+    // update to the DB
+    
+    customer.update({"cstmName" : cstmName}, 
+            {$push:{"contact":{
+                    "owner" : owner,
+                    "cellno" : cellno,
+                    "telno" : telno,
+                    "mail" : mail,
+                }}},
+            function (err, doc) {
+            if (err) {
+                // If it failed, return error
+                res.send("There was a problem adding the information to the database.");
+                return;
+            }
+            else {
+                res.redirect("customerview?name="+encodeURIComponent(cstmName));
+            }
+    });   
+});
+
+/********************************************************************************/
+//删除联系人
+/********************************************************************************/
+router.post('/deletecontact', function(req, res) {
+     if (!req.session.loginUser) {
+        return res.redirect("/");
+    }
+    var cstmName = decodeURIComponent(req.query.cstmName);
+    var owner = decodeURIComponent(req.query.owner);
+
+
+    var db = req.db;
+    var customer = db.get('customerlist');
+
+    customer.update({"cstmName" : cstmName}, 
+        {$pull:{"contact":
+            {"owner":owner}
+        }},
+         function(error, result){
+        if (error) {
+          console.log('deletepurchase update salse Error:'+ error);
+        }else{
+          res.redirect("customerview?name="+encodeURIComponent(cstmName));
+        }
+    });
+
+});
+
 //that of all
 
 module.exports = router;

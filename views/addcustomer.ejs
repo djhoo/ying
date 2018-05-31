@@ -12,7 +12,7 @@
          
           <tr>
           	<td>公司名称：</td>
-               <td><input type="text" required="required" name="cstmName"></td>
+               <td><input type="text" required="required" onkeyup="this.value=this.value.replace(/[, ]/g,'')" name="cstmName"></td>
      	</tr>
           <tr>
               <td>公司地址：</td>
@@ -20,18 +20,12 @@
      	</tr>
 
      		<tr>
-     			<td>联系人：</td><td><input type="text" required="required" name="owner1"></td>
-     			<td>手机：</td><td><input type="text" required="required" name="cellno1"></td>
-     			<td>固话：</td><td><input type="text" name="telno1"></td>
-     			<td>邮箱：</td><td><input type="text" name="mail1"></td>
+     			<td>联系人：</td><td><input type="text" required="required" name="owner"></td>
+     			<td>手机：</td><td><input type="text" required="required" name="cellno"></td>
+     			<td>固话：</td><td><input type="text" name="telno"></td>
+     			<td>邮箱：</td><td><input type="text" name="mail"></td>
      		</tr>	
-     		<tr>
-     			<td>联系人：</td><td><input type="text" name="owner2"></td>
-     			<td>手机：</td><td><input type="text" name="cellno2"></td>
-     			<td>固话：</td><td><input type="text" name="telno2"></td>
-     			<td>邮箱：</td><td><input type="text" name="mail2"></td>
-     		</tr>	
-
+     		
           <tr>
 		<td>公司附件：</td><td><input type="file" name="cstmAttach"></td>
 		</tr>

@@ -4,6 +4,9 @@
 <title>新增销售合同</title>
 <link rel=’stylesheet’ href=’/stylesheets/style.css’ />
 <script language="javascript" type="text/javascript" src="javascripts/My97DatePicker/WdatePicker.js"></script>
+<script language="javascript" type="text/javascript" src="http://code.jquery.com/jquery-1.4.1.min.js"></script>
+<script language="javascript" type="text/javascript" src="javascripts/selectsearch.js"></script>
+
 </head>
 <body>
 <div id="addcontract" style=margin:20px>
@@ -15,9 +18,13 @@
 				<td><select name="ctrctOwner">
 				<option value="上海怡宣信息技术有限公司">上海怡宣信息技术有限公司</option>
 				<option value="安徽怡宣信息技术有限公司">安徽怡宣信息技术有限公司</option>
+				<option value="上海中圳信息技术有限公司">上海中圳信息技术有限公司</option>
 			</select></td></tr>
-			<tr><td>签约客户：</td><td>
-				<select name="cstmName">
+			<tr><td>签约客户：</td>
+			<td>
+				<span class="second">
+				<input type="text" name="makeupCo" id="makeupCo" class="makeinp"  style="width:250px;" onfocus="setfocus(this)" oninput="setinput(this);" placeholder="请选择或输入"/>
+				<br><select name="cstmName" id="typenum" onchange="changeF(this)" size="10" style="display:none;width:250px">
 				<%
 					for(var i in customer){
 				%>
@@ -25,7 +32,8 @@
 				<%
 					}
 				%>
-				</td>
+				</span>
+			</td>
 				<td><input type="button" onclick="location='/addcustomer'" value="新增客户"></td></tr>
 			<tr><td>合同金额：</td><td><input type="number" required="required" step="0.01" name="ctrctValue"></td></tr>
 			<tr><td>签约时间：</td><td><input id="" name="ctrctTime" required="required" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" /></td></tr>

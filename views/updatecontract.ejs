@@ -14,13 +14,23 @@
 			<tr><td>签约对象：</td>	
 				<td><select name="ctrctOwner" id="ownerselect">
 				<%
-					if(saleslist[0].ctrctOwner == "上海怡宣信息技术有限公司"){
+					if((saleslist[0].ctrctOwner).search("上海怡宣") != -1){
 				%>
 				<option value="上海怡宣信息技术有限公司">上海怡宣信息技术有限公司</option>
 				<option value="安徽怡宣信息技术有限公司">安徽怡宣信息技术有限公司</option>
+				<option value="上海中圳信息技术有限公司">上海中圳信息技术有限公司</option>
 				<%
-				}else{
+				}
+				if((saleslist[0].ctrctOwner).search("安徽") != -1){
 				%>
+				<option value="安徽怡宣信息技术有限公司">安徽怡宣信息技术有限公司</option>
+				<option value="上海怡宣信息技术有限公司">上海怡宣信息技术有限公司</option>
+				<option value="上海中圳信息技术有限公司">上海中圳信息技术有限公司</option>
+				<%
+				}
+				if(saleslist[0].ctrctOwner == "上海中圳信息技术有限公司"){
+				%>
+				<option value="上海中圳信息技术有限公司">上海中圳信息技术有限公司</option>
 				<option value="安徽怡宣信息技术有限公司">安徽怡宣信息技术有限公司</option>
 				<option value="上海怡宣信息技术有限公司">上海怡宣信息技术有限公司</option>
 				<%

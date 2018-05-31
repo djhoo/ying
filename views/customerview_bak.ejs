@@ -17,25 +17,24 @@
           <tr>
               <td>公司地址：</td><td><%=customer[0].cstmAddr%></td>
      	</tr>
-          <%
-               if(customer[0].contact != null){
-               for(var i in customer[0].contact){
-          %>
      		<tr>
-     			<td>联系人：</td><td><%=customer[0].contact[i].owner%></td>
-     			<td>手机：</td><td><%=customer[0].contact[i].cellno%></td>
-     			<td>固话：</td><td><%=customer[0].contact[i].telno%></td>
-     			<td>邮箱：</td><td><%=customer[0].contact[i].mail%></td>
+     			<td>联系人：</td><td><%=customer[0].owner1%></td>
+     			<td>手机：</td><td><%=customer[0].cellno1%></td>
+     			<td>固话：</td><td><%=customer[0].telno1%></td>
+     			<td>邮箱：</td><td><%=customer[0].mail1%></td>
                     <td>
-                    <form name="deletecontact" method="post" action="/deletecontact?cstmName=<%=encodeURIComponent(customer[0].cstmName)%>&owner=<%= encodeURIComponent(customer[0].contact[i].owner)%>" onSubmit="javascript:return window.confirm('确认删除吗？')"> 
+                    <form name="deletecontact" method="post" action="/deletecontact?id=<%= encodeURIComponent(saleslist[0].ctrctId)%>" onSubmit="javascript:return window.confirm('确认删除吗？')"> 
                          <input type="submit" value="删除">
                     </form>
-                    </td>
-     		</tr>
-          <% }} %>
-
+     		</tr>	
+     		<tr>
+     			<td>联系人：</td><td><%=customer[0].owner2%></td>
+                    <td>手机：</td><td><%=customer[0].cellno2%></td>
+                    <td>固话：</td><td><%=customer[0].telno2%></td>
+                    <td>邮箱：</td><td><%=customer[0].mail2%></td>
+     		</tr>	
                <tr>
-                    <td><input type="button" onclick="location='/addcontact?cstmName=<%= encodeURIComponent(customer[0].cstmName)%>'" value="增加"></td>
+                    <td><input type="button" onclick="location='/addcontact'" value="增加"></td>
                     </tr>
           <tr>
           <tr>

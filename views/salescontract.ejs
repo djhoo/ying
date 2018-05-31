@@ -28,7 +28,7 @@
 					</tr>
 					<%
 					for(var i in saleslist){
-						if( saleslist[i].ctrctOwner == "上海怡宣信息技术有限公司" ){
+						if( (saleslist[i].ctrctOwner).search("上海怡宣") != -1 ){
 					%>
 					<tr>
 						<td bgcolor="#BFEFFF"><a href="/contractdetail?id=<%=encodeURIComponent(saleslist[i].ctrctId)%>"><%=saleslist[i].ctrctId%></a></td>
@@ -63,7 +63,7 @@
 					</tr>
 					<%
 					for(var i in saleslist){
-						if( saleslist[i].ctrctOwner != "上海怡宣信息技术有限公司" ){
+						if( (saleslist[i].ctrctOwner).search("安徽") != -1 ){
 					%>
 					<tr>
 						<td bgcolor="#BFEFFF"><a href="/contractdetail?id=<%=encodeURIComponent(saleslist[i].ctrctId)%>"><%=saleslist[i].ctrctId%></td>
@@ -77,7 +77,42 @@
 					<%
 					var totalValue=0;
 					for(var i in saleslist){
-						if( saleslist[i].ctrctOwner != "上海怡宣信息技术有限公司" ){
+						if( (saleslist[i].ctrctOwner).search("安徽") != -1 ){
+							totalValue = parseFloat(saleslist[i].ctrctValue) + totalValue;
+						}
+					}
+					%>
+					<tr>
+						<td></td><td>累计金额：</td><td bgcolor="#BFEFFF"><%=totalValue%></td>
+					</tr>	
+				</table>
+			</td>
+		</tr>
+		<tr><td>签约方：</td><td>上海中圳信息技术有限公司</td>
+		</tr>
+		<tr>
+			<td></td><td>
+				<table >
+					<tr>
+						<td bgcolor="#BFEFFF">合同编号</td><td bgcolor="#aaaa00">客户名称</td><td bgcolor="#BFEFFF">合同金额</td><td bgcolor="#aaaa00">合同状态</td><td  bgcolor="#BFEFFF">合同内容简介</td>
+					</tr>
+					<%
+					for(var i in saleslist){
+						if( saleslist[i].ctrctOwner == "上海中圳信息技术有限公司" ){
+					%>
+					<tr>
+						<td bgcolor="#BFEFFF"><a href="/contractdetail?id=<%=encodeURIComponent(saleslist[i].ctrctId)%>"><%=saleslist[i].ctrctId%></td>
+						<td bgcolor="#aaaa00"><a href="/customerview?name=<%=encodeURI(saleslist[i].cstmName)%>"><%=saleslist[i].cstmName%></a></td>
+						<td bgcolor="#BFEFFF"><%=saleslist[i].ctrctValue%></td>
+						<td  bgcolor="#aaaa00"><%=saleslist[i].ctrctStatus%></td>
+						<td bgcolor="#BFEFFF"><%=saleslist[i].ctrctBrief%></td>
+					</tr>
+					<% }} %>
+					<tr></tr>
+					<%
+					var totalValue=0;
+					for(var i in saleslist){
+						if( saleslist[i].ctrctOwner == "上海中圳信息技术有限公司" ){
 							totalValue = parseFloat(saleslist[i].ctrctValue) + totalValue;
 						}
 					}

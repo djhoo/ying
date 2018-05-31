@@ -58,6 +58,7 @@
 					<td>终止时间:</td><td bgcolor="#BFEFFF"><%=saleslist[0].ctrctEndTime%></td>
 					<td>合同状态：</td><td bgcolor="#BFEFFF"><%=saleslist[0].ctrctStatus%></td>
 				</tr>
+				
 			</table>
 		</td></tr>
 		<tr><td>
@@ -92,6 +93,19 @@
 					<td>收票人：</td><td bgcolor="#BFEFFF"><%=saleslist[0].bill[i].billowner%></td>
 					<td>快递单：</td><td bgcolor="#BFEFFF"><%=saleslist[0].bill[i].billsheet%></td>
 					<td>送票时间：</td><td bgcolor="#BFEFFF"><%=saleslist[0].bill[i].billtime%></td>
+					<%
+						if(saleslist[0].ctrctStatus != "完成"){
+			    	%>
+					<td>
+						<input type="button" onclick="location='/updatebill?id=<%= encodeURIComponent(saleslist[0].ctrctId)%>&flag=<%= i%>'" value="变更">
+					</td>
+					<td>
+				<form name="deletecontract" method="post" action="/deletebill?id=<%= encodeURIComponent(saleslist[0].ctrctId)%>&flag=<%= i%>" onSubmit="javascript:return window.confirm('确认删除吗？')"> 
+					<input type="submit" value="删除">
+				</form>
+				</td>
+					<% } %>
+
 				</tr>
 				<% }} %>
 				<tr>
@@ -161,6 +175,7 @@
 							<td bgcolor="#8FBC8F">送货时间</td>
 							<td bgcolor="#8FBC8F">送货单号</td>
 							<td bgcolor="#8FBC8F">收货人</td>
+							<td bgcolor="#8FBC8F">操作</td>
 						</tr>
 						<%
 						if(saleslist[0].material != null){
@@ -175,6 +190,17 @@
 							<td bgcolor="#BFEFFF"><%=saleslist[0].material[i].deliverytime%></td>
 							<td bgcolor="#BFEFFF"><%=saleslist[0].material[i].deliveryno%></td>
 							<td bgcolor="#BFEFFF"><%=saleslist[0].material[i].sender%></td>
+
+							<%
+							if(saleslist[0].ctrctStatus != "完成"){
+			    			%>
+							<td>
+						<form name="deletecontract" method="post" action="/deletematerial?id=<%= encodeURIComponent(saleslist[0].ctrctId)%>&flag=<%= i%>" onSubmit="javascript:return window.confirm('确认删除吗？')"> 
+							<input type="submit" value="删除">
+						</form>
+						</td>
+					<% } %>
+
 						</tr>
 						<% }} %>
 					</table>
@@ -190,6 +216,9 @@
 				</tr>
 			</table>
 		</td></tr>
+		<%
+		if(uid == "admin"){
+		%>
 		<tr><td>
 			<table >
 				<tr>
@@ -214,6 +243,10 @@
 				</tr>
 			</table>
 		</td></tr>
+		<%
+		}
+		%>
+
 		<tr>
 			<td>
 				<table>
@@ -226,7 +259,7 @@
 				%>
 				<tr>
 					<td>&nbsp</td>
-					<td bgcolor="#BFEFFF"><%=saleslist[0].comment[i].time%>   <%=saleslist[0].comment[i].content%></td>
+					<td bgcolor="#BFEFFF"> <%=saleslist[0].comment[i].time%>,<%=saleslist[0].comment[i].uid%>:  <%=saleslist[0].comment[i].content%> </td>
 				</tr>
 				<% }} %>
 				<tr>
