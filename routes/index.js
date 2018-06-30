@@ -131,7 +131,8 @@ router.get('/salescontract', function(req, res) {
     
     sales.find({},{},function(e,docs){
         res.render('salescontract', {
-            "saleslist" : docs
+            "saleslist" : docs,
+            "uid":req.session.loginUser
         });
         //console.log(docs[0].ctrctId);
     });

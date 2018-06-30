@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>销售合同状态</title>
+<script language="javascript" type="text/javascript" src="javascripts/jquery.min.js"></script>
 <link rel=’stylesheet’ href=’/stylesheets/style.css’ />
 </head>
 <body>
@@ -11,14 +12,17 @@
 		<tr>
 			<td>销售合同状态</td>
 			<td><input type="button" onclick="location='/addcontract'" value="新增合同"></td>
+			<td><input type="checkbox" class= "year" id="chk2017" value="2017" >2017</td>
+			<td><input type="checkbox" class= "year" id="chk2018" checked=true>2018</td>
 			<td><input type="button" onclick="location='/search?flag=1'" value="查询"></td>
+			
 		</tr>
 		<tr>
 			<td>签约方：</td><td>上海怡宣信息技术有限公司</td>
 		</tr>
 		<tr>
 			<td></td><td>
-				<table >
+				<table>
 					<tr>
 						<td bgcolor="#BFEFFF">合同编号</td>
 						<td bgcolor="#aaaa00">客户名称</td>
@@ -30,24 +34,41 @@
 					for(var i in saleslist){
 						if( (saleslist[i].ctrctOwner).search("上海怡宣") != -1 ){
 					%>
-					<tr>
+					<tr id = <%=saleslist[i].ctrctTime%>>
 						<td bgcolor="#BFEFFF"><a href="/contractdetail?id=<%=encodeURIComponent(saleslist[i].ctrctId)%>"><%=saleslist[i].ctrctId%></a></td>
 						<td bgcolor="#aaaa00"><a href="/customerview?name=<%=encodeURI(saleslist[i].cstmName)%>"><%=saleslist[i].cstmName%></a></td>
 						<td bgcolor="#BFEFFF"><%=saleslist[i].ctrctValue%></td>
 						<td  bgcolor="#aaaa00"><%=saleslist[i].ctrctStatus%></td>
 						<td bgcolor="#BFEFFF"><%=saleslist[i].ctrctBrief%></td>
 					</tr>
-					<% }} %>
+					<% }}%>
 					<tr></tr>
 					<%
 					var totalValue=0;
+					var  totalValue2017=0;
+					var  totalValue2018=0;
 					for(var i in saleslist){
-						if( saleslist[i].ctrctOwner == "上海怡宣信息技术有限公司" ){
-							totalValue = parseFloat(saleslist[i].ctrctValue) + totalValue;
+						if( (saleslist[i].ctrctOwner).search("上海怡宣") != -1){
+							if((saleslist[i].ctrctTime).search("2017") != -1){
+								totalValue2017 = parseFloat(saleslist[i].ctrctValue) + totalValue2017;
+							}
+							if((saleslist[i].ctrctTime).search("2018") != -1){
+								totalValue2018 = parseFloat(saleslist[i].ctrctValue) + totalValue2018;
+							}
 						}
 					}
+					//var totalValue20171 = totalValue2017.toFixed(2);
+					//totalValue2018 = totalValue2018.toFixed(2);
+					totalValue = totalValue2017 + totalValue2018;
+					totalValue = totalValue.toFixed(2);
 					%>
-					<tr>
+					<tr class = value2017>
+						<td></td><td>累计金额：</td><td bgcolor="#BFEFFF"><%=totalValue2017%></td>
+					</tr>
+					<tr class = value2018>
+						<td></td><td>累计金额：</td><td bgcolor="#BFEFFF"><%=totalValue2018%></td>
+					</tr>
+					<tr class = valueall>
 						<td></td><td>累计金额：</td><td bgcolor="#BFEFFF"><%=totalValue%></td>
 					</tr>	
 				</table>
@@ -65,7 +86,7 @@
 					for(var i in saleslist){
 						if( (saleslist[i].ctrctOwner).search("安徽") != -1 ){
 					%>
-					<tr>
+					<tr id = <%=saleslist[i].ctrctTime%>>
 						<td bgcolor="#BFEFFF"><a href="/contractdetail?id=<%=encodeURIComponent(saleslist[i].ctrctId)%>"><%=saleslist[i].ctrctId%></td>
 						<td bgcolor="#aaaa00"><a href="/customerview?name=<%=encodeURI(saleslist[i].cstmName)%>"><%=saleslist[i].cstmName%></a></td>
 						<td bgcolor="#BFEFFF"><%=saleslist[i].ctrctValue%></td>
@@ -76,19 +97,37 @@
 					<tr></tr>
 					<%
 					var totalValue=0;
+					var  totalValue2017=0;
+					var  totalValue2018=0;
 					for(var i in saleslist){
 						if( (saleslist[i].ctrctOwner).search("安徽") != -1 ){
-							totalValue = parseFloat(saleslist[i].ctrctValue) + totalValue;
+							if((saleslist[i].ctrctTime).search("2017") != -1){
+								totalValue2017 = parseFloat(saleslist[i].ctrctValue) + totalValue2017;
+							}
+							if((saleslist[i].ctrctTime).search("2018") != -1){
+								totalValue2018 = parseFloat(saleslist[i].ctrctValue) + totalValue2018;
+							}
 						}
 					}
+					totalValue = totalValue2017 + totalValue2018;
+					totalValue = totalValue.toFixed(2);
 					%>
-					<tr>
+					<tr class = value2017>
+						<td></td><td>累计金额：</td><td bgcolor="#BFEFFF"><%=totalValue2017%></td>
+					</tr>
+					<tr class = value2018>
+						<td></td><td>累计金额：</td><td bgcolor="#BFEFFF"><%=totalValue2018%></td>
+					</tr>
+					<tr class = valueall>
 						<td></td><td>累计金额：</td><td bgcolor="#BFEFFF"><%=totalValue%></td>
 					</tr>	
 				</table>
 			</td>
 		</tr>
-		<tr><td>签约方：</td><td>上海中圳信息技术有限公司</td>
+		<%
+		if(uid == "admin" || uid == "david"){
+		%>
+		<tr><td>签约方：</td><td>上海中圳信息科技有限公司</td>
 		</tr>
 		<tr>
 			<td></td><td>
@@ -98,9 +137,9 @@
 					</tr>
 					<%
 					for(var i in saleslist){
-						if( saleslist[i].ctrctOwner == "上海中圳信息技术有限公司" ){
+						if( saleslist[i].ctrctOwner == "上海中圳信息科技有限公司" ){
 					%>
-					<tr>
+					<tr id = <%=saleslist[i].ctrctTime%>>
 						<td bgcolor="#BFEFFF"><a href="/contractdetail?id=<%=encodeURIComponent(saleslist[i].ctrctId)%>"><%=saleslist[i].ctrctId%></td>
 						<td bgcolor="#aaaa00"><a href="/customerview?name=<%=encodeURI(saleslist[i].cstmName)%>"><%=saleslist[i].cstmName%></a></td>
 						<td bgcolor="#BFEFFF"><%=saleslist[i].ctrctValue%></td>
@@ -111,21 +150,92 @@
 					<tr></tr>
 					<%
 					var totalValue=0;
+					var  totalValue2017=0;
+					var  totalValue2018=0;
 					for(var i in saleslist){
-						if( saleslist[i].ctrctOwner == "上海中圳信息技术有限公司" ){
-							totalValue = parseFloat(saleslist[i].ctrctValue) + totalValue;
+						if( saleslist[i].ctrctOwner == "上海中圳信息科技有限公司" ){
+							if((saleslist[i].ctrctTime).search("2017") != -1){
+								totalValue2017 = parseFloat(saleslist[i].ctrctValue) + totalValue2017;
+							}
+							if((saleslist[i].ctrctTime).search("2018") != -1){
+								totalValue2018 = parseFloat(saleslist[i].ctrctValue) + totalValue2018;
+							}
 						}
 					}
+					totalValue = totalValue2017 + totalValue2018;
+					totalValue = totalValue.toFixed(2);
 					%>
-					<tr>
+					<tr class = value2017>
+						<td></td><td>累计金额：</td><td bgcolor="#BFEFFF"><%=totalValue2017%></td>
+					</tr>
+					<tr class = value2018>
+						<td></td><td>累计金额：</td><td bgcolor="#BFEFFF"><%=totalValue2018%></td>
+					</tr>
+					<tr class = valueall>
 						<td></td><td>累计金额：</td><td bgcolor="#BFEFFF"><%=totalValue%></td>
 					</tr>	
 				</table>
 			</td>
 		</tr>
+		<%
+		}
+		%>
 	</table>
 </div>	
 </div>
-
 </body>
+<script language=JavaScript>
+	$(document).ready(function(){
+
+		checkSelect();
+		checkSelectValue();
+		$(".year").change(function() { 
+			checkSelect();
+			checkSelectValue();
+		});
+
+
+	});
+	
+	function checkSelect(){
+		var isChecked2017 = $('#chk2017').prop('checked'); 
+		var isChecked2018 = $('#chk2018').prop('checked'); 
+		if(isChecked2017){
+			$("tr[id^=2017]").show();
+		}
+		else{
+			$("tr[id^=2017]").hide();
+		}
+	  	if(isChecked2018){
+			$("tr[id^=2018]").show();
+		}
+		else{
+			$("tr[id^=2018]").hide();
+		}
+	}
+	function checkSelectValue(){
+		var isChecked2017 = $('#chk2017').prop('checked'); 
+		var isChecked2018 = $('#chk2018').prop('checked'); 
+		if((isChecked2017) && (isChecked2018)){
+			$(".valueall").show();
+			$(".value2017").hide();
+			$(".value2018").hide();
+		}
+		if((isChecked2017) && (!isChecked2018)){
+			$(".valueall").hide();
+			$(".value2017").show();
+			$(".value2018").hide();
+		}
+		if((!isChecked2017) && (isChecked2018)){
+			$(".valueall").hide();
+			$(".value2017").hide();
+			$(".value2018").show();
+		}
+		if((!isChecked2017) && (!isChecked2018)){
+			$(".valueall").hide();
+			$(".value2017").hide();
+			$(".value2018").hide();
+		}
+	}
+</script>
 </html>

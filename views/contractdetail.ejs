@@ -54,13 +54,24 @@
 				</tr>
 				<tr>
 					<td>客户名称：</td><td bgcolor="#BFEFFF"><%=saleslist[0].cstmName%></td>
+					<%
+					if(uid == "admin" || uid == "david"){
+					%>
 					<td>合同毛利：</td><td bgcolor="#BFEFFF"><%=saleslist[0].ctrctGross%></td>
+					<%
+					}
+					%>
 					<td>终止时间:</td><td bgcolor="#BFEFFF"><%=saleslist[0].ctrctEndTime%></td>
 					<td>合同状态：</td><td bgcolor="#BFEFFF"><%=saleslist[0].ctrctStatus%></td>
 				</tr>
 				
 			</table>
 		</td></tr>
+
+		<%
+		if(uid == "admin" || uid == "david"){
+		%>
+
 		<tr><td>
 			<table >
 				<tr>
@@ -157,6 +168,7 @@
 				</tr>
 			</table>
 		</td></tr>
+		<% } %>
 		<tr><td>
 			<table >
 				<tr>
@@ -217,7 +229,7 @@
 			</table>
 		</td></tr>
 		<%
-		if(uid == "admin"){
+		if(uid == "admin" || uid == "david"){
 		%>
 		<tr><td>
 			<table >
