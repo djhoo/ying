@@ -32,7 +32,7 @@ router.post('/', function(req,res,next){
             
             req.session.loginUser = user.username;
             //res.json({ret_code: 0, ret_msg: '登录成功'});
-            res.redirect('salescontract');                            
+            res.redirect('salescontract_boot');                            
         });     
     }
     else if(req.body.username==user2.username && req.body.password==user2.password){  
@@ -43,7 +43,7 @@ router.post('/', function(req,res,next){
             
             req.session.loginUser = user2.username;
             //res.json({ret_code: 0, ret_msg: '登录成功'});
-            res.redirect('salescontract');                            
+            res.redirect('salescontract_boot');                            
         });     
     }
     else if(req.body.username==user3.username && req.body.password==user3.password){  
@@ -54,7 +54,7 @@ router.post('/', function(req,res,next){
             
             req.session.loginUser = user3.username;
             //res.json({ret_code: 0, ret_msg: '登录成功'});
-            res.redirect('salescontract');                            
+            res.redirect('salescontract_boot');                            
         });     
     }
     else{ 
@@ -138,6 +138,24 @@ router.get('/salescontract', function(req, res) {
     });
 });
 
+/********************************************/
+router.get('/salescontract_boot', function(req, res) {
+    if (!req.session.loginUser) {
+        return res.redirect("/");
+    }
+    //console.log(req.session.loginUser);
+    var db = req.db;
+    var sales = db.get('salescontract');
+    //console.log(sales);
+    
+    sales.find({},{},function(e,docs){
+        res.render('salescontract_boot', {
+            "saleslist" : docs,
+            "uid":req.session.loginUser
+        });
+        //console.log(docs[0].ctrctId);
+    });
+});
 
 router.get('/addcontract', function(req, res) {
     if (!req.session.loginUser) {
@@ -209,7 +227,7 @@ router.post('/addcontract', upload.single('attach1'), function(req, res) {
         }
         else {
             // And forward to success page
-            res.redirect("salescontract");
+            res.redirect("salescontract_boot");
         }
     });
 });
@@ -1558,7 +1576,7 @@ router.post('/deletecontract', function(req, res) {
         if (error) {
           console.log('deletecontract Error:'+ error);
         }else{
-          res.redirect("salescontract");
+          res.redirect("salescontract_boot");
         }
     });
 
