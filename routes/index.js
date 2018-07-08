@@ -148,11 +148,15 @@ router.get('/salescontract_boot', function(req, res) {
     var sales = db.get('salescontract');
     //console.log(sales);
     
-    sales.find({},{},function(e,docs){
+    sales.find({},{sort: {ctrctEndTime:1}},function(e,docs){
+    //sales.find({}).sort({"ctrctId":1}).toArray(function(e,docs){
+    //sales.find({},null,function(e,docs){
+   
         res.render('salescontract_boot', {
             "saleslist" : docs,
             "uid":req.session.loginUser
         });
+
         //console.log(docs[0].ctrctId);
     });
 });

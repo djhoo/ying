@@ -41,3 +41,10 @@
     background:#1e91ff;   
 }  
 */
+
+.ctrctValue{
+    text-align:right;
+        right:100px; 
+        //width: 150px; 
+        padding:50px;
+}

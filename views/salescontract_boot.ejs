@@ -4,8 +4,10 @@
 	<meta charset="utf-8">
 	<title>销售合同状态</title>
 	<link rel="stylesheet" href="stylesheets/bootstrap.min.css">  
+	<link rel="stylesheet" href="stylesheets/style.css"> 
 	<script language="javascript" type="text/javascript" src="javascripts/jquery.min.js"></script>
 	<script language="javascript" type="text/javascript" src="javascripts/bootstrap.min.js"></script>
+	<script language="javascript" type="text/javascript" src="javascripts/yescom.js"></script>
 <body>
 <div class="container">
 	<h1>销售合同状态</h1>
@@ -41,12 +43,13 @@
 				<%
 				for(var i in saleslist){
 					if( (saleslist[i].ctrctOwner).search("上海怡宣") != -1 ){
+						
 				%>
 
 				<tr class="active" id = <%=saleslist[i].ctrctTime%>>
 					<td><a href="/contractdetail?id=<%=encodeURIComponent(saleslist[i].ctrctId)%>"><%=saleslist[i].ctrctId%></a></td>
 					<td><a href="/customerview?name=<%=encodeURI(saleslist[i].cstmName)%>"><%=saleslist[i].cstmName%></a></td>
-					<td><%=saleslist[i].ctrctValue%></td>
+					<td class="ctrctValue"><%=saleslist[i].ctrctValue%></td>
 					<td><%=saleslist[i].ctrctStatus%></td>
 					<td><%=saleslist[i].ctrctBrief%></td>
 				</tr>
@@ -69,13 +72,13 @@
 				totalValue = totalValue.toFixed(2);
 				%>
 				<tr class = value2017>
-					<td></td><td>累计金额：</td><td><%=totalValue2017%></td>
+					<td></td><td>累计金额：</td><td class="ctrctValue"><%=totalValue2017%></td>
 				</tr>
 				<tr class = value2018>
-					<td></td><td>累计金额：</td><td><%=totalValue2018%></td>
+					<td></td><td>累计金额：</td><td class="ctrctValue"><%=totalValue2018%></td>
 				</tr>
 				<tr class = valueall>
-					<td></td><td>累计金额：</td><td><%=totalValue%></td>
+					<td></td><td>累计金额：</td><td class="ctrctValue"><%=totalValue%></td>
 				</tr>	
 
 			</tbody>
@@ -102,7 +105,7 @@
 				<tr class="active" id = <%=saleslist[i].ctrctTime%>>
 					<td><a href="/contractdetail?id=<%=encodeURIComponent(saleslist[i].ctrctId)%>"><%=saleslist[i].ctrctId%></a></td>
 					<td><a href="/customerview?name=<%=encodeURI(saleslist[i].cstmName)%>"><%=saleslist[i].cstmName%></a></td>
-					<td><%=saleslist[i].ctrctValue%></td>
+					<td class="ctrctValue"><%=saleslist[i].ctrctValue%></td>
 					<td><%=saleslist[i].ctrctStatus%></td>
 					<td><%=saleslist[i].ctrctBrief%></td>
 				</tr>
@@ -127,13 +130,13 @@
 				totalValue = totalValue.toFixed(2);
 				%>
 				<tr class = value2017>
-					<td></td><td>累计金额：</td><td><%=totalValue2017%></td>
+					<td></td><td>累计金额：</td><td class="ctrctValue"><%=totalValue2017%></td>
 				</tr>
 				<tr class = value2018>
-					<td></td><td>累计金额：</td><td><%=totalValue2018%></td>
+					<td></td><td>累计金额：</td><td class="ctrctValue"><%=totalValue2018%></td>
 				</tr>
 				<tr class = valueall>
-					<td></td><td>累计金额：</td><td><%=totalValue%></td>
+					<td></td><td>累计金额：</td><td class="ctrctValue"><%=totalValue%></td>
 				</tr>	
 
 			</tbody>
@@ -163,7 +166,7 @@
 				<tr class="active" id = <%=saleslist[i].ctrctTime%>>
 					<td><a href="/contractdetail?id=<%=encodeURIComponent(saleslist[i].ctrctId)%>"><%=saleslist[i].ctrctId%></a></td>
 					<td><a href="/customerview?name=<%=encodeURI(saleslist[i].cstmName)%>"><%=saleslist[i].cstmName%></a></td>
-					<td><%=saleslist[i].ctrctValue%></td>
+					<td class="ctrctValue"><%=saleslist[i].ctrctValue%></td>
 					<td><%=saleslist[i].ctrctStatus%></td>
 					<td><%=saleslist[i].ctrctBrief%></td>
 				</tr>
@@ -188,13 +191,13 @@
 				totalValue = totalValue.toFixed(2);
 				%>
 				<tr class = value2017>
-					<td></td><td>累计金额：</td><td><%=totalValue2017%></td>
+					<td></td><td>累计金额：</td><td class="ctrctValue"><%=totalValue2017%></td>
 				</tr>
 				<tr class = value2018>
-					<td></td><td>累计金额：</td><td><%=totalValue2018%></td>
+					<td></td><td>累计金额：</td><td class="ctrctValue"><%=totalValue2018%></td>
 				</tr>
 				<tr class = valueall>
-					<td></td><td>累计金额：</td><td><%=totalValue%></td>
+					<td></td><td>累计金额：</td><td class="ctrctValue"><%=totalValue%></td>
 				</tr>	
 
 			</tbody>
@@ -209,6 +212,13 @@
 	$(document).ready(function(){
 
 		var id;
+
+		$(".ctrctValue").each(function(ii,vv){
+   			//ii 指第几个元素的序列号。
+    		//vv 指遍历得到的元素。
+    		$(this).text(fmoney($(this).text()));
+		});
+
 		checkSelect();
 		checkSelectValue();
 		$(".year").change(function() { 

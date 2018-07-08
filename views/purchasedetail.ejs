@@ -3,6 +3,9 @@
 <head>
 <title>采购合同细节</title>
 <link rel=’stylesheet’ href=’/stylesheets/style.css’ />
+<script language="javascript" type="text/javascript" src="javascripts/jquery.min.js"></script>
+<script language="javascript" type="text/javascript" src="javascripts/yescom.js"></script>
+</head>
 </head>
 <body>
 	<div style=margin:20px>
@@ -41,7 +44,7 @@
 				</tr>
 				<tr>
 					<td>合同号：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].purchsId%></td>
-					<td>合同金额：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].purchsValue%></td>
+					<td>合同金额：</td><td bgcolor="#BFEFFF" class="ctrctValue"><%=purchaselist[0].purchsValue%></td>
 					<td>签订时间：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].purchsTime%></td>
 					<td>合同简介：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].purchsBrief%></td>
 				</tr>
@@ -56,13 +59,13 @@
 			<table>
 				<tr>
 					<td>发票状态：</td>
-					<td>累计金额：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].billtotalvalue%></td>
+					<td>累计金额：</td><td bgcolor="#BFEFFF" class="ctrctValue"><%=purchaselist[0].billtotalvalue%></td>
 					<%
 						var ratio = purchaselist[0].billtotalvalue/purchaselist[0].purchsValue * 100;
 						var ratio2 = ratio.toFixed(2);
 					%>
 					<td>累计比例：</td><td bgcolor="#BFEFFF"><%=ratio2%>%</td>
-					<td>应付账款：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].purchsValue-purchaselist[0].billtotalvalue%></td>
+					<td>应付账款：</td><td bgcolor="#BFEFFF" class="ctrctValue"><%=purchaselist[0].purchsValue-purchaselist[0].billtotalvalue%></td>
 				</tr>
 				<%
 				if(purchaselist[0].bill != null){
@@ -70,7 +73,7 @@
 				%>
 				<tr>
 					<td></td>
-					<td>收票金额：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].bill[i].billvalue%></td>
+					<td>收票金额：</td><td bgcolor="#BFEFFF" class="ctrctValue"><%=purchaselist[0].bill[i].billvalue%></td>
 					<%
 						var ratio = purchaselist[0].bill[i].billvalue/purchaselist[0].purchsValue * 100;
 						var ratio2 = ratio.toFixed(2);
@@ -92,7 +95,7 @@
 				</tr>
 				<tr>
 					<td>付款状态：</td>
-					<td>累计金额：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].paytotalvalue%></td>
+					<td>累计金额：</td><td bgcolor="#BFEFFF" class="ctrctValue"><%=purchaselist[0].paytotalvalue%></td>
 					<%
 						var ratio = purchaselist[0].paytotalvalue/purchaselist[0].purchsValue * 100;
 						var ratio2 = ratio.toFixed(2);
@@ -105,7 +108,7 @@
 				%>
 				<tr>
 					<td></td>
-					<td>发票金额：</td><td bgcolor="#BFEFFF"><%=purchaselist[0].pay[i].payvalue%></td>
+					<td>发票金额：</td><td bgcolor="#BFEFFF" class="ctrctValue"><%=purchaselist[0].pay[i].payvalue%></td>
 					<%
 						var ratio = purchaselist[0].pay[i].payvalue/purchaselist[0].purchsValue * 100;
 						var ratio2 = ratio.toFixed(2);
@@ -227,4 +230,15 @@
 	</table>
 	</div>
 </body>
+<script language="javascript"> 
+$(document).ready(function(){
+	
+	$(".ctrctValue").each(function(ii,vv){
+   			//ii 指第几个元素的序列号。
+    		//vv 指遍历得到的元素。
+    		$(this).text(fmoney($(this).text()));
+	});
+
+});
+</script> 
 </html>

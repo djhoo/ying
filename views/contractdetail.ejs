@@ -3,12 +3,8 @@
 <head>
 <title>销售合同细节</title>
 <link rel=’stylesheet’ href=’/stylesheets/style.css’ />
-<script language="javascript"> 
-//定位左上角
-//self.moveTo(0,0);   
-//调整屏幕
-//self.resizeTo(screen.availWidth,screen.availHeight);
-</script> 
+<script language="javascript" type="text/javascript" src="javascripts/jquery.min.js"></script>
+<script language="javascript" type="text/javascript" src="javascripts/yescom.js"></script>
 </head>
 <body>
 	<div style=margin:20px >
@@ -48,7 +44,7 @@
 				</tr>
 				<tr>
 					<td>合同号：</td><td bgcolor="#BFEFFF"><%=saleslist[0].ctrctId%></td>
-					<td>合同金额：</td><td bgcolor="#BFEFFF"><%=saleslist[0].ctrctValue%></td>
+					<td>合同金额：</td><td bgcolor="#BFEFFF" class="ctrctValue"><%=saleslist[0].ctrctValue%></td>
 					<td>签订时间：</td><td bgcolor="#BFEFFF"><%=saleslist[0].ctrctTime%></td>
 					<td>合同简介：</td><td bgcolor="#BFEFFF"><%=saleslist[0].ctrctBrief%></td>
 				</tr>
@@ -57,7 +53,7 @@
 					<%
 					if(uid == "admin" || uid == "david"){
 					%>
-					<td>合同毛利：</td><td bgcolor="#BFEFFF"><%=saleslist[0].ctrctGross%></td>
+					<td>合同毛利：</td><td bgcolor="#BFEFFF" class="ctrctValue"><%=saleslist[0].ctrctGross%></td>
 					<%
 					}
 					%>
@@ -79,7 +75,7 @@
 					<%
 					if(saleslist[0].bill != null){
 			    	%>
-						<td>累计金额：</td><td bgcolor="#BFEFFF"><%=saleslist[0].billtotalvalue%></td>
+						<td>累计金额：</td><td bgcolor="#BFEFFF" class="ctrctValue"><%=saleslist[0].billtotalvalue%></td>
 						<%
 							var ratio = (saleslist[0].billtotalvalue)/saleslist[0].ctrctValue * 100;
 							var ratio2 = ratio.toFixed(2);
@@ -94,7 +90,7 @@
 				%>
 				<tr>
 					<td></td>
-					<td>开票金额：</td><td bgcolor="#BFEFFF"><%=saleslist[0].bill[i].billvalue%></td>
+					<td>开票金额：</td><td bgcolor="#BFEFFF" class="ctrctValue"><%=saleslist[0].bill[i].billvalue%></td>
 					<%
 						var ratio = (saleslist[0].bill[i].billvalue)/saleslist[0].ctrctValue * 100;
 						var ratio2 = ratio.toFixed(2);
@@ -132,13 +128,13 @@
 					<%
 						if(saleslist[0].gather != null){
 					%>
-						<td>累计金额：</td><td bgcolor="#BFEFFF"><%=saleslist[0].gathertotalvalue%></td>
+						<td>累计金额：</td><td bgcolor="#BFEFFF" class="ctrctValue"><%=saleslist[0].gathertotalvalue%></td>
 						<%
 							var ratio = saleslist[0].gathertotalvalue/saleslist[0].ctrctValue * 100;
 							var ratio2 = ratio.toFixed(2);
 						%>
 						<td>收款比例：</td><td bgcolor="#BFEFFF"><%=ratio2%>%</td>
-						<td>应收账款：</td><td bgcolor="#BFEFFF"><%=(saleslist[0].ctrctValue-saleslist[0].gathertotalvalue)%></td>
+						<td>应收账款：</td><td bgcolor="#BFEFFF" class="ctrctValue"><%=(saleslist[0].ctrctValue-saleslist[0].gathertotalvalue)%></td>
 					<% } %>
 				</tr>
 				<%
@@ -147,7 +143,7 @@
 				%>
 				<tr>
 					<td></td>
-					<td>到款金额：</td><td bgcolor="#BFEFFF"><%=saleslist[0].gather[i].gathervalue%></td>
+					<td>到款金额：</td><td bgcolor="#BFEFFF" class="ctrctValue"><%=saleslist[0].gather[i].gathervalue%></td>
 					<%
 						var ratio = saleslist[0].gather[i].gathervalue/saleslist[0].ctrctValue * 100;
 						var ratio2 = ratio.toFixed(2);
@@ -244,7 +240,7 @@
 					<td>&nbsp</td>
 					<td>采购合同编号：</td><td bgcolor="#BFEFFF"><a href="/purchasedetail?id=<%=encodeURIComponent(saleslist[0].purchase[i].purchsId)%>"><%=saleslist[0].purchase[i].purchsId%></a></td>
 					<td>供应商：</td><td bgcolor="#BFEFFF"><%=saleslist[0].purchase[i].purchsName%></td>
-					<td>合同金额：</td><td bgcolor="#BFEFFF"><%=saleslist[0].purchase[i].purchsValue%></td>
+					<td>合同金额：</td><td class="ctrctValue" bgcolor="#BFEFFF"><%=saleslist[0].purchase[i].purchsValue%></td>
 					<td>签订时间：</td><td bgcolor="#BFEFFF"><%=saleslist[0].purchase[i].purchsTime%></td>
 					<td>合同简介：</td><td bgcolor="#BFEFFF"><%=saleslist[0].purchase[i].purchsBrief%></td>
 				</tr>
@@ -297,42 +293,15 @@
 	</div>
 
 </body>
-<script language=JavaScript>
-/*
-	var index=obj.selectedIndex;
-		document.getElementById('inputid').required=false;
-		document.getElementById( "inputtype").style.display= "none"; 
-		document.getElementById( "customername").style.display= "inline"; 
-		document.getElementById( "customerstatus").style.display= "none"; 
+<script language="javascript"> 
+$(document).ready(function(){
+	
+	$(".ctrctValue").each(function(ii,vv){
+   			//ii 指第几个元素的序列号。
+    		//vv 指遍历得到的元素。
+    		$(this).text(fmoney($(this).text()));
+	});
 
-		document.getElementById('mySelect').onchange=function(){
-		var index=obj.selectedIndex;
-		if((index == 0)){
-				document.getElementById('t1').style.display = "";
-				document.getElementById( "inputtype").style.display= "none"; 
-				document.getElementById( "customername").style.display= "inline"; 
-				document.getElementById( "customerstatus").style.display= "none"; 
-				document.getElementById('inputid').required=false;
-		}
-		else if(index == 2){
-			document.getElementById('t1').style.display = "none"; 
-			document.getElementById('inputid').required=false;
-			document.getElementById( "inputtype").style.display= "none"; 
-			document.getElementById( "customername").style.display= "none"; 
-			document.getElementById( "customerstatus").style.display= "inline"; 
-		}
-		else{
-			document.getElementById('t1').style.display = "none"; 
-			document.getElementById( "inputtype").style.display= "inline"; 
-			document.getElementById( "customername").style.display= "none"; 
-			document.getElementById( "customerstatus").style.display= "none"; 
-			document.getElementById('inputid').required=true;
-		}		
-	}
-*/	
-//document.getElementById( "控件ID ").style.display= "none "; 
-//document.getElementById( "控件ID ").style.display= "inline "; 
-</script>
-
-
+});
+</script> 
 </html>
