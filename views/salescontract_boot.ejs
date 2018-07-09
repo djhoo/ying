@@ -25,6 +25,7 @@
 	  	<li class="active" id = "shyeshare"><a href="#">上海怡宣信息技术有限公司</a></li>
 	  	<li id = "ahyeshare"><a href="#">安徽怡宣信息技术有限公司</a></li>
 	  	<li id = "shgenius"><a href="#">上海中圳信息科技有限公司</a></li>
+	  	<li id = "days45"><a href="#">45天到期提醒合同</a></li>
 		</ul>
 	</div>
 	<div class="row" id ="shyeshare">
@@ -189,7 +190,7 @@
 				//totalValue2018 = totalValue2018.toFixed(2);
 				totalValue = totalValue2017 + totalValue2018;
 				totalValue = totalValue.toFixed(2);
-				%>
+				%>	
 				<tr class = value2017>
 					<td></td><td>累计金额：</td><td class="ctrctValue"><%=totalValue2017%></td>
 				</tr>
@@ -199,6 +200,42 @@
 				<tr class = valueall>
 					<td></td><td>累计金额：</td><td class="ctrctValue"><%=totalValue%></td>
 				</tr>	
+
+			</tbody>
+		</table>
+	</div>
+
+	<div class="row" id ="days45">
+		<table class="table">
+			<caption>45天到期提醒合同 </caption>
+			<thead>
+				<tr>
+					<th>合同编号</th>
+					<th>客户名称</th>
+					<th>合同金额</th>
+					<th>合同状态</th>
+					<th>合同内容简介</th>			
+				</tr>
+			</thead>
+			<tbody>
+				<%
+				var nowdate = new Date();
+				for(var i in saleslist){
+					var ctrdate = new Date(saleslist[i].ctrctEndTime);
+					var days = ctrdate.getTime() - nowdate.getTime();
+					var time = parseInt(days / (1000 * 60 * 60 * 24));
+					if((time < 45) &&( saleslist[i].ctrctStatus == "进行中" )){
+				%>
+
+				<tr class="active" id = <%=saleslist[i].ctrctTime%>>
+					<td><a href="/contractdetail?id=<%=encodeURIComponent(saleslist[i].ctrctId)%>"><%=saleslist[i].ctrctId%></a></td>
+					<td><a href="/customerview?name=<%=encodeURI(saleslist[i].cstmName)%>"><%=saleslist[i].cstmName%></a></td>
+					<td class="ctrctValue"><%=saleslist[i].ctrctValue%></td>
+					<td><%=saleslist[i].ctrctStatus%></td>
+					<td><%=saleslist[i].ctrctBrief%></td>
+				</tr>
+				<% }}%>
+				
 
 			</tbody>
 		</table>
@@ -230,7 +267,8 @@
 		$("div#shyeshare").show();
 		$("div#ahyeshare").hide();
 		$("div#shgenius").hide();
-		
+		$("div#days45").hide();
+
 		$('#navtab').on('click','li',function(){
 			$("li").each(function(){
       			$(this).removeClass("active");
@@ -242,6 +280,7 @@
   			$("div#shyeshare").hide();
 			$("div#ahyeshare").hide();
 			$("div#shgenius").hide();
+			$("div#days45").hide();
   			$("div#"+id).show();
 
 		})
