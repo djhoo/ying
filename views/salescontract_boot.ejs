@@ -224,7 +224,7 @@
 					var ctrdate = new Date(saleslist[i].ctrctEndTime);
 					var days = ctrdate.getTime() - nowdate.getTime();
 					var time = parseInt(days / (1000 * 60 * 60 * 24));
-					if((time < 45) &&( saleslist[i].ctrctStatus == "进行中" )){
+					if((time < 60) && ( time > -30)){
 				%>
 
 				<tr class="active" id = <%=saleslist[i].ctrctTime%>>
