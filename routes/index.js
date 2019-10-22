@@ -11,20 +11,24 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: '登录' });
 });
 
-router.post('/', function(req,res,next){   
+router.post('/', function(req,res,next){  
+    const crypto = require("crypto"); 
     var user={  
         username:'admin',  
-        password:'T1234560'  
+        password:'7e8c928a8cfc1487a23bffc41a033b4e'  
     };
     var user2={
         username:'user01',  
-        password:'Yeshare01'
+        password:'711769e03242b20d55f9182ff14d9b47'
     }
     var user3={
         username:'david',  
-        password:'David001'
+        password:'7003a13fbf3c3c98687daef1add996e6'
     }
-    if(req.body.username==user.username && req.body.password==user.password){  
+    let md5 = crypto.createHash("md5");
+    let newPass = md5.update(req.body.password).digest("hex");
+
+    if(req.body.username==user.username && newPass==user.password){  
         req.session.regenerate(function(err) {
             if(err){
                 return res.json({ret_code: 2, ret_msg: '登录失败'});                
@@ -35,7 +39,7 @@ router.post('/', function(req,res,next){
             res.redirect('salescontract_boot');                            
         });     
     }
-    else if(req.body.username==user2.username && req.body.password==user2.password){  
+    else if(req.body.username==user2.username && newPass==user2.password){  
         req.session.regenerate(function(err) {
             if(err){
                 return res.json({ret_code: 2, ret_msg: '登录失败'});                
@@ -46,7 +50,7 @@ router.post('/', function(req,res,next){
             res.redirect('salescontract_boot');                            
         });     
     }
-    else if(req.body.username==user3.username && req.body.password==user3.password){  
+    else if(req.body.username==user3.username && newPass==user3.password){  
         req.session.regenerate(function(err) {
             if(err){
                 return res.json({ret_code: 2, ret_msg: '登录失败'});                
