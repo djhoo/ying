@@ -107,10 +107,10 @@
 						<input type="button" onclick="location='/updatebill?id=<%= encodeURIComponent(saleslist[0].ctrctId)%>&flag=<%= i%>'" value="变更">
 					</td>
 					<td>
-				<form name="deletecontract" method="post" action="/deletebill?id=<%= encodeURIComponent(saleslist[0].ctrctId)%>&flag=<%= i%>" onSubmit="javascript:return window.confirm('确认删除吗？')"> 
-					<input type="submit" value="删除">
-				</form>
-				</td>
+						<form name="deletecontract" method="post" action="/deletebill?id=<%= encodeURIComponent(saleslist[0].ctrctId)%>&flag=<%= i%>" onSubmit="javascript:return window.confirm('确认删除吗？')"> 
+							<input type="submit" value="删除">
+						</form>
+					</td>
 					<% } %>
 
 				</tr>
@@ -135,6 +135,7 @@
 						%>
 						<td>收款比例：</td><td bgcolor="#BFEFFF"><%=ratio2%>%</td>
 						<td>应收账款：</td><td bgcolor="#BFEFFF" class="ctrctValue"><%=(saleslist[0].ctrctValue-saleslist[0].gathertotalvalue)%></td>
+						
 					<% } %>
 				</tr>
 				<%
@@ -150,6 +151,18 @@
 					%>
 					<td>比例：</td><td bgcolor="#BFEFFF"><%=ratio2%>%</td>
 					<td>到款时间：</td><td bgcolor="#BFEFFF"><%=saleslist[0].gather[i].gathertime%></td>
+					<%
+						if(saleslist[0].ctrctStatus != "完成"){
+			    	%>
+						<td>
+							<input type="button" onclick="location='/updategather?id=<%= encodeURIComponent(saleslist[0].ctrctId)%>&flag=<%= i%>'" value="变更">
+						</td>
+						<td>
+							<form name="deletegather" method="post" action="/deletegather?id=<%= encodeURIComponent(saleslist[0].ctrctId)%>&flag=<%= i%>" onSubmit="javascript:return window.confirm('确认删除吗？')"> 
+								<input type="submit" value="删除">
+							</form>
+						</td>
+					<% } %>
 				</tr>
 				<% }} %>
 				<tr>
