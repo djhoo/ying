@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>采购合同状态</title>
+	<link rel="stylesheet" href="stylesheets/bootstrap.min.css">  
+	<link rel="stylesheet" href="stylesheets/style.css"> 
+	<script language="javascript" type="text/javascript" src="javascripts/jquery.min.js"></script>
+	<script language="javascript" type="text/javascript" src="javascripts/bootstrap.min.js"></script>
+	<script language="javascript" type="text/javascript" src="javascripts/yescom.js"></script>
+<body>
+<div class="container">
+	<h1>采购合同状态</h1>
+	<div class="row">
+		<input type="button" onclick="location='/addpurchase'" value="新增合同">
+		<input type="checkbox" class= "year" id="chk2017" value="2017" >2017
+		<input type="checkbox" class= "year" id="chk2018" checked=true>2018
+		<input type="checkbox" class= "year" id="chk2019" checked=true>2019
+		<input type="button" onclick="location='/search?flag=2'" value="查询">
+	</div>
+	<div class="row">
+	<p>
+	</div>
+	<div class="row">
+		<ul class="nav nav-tabs" id = "navtab">
+	  	<li class="active" id = "shyeshare"><a href="#">上海怡宣信息技术有限公司</a></li>
+	  	<li id = "ahyeshare"><a href="#">安徽怡宣信息技术有限公司</a></li>
+	  	<li id = "shgenius"><a href="#">上海中圳信息科技有限公司</a></li>
+	  	<li id = "days45"><a href="#">45天到期提醒合同</a></li>
+		</ul>
+	</div>
+	<div class="row" id ="shyeshare">
+		<table class="table">
+			<caption>签约方：上海怡宣信息技术有限公司 </caption>
+			<thead>
+				<tr>
+					<th>合同编号</th>
+					<th>客户名称</th>
+					<th>合同金额</th>
+					<th>累计比例</th>
+					<th>合同状态</th>
+					<th>合同内容简介</th>			
+				</tr>
+			</thead>
+			<tbody>
+				<%
+				for(var i in purchaselist){
+					if( (purchaselist[i].ctrctOwner).search("上海怡宣") != -1 ){
+						
+				%>
+
+				<tr class="active" id = <%=purchaselist[i].purchsTime%>>
+					<td><a href="/purchasedetail?id=<%=encodeURIComponent(purchaselist[i].purchsId)%>"><%=purchaselist[i].purchsId%></a></td>
+					<td><a href="/customerview?name=<%=encodeURI(purchaselist[i].cstmName)%>"><%=purchaselist[i].cstmName%></a></td>
+					<td class="ctrctValue"><%=purchaselist[i].ctrctValue%></td>
+					<%
+						var ratio = (purchaselist[i].gathertotalvalue)/purchaselist[i].ctrctValue * 100;
+						var ratio2 = ratio.toFixed(2);
+					%>
+					<td><%=ratio2%>%</td>
+					<td><%=purchaselist[i].ctrctStatus%></td>
+					<td><%=purchaselist[i].ctrctBrief%></td>
+				</tr>
+				<% }}%>
+				<%
+				var totalValue=0;
+				var  totalValue2017=0;
+				var  totalValue2018=0;
+				var  totalValue2019=0;
+				for(var i in purchaselist){
+					if( (purchaselist[i].ctrctOwner).search("上海怡宣") != -1){
+						if((purchaselist[i].purchsTime).search("2017") != -1){
+							totalValue2017 = parseFloat(purchaselist[i].ctrctValue) + totalValue2017;
+						}
+						if((purchaselist[i].purchsTime).search("2018") != -1){
+							totalValue2018 = parseFloat(purchaselist[i].ctrctValue) + totalValue2018;
+						}
+						if((purchaselist[i].purchsTime).search("2019") != -1){
+							totalValue2019 = parseFloat(purchaselist[i].ctrctValue) + totalValue2019;
+						}
+					}
+				}
+				totalValue = totalValue2017 + totalValue2018+ totalValue2019;
+				totalValue = totalValue.toFixed(2);
+				%>
+				<tr class = value2017>
+					<td></td><td>2017累计金额：</td><td class="ctrctValue"><%=totalValue2017%></td>
+				</tr>
+				<tr class = value2018>
+					<td></td><td>2018累计金额：</td><td class="ctrctValue"><%=totalValue2018%></td>
+				</tr>
+				<tr class = value2019>
+					<td></td><td>2019累计金额：</td><td class="ctrctValue"><%=totalValue2019%></td>
+				</tr>
+				<tr class = valueall>
+					<td></td><td>累计金额：</td><td class="ctrctValue"><%=totalValue%></td>
+				</tr>	
+
+			</tbody>
+		</table>
+	</div>
+	<div class="row" id ="ahyeshare">
+		<table class="table">
+			<caption>签约方：安徽怡宣信息技术有限公司 </caption>
+			<thead>
+				<tr>
+					<th>合同编号</th>
+					<th>客户名称</th>
+					<th>合同金额</th>
+					<th>累计比例</th>
+					<th>合同状态</th>
+					<th>合同内容简介</th>			
+				</tr>
+			</thead>
+			<tbody>
+				<%
+				for(var i in purchaselist){
+					if( (purchaselist[i].ctrctOwner).search("安徽") != -1 ){
+				%>
+
+				<tr class="active" id = <%=purchaselist[i].purchsTime%>>
+					<td><a href="/purchasedetail?id=<%=encodeURIComponent(purchaselist[i].purchsId)%>"><%=purchaselist[i].purchsId%></a></td>
+					<td><a href="/customerview?name=<%=encodeURI(purchaselist[i].cstmName)%>"><%=purchaselist[i].cstmName%></a></td>
+					<td class="ctrctValue"><%=purchaselist[i].ctrctValue%></td>
+					<%
+						var ratio = (purchaselist[i].gathertotalvalue)/purchaselist[i].ctrctValue * 100;
+						var ratio2 = ratio.toFixed(2);
+					%>
+					<td><%=ratio2%>%</td>
+					<td><%=purchaselist[i].ctrctStatus%></td>
+					<td><%=purchaselist[i].ctrctBrief%></td>
+				</tr>
+				<% }}%>
+				<%
+				var totalValue=0;
+				var  totalValue2017=0;
+				var  totalValue2018=0;
+				var  totalValue2019=0;
+				for(var i in purchaselist){
+					if( (purchaselist[i].ctrctOwner).search("安徽怡宣") != -1){
+						if((purchaselist[i].purchsTime).search("2017") != -1){
+							totalValue2017 = parseFloat(purchaselist[i].ctrctValue) + totalValue2017;
+						}
+						if((purchaselist[i].purchsTime).search("2018") != -1){
+							totalValue2018 = parseFloat(purchaselist[i].ctrctValue) + totalValue2018;
+						}
+						if((purchaselist[i].purchsTime).search("2019") != -1){
+							totalValue2019 = parseFloat(purchaselist[i].ctrctValue) + totalValue2019;
+						}
+					}
+				}
+				//var totalValue20171 = totalValue2017.toFixed(2);
+				//totalValue2018 = totalValue2018.toFixed(2);
+				totalValue = totalValue2017 + totalValue2018 + totalValue2019;
+				totalValue = totalValue.toFixed(2);
+				%>
+				<tr class = value2017>
+					<td></td><td>2017累计金额：</td><td class="ctrctValue"><%=totalValue2017%></td>
+				</tr>
+				<tr class = value2018>
+					<td></td><td>2018累计金额：</td><td class="ctrctValue"><%=totalValue2018%></td>
+				</tr>
+				<tr class = value2019>
+					<td></td><td>2019累计金额：</td><td class="ctrctValue"><%=totalValue2019%></td>
+				</tr>
+				<tr class = valueall>
+					<td></td><td>累计金额：</td><td class="ctrctValue"><%=totalValue%></td>
+				</tr>	
+
+			</tbody>
+		</table>
+	</div>
+	<%
+		if(uid == "admin" || uid == "david"){
+	%>
+	<div class="row" id ="shgenius">
+		<table class="table">
+			<caption>签约方：上海中圳信息科技有限公司 </caption>
+			<thead>
+				<tr>
+					<th>合同编号</th>
+					<th>客户名称</th>
+					<th>合同金额</th>
+					<th>累计比例</th>
+					<th>合同状态</th>
+					<th>合同内容简介</th>			
+				</tr>
+			</thead>
+			<tbody>
+				<%
+				for(var i in purchaselist){
+					if( purchaselist[i].ctrctOwner == "上海中圳信息科技有限公司"){
+				%>
+
+				<tr class="active" id = <%=purchaselist[i].purchsTime%>>
+					<td><a href="/purchasedetail?id=<%=encodeURIComponent(purchaselist[i].purchsId)%>"><%=purchaselist[i].purchsId%></a></td>
+					<td><a href="/customerview?name=<%=encodeURI(purchaselist[i].cstmName)%>"><%=purchaselist[i].cstmName%></a></td>
+					<td class="ctrctValue"><%=purchaselist[i].ctrctValue%></td>
+					<%
+						var ratio = (purchaselist[i].gathertotalvalue)/purchaselist[i].ctrctValue * 100;
+						var ratio2 = ratio.toFixed(2);
+					%>
+					<td><%=ratio2%>%</td>
+					<td><%=purchaselist[i].ctrctStatus%></td>
+					<td><%=purchaselist[i].ctrctBrief%></td>
+				</tr>
+				<% }}%>
+				<%
+				var totalValue=0;
+				var  totalValue2017=0;
+				var  totalValue2018=0;
+				var  totalValue2019=0;
+				for(var i in purchaselist){
+					if( purchaselist[i].ctrctOwner == "上海中圳信息科技有限公司"){
+						if((purchaselist[i].purchsTime).search("2017") != -1){
+							totalValue2017 = parseFloat(purchaselist[i].ctrctValue) + totalValue2017;
+						}
+						if((purchaselist[i].purchsTime).search("2018") != -1){
+							totalValue2018 = parseFloat(purchaselist[i].ctrctValue) + totalValue2018;
+						}
+						if((purchaselist[i].purchsTime).search("2019") != -1){
+							totalValue2019 = parseFloat(purchaselist[i].ctrctValue) + totalValue2019;
+						}
+					}
+				}
+				//var totalValue20171 = totalValue2017.toFixed(2);
+				//totalValue2018 = totalValue2018.toFixed(2);
+				totalValue = totalValue2017 + totalValue2018 + totalValue2019;
+				totalValue = totalValue.toFixed(2);
+				%>	
+				<tr class = value2017>
+					<td></td><td>2017累计金额：</td><td class="ctrctValue"><%=totalValue2017%></td>
+				</tr>
+				<tr class = value2018>
+					<td></td><td>2018累计金额：</td><td class="ctrctValue"><%=totalValue2018%></td>
+				</tr>
+				<tr class = value2019>
+					<td></td><td>2019累计金额：</td><td class="ctrctValue"><%=totalValue2019%></td>
+				</tr>
+				<tr class = valueall>
+					<td></td><td>累计金额：</td><td class="ctrctValue"><%=totalValue%></td>
+				</tr>	
+
+			</tbody>
+		</table>
+	</div>
+
+	<div class="row" id ="days45">
+		<table class="table">
+			<caption>45天到期提醒合同 </caption>
+			<thead>
+				<tr>
+					<th>合同编号</th>
+					<th>客户名称</th>
+					<th>合同金额</th>
+					<th>累计比例</th>
+					<th>合同状态</th>
+					<th>合同内容简介</th>			
+				</tr>
+			</thead>
+			<tbody>
+				<%
+				var nowdate = new Date();
+				for(var i in purchaselist){
+					var ctrdate = new Date(purchaselist[i].ctrctEndTime);
+					var days = ctrdate.getTime() - nowdate.getTime();
+					var time = parseInt(days / (1000 * 60 * 60 * 24));
+					if((time < 60) && ( time > -30)){
+				%>
+
+				<tr class="active" id = <%=purchaselist[i].purchsTime%>>
+					<td><a href="/purchasedetail?id=<%=encodeURIComponent(purchaselist[i].purchsId)%>"><%=purchaselist[i].purchsId%></a></td>
+					<td><a href="/customerview?name=<%=encodeURI(purchaselist[i].cstmName)%>"><%=purchaselist[i].cstmName%></a></td>
+					<td class="ctrctValue"><%=purchaselist[i].ctrctValue%></td>
+					<%
+						var ratio = (purchaselist[i].gathertotalvalue)/purchaselist[i].ctrctValue * 100;
+						var ratio2 = ratio.toFixed(2);
+					%>
+					<td><%=ratio2%>%</td>
+					<td><%=purchaselist[i].ctrctStatus%></td>
+					<td><%=purchaselist[i].ctrctBrief%></td>
+				</tr>
+				<% }}%>
+				
+
+			</tbody>
+		</table>
+	</div>
+	<%
+	}
+	%>
+</div>
+</body>
+<script language=JavaScript>
+	$(document).ready(function(){
+
+		var id;
+
+		$(".ctrctValue").each(function(ii,vv){
+   			//ii 指第几个元素的序列号。
+    		//vv 指遍历得到的元素。
+    		$(this).text(fmoney($(this).text()));
+		});
+
+		checkSelect();
+		checkSelectValue();
+		$(".year").change(function() { 
+			checkSelect();
+			checkSelectValue();
+		});
+
+
+		$("div#shyeshare").show();
+		$("div#ahyeshare").hide();
+		$("div#shgenius").hide();
+		$("div#days45").hide();
+
+		$('#navtab').on('click','li',function(){
+			$("li").each(function(){
+      			$(this).removeClass("active");
+    		});
+  			//alert($(this).text());
+  			$(this).addClass("active");
+  			id = $(this).attr("id");
+
+  			$("div#shyeshare").hide();
+			$("div#ahyeshare").hide();
+			$("div#shgenius").hide();
+			$("div#days45").hide();
+  			$("div#"+id).show();
+
+		})
+
+
+	});
+	
+	function checkSelect(){
+		var isChecked2017 = $('#chk2017').prop('checked'); 
+		var isChecked2018 = $('#chk2018').prop('checked'); 
+		var isChecked2019 = $('#chk2019').prop('checked'); 
+		if(isChecked2017){
+			$("tr[id^=2017]").show();
+		}
+		else{
+			$("tr[id^=2017]").hide();
+		}
+	  	if(isChecked2018){
+			$("tr[id^=2018]").show();
+		}
+		else{
+			$("tr[id^=2018]").hide();
+		}
+		if(isChecked2019){
+			$("tr[id^=2019]").show();
+		}
+		else{
+			$("tr[id^=2019]").hide();
+		}
+	}
+	function checkSelectValue(){
+		var isChecked2017 = $('#chk2017').prop('checked'); 
+		var isChecked2018 = $('#chk2018').prop('checked'); 
+		var isChecked2019 = $('#chk2019').prop('checked'); 
+		
+		if((isChecked2017) && (isChecked2018) && (isChecked2019)){
+			$(".valueall").show();
+			$(".value2017").hide();
+			$(".value2018").hide();
+			$(".value2019").hide();
+		}
+		else{
+			$(".valueall").hide();
+			if(isChecked2017){
+				$(".value2017").show();
+			}
+			else{
+				$(".value2017").hide();
+			}
+		  	if(isChecked2018){
+				$(".value2018").show();
+			}
+			else{
+				$(".value2018").hide();
+			}
+			if(isChecked2019){
+				$(".value2019").show();
+			}
+			else{
+				$(".value2019").hide();
+			}
+
+		}
+
+/*
+		if((isChecked2017) && (isChecked2018)){
+			$(".valueall").show();
+			$(".value2017").hide();
+			$(".value2018").hide();
+		}
+		if((isChecked2017) && (!isChecked2018)){
+			$(".valueall").hide();
+			$(".value2017").show();
+			$(".value2018").hide();
+		}
+		if((!isChecked2017) && (isChecked2018)){
+			$(".valueall").hide();
+			$(".value2017").hide();
+			$(".value2018").show();
+		}
+		if((!isChecked2017) && (!isChecked2018)){
+			$(".valueall").hide();
+			$(".value2017").hide();
+			$(".value2018").hide();
+		}
+*/		
+	}
+</script>
+</html>
