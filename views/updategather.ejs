@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>变更收款</title>
+<link rel=’stylesheet’ href=’/stylesheets/style.css’ />
+<script language="javascript" type="text/javascript" src="javascripts/My97DatePicker/WdatePicker.js"></script>
+</head>
+<body>
+<div id="updategather" style=margin:20px>
+	<h1>变更收款</h1>
+	<form name="updategather" method="post" action="/updategather?id=<%= encodeURIComponent(saleslist[0].ctrctId)%>&flag=<%= flag%>">
+		<table bgcolor="#EAEAEA">
+	     	<tr><td>到款金额：</td><td><input type="number" required="required" value='<%=saleslist[0].gather[flag].gathervalue%>' step="0.01" name="gathervalue" ></td></tr>
+			<tr><td>到款时间：</td><td><input id="" name="gathertime" required="required" value='<%=saleslist[0].gather[flag].gathertime%>' class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" /></td></tr>
+			<tr><td></td><td><input type="submit" value="确定"></td></tr>
+		</table >
+	</form>
+</div>	
+</body>
+</html>

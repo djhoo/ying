@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req,res,next){   
     var user={  
         username:'admin',  
-        password:123456  
+        password:'T1234560'  
     };
     var user2={
         username:'user01',  
@@ -148,9 +148,9 @@ router.get('/salescontract_boot', function(req, res) {
     var sales = db.get('salescontract');
     //console.log(sales);
     
-    sales.find({},{sort: {ctrctEndTime:1}},function(e,docs){
+    //sales.find({},{sort: {ctrctEndTime:1}},function(e,docs){
     //sales.find({}).sort({"ctrctId":1}).toArray(function(e,docs){
-    //sales.find({},null,function(e,docs){
+    sales.find({},null,function(e,docs){
    
         res.render('salescontract_boot', {
             "saleslist" : docs,
@@ -2007,6 +2007,168 @@ router.post('/deletecontact', function(req, res) {
 
 });
 
+
+/********************************************************************************/
+//变更采购合同的收款内容 ******没有要
+/********************************************************************************/
+/*
+router.get('/updatepay', function(req, res) {
+    if (!req.session.loginUser) {
+        return res.redirect("/");
+    }
+    var ctrctId = decodeURIComponent(req.query.id);
+    var flag = req.query.flag;
+    var db = req.db;
+    var sales = db.get('salescontract');
+    sales.find({"ctrctId" : ctrctId},{},function(e,docs){
+        res.render('updatepay', {
+            "saleslist" : docs,
+            flag:req.query.flag,
+            title: '变更收款'
+        });
+        //console.log(docs[0].ctrctId);
+    });
+    //res.render('updatecontract', { title: '变更销售合同'});
+});
+*/
+/********************************************************************************/
+//变更销售合同的收款内容
+/********************************************************************************/
+router.get('/updategather', function(req, res) {
+    if (!req.session.loginUser) {
+        return res.redirect("/");
+    }
+    var ctrctId = decodeURIComponent(req.query.id);
+    var flag = req.query.flag;
+    var db = req.db;
+    var sales = db.get('salescontract');
+    sales.find({"ctrctId" : ctrctId},{},function(e,docs){
+        res.render('updategather', {
+            "saleslist" : docs,
+            flag:req.query.flag,
+            title: '变更收款'
+        });
+        //console.log(docs[0].ctrctId);
+    });
+    //res.render('updatecontract', { title: '变更销售合同'});
+});
+
+router.post('/updategather', function(req, res) {
+    if (!req.session.loginUser) {
+        return res.redirect("/");
+    }
+    var ctrctId = decodeURIComponent(req.query.id);
+    var flag = req.query.flag;
+    
+    var gathervalue = req.body.gathervalue;
+    var gathertime = req.body.gathertime;
+    var gathertotalvalue = 0.0;
+
+    var gathervaluebef;
+    var gathertimebef;
+
+    var db = req.db;
+    var sales = db.get('salescontract');
+    sales.find({'ctrctId':ctrctId},{},function(e,docs){
+        if(docs.length == 0){
+                res.render('helloworld');
+                return;
+        };
+        gathervaluebef = docs[0].gather[flag].gathervalue;
+        gathertimebef = docs[0].gather[flag].gathertime;
+
+        for(var i in docs[0].gather){
+            gathertotalvalue = gathertotalvalue + parseFloat(docs[0].gather[i].gathervalue);
+        }
+
+        sales.update({"ctrctId" : ctrctId,"gather.gathervalue":gathervaluebef,"gather.gathertime":gathertimebef}, 
+           {$set:{
+                        "gather.$.gathervalue":gathervalue,
+                        "gather.$.gathertime":gathertime
+            }},{upset:true},
+             function(error, result){
+            if (error) {
+              console.log('updategather  Error:'+ error);
+            }else{
+              //res.redirect("contractdetail?id="+encodeURIComponent(ctrctId));
+            }
+        });
+
+        gathertotalvalue = gathertotalvalue - parseFloat(gathervaluebef) + parseFloat(gathervalue);
+        sales.update({"ctrctId" : ctrctId}, 
+           {$set:{"gathertotalvalue":gathertotalvalue}},
+             function(error, result){
+            if (error) {
+              console.log('updategather  Error:'+ error);
+            }else{
+              res.redirect("contractdetail?id="+encodeURIComponent(ctrctId));
+            }
+        });
+
+        
+    });
+});
+
+/********************************************************************************/
+//删除销售合同的收款内容
+/********************************************************************************/
+router.post('/deletegather', function(req, res) {
+    if (!req.session.loginUser) {
+        return res.redirect("/");
+    }
+    var ctrctId = decodeURIComponent(req.query.id);
+    var flag = req.query.flag;
+    
+    var gathervalue = req.body.gathervalue;
+    var gathertime = req.body.gathertime;
+    var gathertotalvalue = 0.0;
+
+    var gathervaluebef;
+    var gathertimebef;
+
+    var db = req.db;
+    var sales = db.get('salescontract');
+    sales.find({'ctrctId':ctrctId},{},function(e,docs){
+        if(docs.length == 0){
+                res.render('helloworld');
+                return;
+        };
+        gathervaluebef = docs[0].gather[flag].gathervalue;
+        gathertimebef = docs[0].gather[flag].gathertime;
+
+        //get the gather total value
+        for(var i in docs[0].gather){
+            gathertotalvalue = gathertotalvalue + parseFloat(docs[0].gather[i].gathervalue);
+        }
+
+        sales.update({"ctrctId" : ctrctId}, 
+           {$pull:{"gather":
+                        {"gathervalue":gathervaluebef,
+                        "gathertime":gathertimebef
+                        }
+            }},
+             function(error, result){
+            if (error) {
+              console.log('deletegather  Error:'+ error);
+            }else{
+              //res.redirect("contractdetail?id="+encodeURIComponent(ctrctId));
+            }
+        });
+
+        //recalculate the gather total value
+        gathertotalvalue = gathertotalvalue - parseFloat(gathervaluebef);
+        sales.update({"ctrctId" : ctrctId}, 
+           {$set:{"gathertotalvalue":gathertotalvalue}},
+             function(error, result){
+            if (error) {
+              console.log('updategather  Error:'+ error);
+            }else{
+              res.redirect("contractdetail?id="+encodeURIComponent(ctrctId));
+            }
+        });
+
+    });
+});
 //that of all
 
 module.exports = router;
