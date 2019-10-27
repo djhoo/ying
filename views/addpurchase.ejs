@@ -10,7 +10,19 @@
 	<h1>新增采购合同</h1>
 	<form name="addpurchase" method="post" enctype="multipart/form-data" action="/addpurchase?id=<%= id%>&owner=<%=encodeURI(owner)%>">
 		<table bgcolor="#EAEAEA">
-	     	<tr><td>合同号：</td><td><input type="text" required="required" name="purchsId"></td></tr>
+			<tr><td>合同号：</td><td><input type="text" required="required" name="purchsId"></td></tr>
+			<%
+				if(owner == "0"){
+			%>
+			 <tr><td>签约对象：</td>
+				<td><select name="purchsOwner">
+				<option value="上海怡宣信息技术有限公司">上海怡宣信息技术有限公司</option>
+				<option value="安徽怡宣信息技术有限公司">安徽怡宣信息技术有限公司</option>
+				<option value="上海中圳信息科技有限公司">上海中圳信息科技有限公司</option>
+			</select></td></tr>
+			<%
+				}
+			%>
 			<tr><td>签约客户：</td>
 				<td><select name="purchsName">
 				<%

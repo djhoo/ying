@@ -14,15 +14,27 @@
 			<table>
 			<tr>
 				<td>采购合同细节</td>
-				<td><input type="button" onclick="location='/salescontract_boot'" value="返回销售状态"></td>
+				<td><input type="button" onclick="location='/purchasecontract_boot'" value="返回"></td>
 				<td><input type="button" onclick="location='/search?flag=2'" value="查询"></td>
 				<%
 						if(purchaselist[0].purchsStatus != "完成"){
 			    %>
 				<td>
+				<%
+					if(purchaselist[0].sales != null){
+				%>
 				<form name="deletepurchase" method="post" action="/deletepurchase?id=<%= encodeURIComponent(purchaselist[0].purchsId)%>&ctrctId=<%=encodeURIComponent(purchaselist[0].sales[0].ctrctId)%>" onSubmit="javascript:return window.confirm('确认删除吗？')"> 
 					<input type="submit" value="删除">
 				</form>
+				<%
+				}else{
+				%>
+				<form name="deletepurchase" method="post" action="/deletepurchase?id=<%= encodeURIComponent(purchaselist[0].purchsId)%>&ctrctId=<%=encodeURIComponent(0)%>" onSubmit="javascript:return window.confirm('确认删除吗？')"> 
+					<input type="submit" value="删除">
+				</form>
+				<%
+				}	
+				%>
 				</td>
 				<%
 				}
