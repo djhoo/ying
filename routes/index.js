@@ -36,7 +36,7 @@ router.post('/', function(req,res,next){
             
             req.session.loginUser = user.username;
             //res.json({ret_code: 0, ret_msg: '登录成功'});
-            res.redirect('salescontract_boot');                            
+            res.redirect('contractindex');                            
         });     
     }
     else if(req.body.username==user2.username && newPass==user2.password){  
@@ -47,7 +47,7 @@ router.post('/', function(req,res,next){
             
             req.session.loginUser = user2.username;
             //res.json({ret_code: 0, ret_msg: '登录成功'});
-            res.redirect('salescontract_boot');                            
+            res.redirect('contractindex');                            
         });     
     }
     else if(req.body.username==user3.username && newPass==user3.password){  
@@ -58,13 +58,17 @@ router.post('/', function(req,res,next){
             
             req.session.loginUser = user3.username;
             //res.json({ret_code: 0, ret_msg: '登录成功'});
-            res.redirect('salescontract_boot');                            
+            res.redirect('contractindex');                            
         });     
     }
     else{ 
         res.redirect('/');
     }  
 })  
+
+router.get('/contractindex', function(req, res, next) {
+    res.render('contractindex', { title: '系统选择' });
+  });
 
 /*
 router.get('/helloworld', function(req, res, next) {
@@ -650,6 +654,29 @@ function changeValue(value,type)
 }
 */
 /**************************************************************/
+/********************************************/
+router.get('/purchasecontract_boot', function(req, res) {
+    if (!req.session.loginUser) {
+        return res.redirect("/");
+    }
+    //console.log(req.session.loginUser);
+    var db = req.db;
+    var purchase = db.get('purchasecontract');
+    //console.log(sales);
+    
+    //sales.find({},{sort: {ctrctEndTime:1}},function(e,docs){
+    //sales.find({}).sort({"ctrctId":1}).toArray(function(e,docs){
+        purchase.find({},null,function(e,docs){
+   
+        res.render('purchasecontract_boot', {
+            "purchaselist" : docs,
+            "uid":req.session.loginUser
+        });
+
+        //console.log(docs[0].ctrctId);
+    });
+});
+
 /**************************************************************/
 /**************************************************************/
 router.get('/addpurchase', function(req, res) {
@@ -677,7 +704,6 @@ router.post('/addpurchase', upload.single('attachpur'), function(req, res) {
     var file = req.file;
     // Get our form values. These rely on the "name" attributes
     var purchsId = decodeURIComponent(req.body.purchsId);
-    var purchsOwner = owner;
     var purchsName = req.body.purchsName;
     var purchsValue = req.body.purchsValue;
     var purchsTime = req.body.purchsTime;
@@ -685,6 +711,14 @@ router.post('/addpurchase', upload.single('attachpur'), function(req, res) {
     var originalname;
     var filename;
     var path;
+    var purchsOwner;
+    if(owner == "0"){
+        purchsOwner = req.body.purchsOwner;
+    }
+    else{
+        purchsOwner = owner;
+    }
+
     if(file==null){
         originalname=null;
         filename= null;
@@ -727,6 +761,12 @@ router.post('/addpurchase', upload.single('attachpur'), function(req, res) {
             // And forward to success page
         }
     });
+
+    // id=0表明这个增加的采购不和任何一个销售合同挂钩
+    if(id == 0){
+        res.redirect("purchasecontract_boot");
+        return;
+    }
 
     // 查询当前销售，把当前销售的对应内容，增加到采购合同的里面去
     var sales = db.get('salescontract');
@@ -796,6 +836,7 @@ router.post('/addpurchase', upload.single('attachpur'), function(req, res) {
             res.redirect("contractdetail?id="+encodeURIComponent(id));
         }
     });
+
 
 });
 
@@ -1720,6 +1761,11 @@ router.post('/deletepurchase', function(req, res) {
         }
     });
 
+    if(ctrctId == 0){
+        res.redirect("purchasecontract_boot");
+        return;
+    }
+
     var sales = db.get('salescontract');
     sales.update({"ctrctId" : ctrctId}, 
         {$pull:{"purchase":
@@ -1729,7 +1775,7 @@ router.post('/deletepurchase', function(req, res) {
         if (error) {
           console.log('deletepurchase update salse Error:'+ error);
         }else{
-          res.redirect("contractdetail?id="+encodeURIComponent(ctrctId));
+            res.redirect("purchasecontract_boot");
         }
     });
 
@@ -2173,6 +2219,9 @@ router.post('/deletegather', function(req, res) {
 
     });
 });
+
+
+
 //that of all
 
 module.exports = router;
