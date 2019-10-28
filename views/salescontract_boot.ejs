@@ -39,6 +39,7 @@
 					<th>客户名称</th>
 					<th>合同金额</th>
 					<th>累计比例</th>
+					<th>开票比例</th>
 					<th>合同状态</th>
 					<th>合同内容简介</th>			
 				</tr>
@@ -59,6 +60,11 @@
 						var ratio2 = ratio.toFixed(2);
 					%>
 					<td><%=ratio2%>%</td>
+					<%
+						var ratiob = (saleslist[i].billtotalvalue)/saleslist[i].ctrctValue * 100;
+						var ratiob2 = ratiob.toFixed(2);
+					%>
+					<td><%=ratiob2%>%</td>
 					<td><%=saleslist[i].ctrctStatus%></td>
 					<td><%=saleslist[i].ctrctBrief%></td>
 				</tr>
@@ -109,6 +115,7 @@
 					<th>客户名称</th>
 					<th>合同金额</th>
 					<th>累计比例</th>
+					<th>开票比例</th>
 					<th>合同状态</th>
 					<th>合同内容简介</th>			
 				</tr>
@@ -128,6 +135,11 @@
 						var ratio2 = ratio.toFixed(2);
 					%>
 					<td><%=ratio2%>%</td>
+					<%
+						var ratiob = (saleslist[i].billtotalvalue)/saleslist[i].ctrctValue * 100;
+						var ratiob2 = ratiob.toFixed(2);
+					%>
+					<td><%=ratiob2%>%</td>
 					<td><%=saleslist[i].ctrctStatus%></td>
 					<td><%=saleslist[i].ctrctBrief%></td>
 				</tr>
@@ -183,6 +195,7 @@
 					<th>客户名称</th>
 					<th>合同金额</th>
 					<th>累计比例</th>
+					<th>开票比例</th>
 					<th>合同状态</th>
 					<th>合同内容简介</th>			
 				</tr>
@@ -202,6 +215,11 @@
 						var ratio2 = ratio.toFixed(2);
 					%>
 					<td><%=ratio2%>%</td>
+					<%
+						var ratiob = (saleslist[i].billtotalvalue)/saleslist[i].ctrctValue * 100;
+						var ratiob2 = ratiob.toFixed(2);
+					%>
+					<td><%=ratiob2%>%</td>
 					<td><%=saleslist[i].ctrctStatus%></td>
 					<td><%=saleslist[i].ctrctBrief%></td>
 				</tr>
@@ -255,6 +273,7 @@
 					<th>客户名称</th>
 					<th>合同金额</th>
 					<th>累计比例</th>
+					<th>开票比例</th>
 					<th>合同状态</th>
 					<th>合同内容简介</th>			
 				</tr>
@@ -278,6 +297,11 @@
 						var ratio2 = ratio.toFixed(2);
 					%>
 					<td><%=ratio2%>%</td>
+					<%
+						var ratiob = (saleslist[i].billtotalvalue)/saleslist[i].ctrctValue * 100;
+						var ratiob2 = ratiob.toFixed(2);
+					%>
+					<td><%=ratiob2%>%</td>
 					<td><%=saleslist[i].ctrctStatus%></td>
 					<td><%=saleslist[i].ctrctBrief%></td>
 				</tr>
