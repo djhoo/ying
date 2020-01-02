@@ -388,6 +388,7 @@ router.post('/addbill', function(req, res) {
     var billsheet = req.body.billsheet;
     var billtime = req.body.billtime;
     var billtotalvalue = 0;
+    var billtotalvaluetemp = 0;
 
     // Set our collection
     var sales = db.get('salescontract');
@@ -396,6 +397,10 @@ router.post('/addbill', function(req, res) {
     sales.find({'ctrctId':id},{},function(e,docs){
         if(docs[0].billtotalvalue != null){
             billtotalvalue = parseFloat(docs[0].billtotalvalue);
+        }
+
+        for(var i in docs[0].bill){
+            billtotalvaluetemp = billtotalvaluetemp + parseFloat(docs[0].gather[i].billvalue);
         }
 
         // update to the DB
@@ -418,7 +423,7 @@ router.post('/addbill', function(req, res) {
             }
         });
 
-        billtotalvalue = billtotalvalue + parseFloat(billvalue);
+        billtotalvalue = billtotalvaluetemp + parseFloat(billvalue);
 
         //update   billtotalvalue  to db
         sales.update({"ctrctId" : id}, 
