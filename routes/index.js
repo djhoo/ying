@@ -400,7 +400,7 @@ router.post('/addbill', function(req, res) {
         }
 
         for(var i in docs[0].bill){
-            billtotalvaluetemp = billtotalvaluetemp + parseFloat(docs[0].gather[i].billvalue);
+            billtotalvaluetemp = billtotalvaluetemp + parseFloat(docs[0].bill[i].billvalue);
         }
 
         // update to the DB
@@ -1835,7 +1835,8 @@ router.post('/updatebill', function(req, res) {
                 res.render('helloworld');
                 return;
         };
- 
+
+
         billtotalvalue = parseFloat(docs[0].billtotalvalue);
         billvaluebef = docs[0].bill[flag].billvalue;
         billnobef = docs[0].bill[flag].billno;
