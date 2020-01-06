@@ -16,6 +16,7 @@
 		<input type="checkbox" class= "year" id="chk2017" value="2017" >2017
 		<input type="checkbox" class= "year" id="chk2018" checked=true>2018
 		<input type="checkbox" class= "year" id="chk2019" checked=true>2019
+		<input type="checkbox" class= "year" id="chk2020" checked=true>2020
 		<input type="button" onclick="location='/search?flag=2'" value="查询">
 		<input type="button" onclick="location='/salescontract_boot'" value="销售合同状态">
 	</div>
@@ -74,6 +75,7 @@
 				var  totalValue2017=0;
 				var  totalValue2018=0;
 				var  totalValue2019=0;
+				var  totalValue2020=0;
 				for(var i in purchaselist){
 					if( (purchaselist[i].purchsOwner).search("上海怡宣") != -1){
 						if((purchaselist[i].purchsTime).search("2017") != -1){
@@ -85,9 +87,12 @@
 						if((purchaselist[i].purchsTime).search("2019") != -1){
 							totalValue2019 = parseFloat(purchaselist[i].purchsValue) + totalValue2019;
 						}
+						if((purchaselist[i].purchsTime).search("2020") != -1){
+							totalValue2020 = parseFloat(purchaselist[i].purchsValue) + totalValue2020;
+						}
 					}
 				}
-				totalValue = totalValue2017 + totalValue2018+ totalValue2019;
+				totalValue = totalValue2017 + totalValue2018+ totalValue2019+ totalValue2020;
 				totalValue = totalValue.toFixed(2);
 				%>
 				<tr class = value2017>
@@ -98,6 +103,9 @@
 				</tr>
 				<tr class = value2019>
 					<td></td><td>2019累计金额：</td><td class="purchsValue"><%=totalValue2019%></td>
+				</tr>
+				<tr class = value2020>
+					<td></td><td>2020累计金额：</td><td class="purchsValue"><%=totalValue2020%></td>
 				</tr>
 				<tr class = valueall>
 					<td></td><td>累计金额：</td><td class="purchsValue"><%=totalValue%></td>
@@ -150,6 +158,7 @@
 				var  totalValue2017=0;
 				var  totalValue2018=0;
 				var  totalValue2019=0;
+				var  totalValue2020=0;
 				for(var i in purchaselist){
 					if( (purchaselist[i].purchsOwner).search("安徽怡宣") != -1){
 						if((purchaselist[i].purchsTime).search("2017") != -1){
@@ -161,11 +170,14 @@
 						if((purchaselist[i].purchsTime).search("2019") != -1){
 							totalValue2019 = parseFloat(purchaselist[i].purchsValue) + totalValue2019;
 						}
+						if((purchaselist[i].purchsTime).search("2020") != -1){
+							totalValue2020 = parseFloat(purchaselist[i].purchsValue) + totalValue2020;
+						}
 					}
 				}
 				//var totalValue20171 = totalValue2017.toFixed(2);
 				//totalValue2018 = totalValue2018.toFixed(2);
-				totalValue = totalValue2017 + totalValue2018 + totalValue2019;
+				totalValue = totalValue2017 + totalValue2018 + totalValue2019+ totalValue2020;
 				totalValue = totalValue.toFixed(2);
 				%>
 				<tr class = value2017>
@@ -176,6 +188,9 @@
 				</tr>
 				<tr class = value2019>
 					<td></td><td>2019累计金额：</td><td class="purchsValue"><%=totalValue2019%></td>
+				</tr>
+				<tr class = value2020>
+					<td></td><td>2020累计金额：</td><td class="purchsValue"><%=totalValue2020%></td>
 				</tr>
 				<tr class = valueall>
 					<td></td><td>累计金额：</td><td class="purchsValue"><%=totalValue%></td>
@@ -242,11 +257,14 @@
 						if((purchaselist[i].purchsTime).search("2019") != -1){
 							totalValue2019 = parseFloat(purchaselist[i].purchsValue) + totalValue2019;
 						}
+						if((purchaselist[i].purchsTime).search("2020") != -1){
+							totalValue2020 = parseFloat(purchaselist[i].purchsValue) + totalValue2020;
+						}
 					}
 				}
 				//var totalValue20171 = totalValue2017.toFixed(2);
 				//totalValue2018 = totalValue2018.toFixed(2);
-				totalValue = totalValue2017 + totalValue2018 + totalValue2019;
+				totalValue = totalValue2017 + totalValue2018 + totalValue2019+ totalValue2020;
 				totalValue = totalValue.toFixed(2);
 				%>	
 				<tr class = value2017>
@@ -257,6 +275,9 @@
 				</tr>
 				<tr class = value2019>
 					<td></td><td>2019累计金额：</td><td class="purchsValue"><%=totalValue2019%></td>
+				</tr>
+				<tr class = value2020>
+					<td></td><td>2020累计金额：</td><td class="purchsValue"><%=totalValue2020%></td>
 				</tr>
 				<tr class = valueall>
 					<td></td><td>累计金额：</td><td class="purchsValue"><%=totalValue%></td>
@@ -366,6 +387,7 @@
 		var isChecked2017 = $('#chk2017').prop('checked'); 
 		var isChecked2018 = $('#chk2018').prop('checked'); 
 		var isChecked2019 = $('#chk2019').prop('checked'); 
+		var isChecked2020 = $('#chk2020').prop('checked');
 		if(isChecked2017){
 			$("tr[id^=2017]").show();
 		}
@@ -384,17 +406,25 @@
 		else{
 			$("tr[id^=2019]").hide();
 		}
+		if(isChecked2020){
+			$("tr[id^=2020]").show();
+		}
+		else{
+			$("tr[id^=2020]").hide();
+		}
 	}
 	function checkSelectValue(){
 		var isChecked2017 = $('#chk2017').prop('checked'); 
 		var isChecked2018 = $('#chk2018').prop('checked'); 
-		var isChecked2019 = $('#chk2019').prop('checked'); 
+		var isChecked2019 = $('#chk2019').prop('checked');
+		var isChecked2020 = $('#chk2020').prop('checked'); 
 		
-		if((isChecked2017) && (isChecked2018) && (isChecked2019)){
+		if((isChecked2017) && (isChecked2018) && (isChecked2019)&& (isChecked2020)){
 			$(".valueall").show();
 			$(".value2017").hide();
 			$(".value2018").hide();
 			$(".value2019").hide();
+			$(".value2020").hide();
 		}
 		else{
 			$(".valueall").hide();
@@ -415,6 +445,12 @@
 			}
 			else{
 				$(".value2019").hide();
+			}
+			if(isChecked2020){
+				$(".value2020").show();
+			}
+			else{
+				$(".value2020").hide();
 			}
 
 		}
