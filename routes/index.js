@@ -456,6 +456,7 @@ router.post('/addgather', function(req, res) {
     var gathervalue = req.body.gathervalue;
     var gathertime = req.body.gathertime;
     var gathertotalvalue = 0;
+    var gathertotalvaluetemp = 0;
 
     // Set our collection
     var sales = db.get('salescontract');
@@ -465,7 +466,9 @@ router.post('/addgather', function(req, res) {
         if(docs[0].gathertotalvalue != null){
             gathertotalvalue = parseFloat(docs[0].gathertotalvalue);
         }
-       
+       for(var i in docs[0].gather){
+            gathertotalvaluetemp = gathertotalvaluetemp + parseFloat(docs[0].gather[i].gathervalue);
+        }  
         // update to the DB
         sales.update({"ctrctId" : id}, 
             {$push:{"gather":{
@@ -483,7 +486,7 @@ router.post('/addgather', function(req, res) {
             }
         });
 
-        gathertotalvalue = parseFloat(gathervalue) + gathertotalvalue;
+        gathertotalvalue = parseFloat(gathervalue) + gathertotalvaluetemp;
 
         //update   billtotalvalue   tp db
         sales.update({"ctrctId" : id}, 
@@ -889,6 +892,7 @@ router.post('/addpurchasebill', function(req, res) {
     var billno = req.body.billno;
     var billtime = req.body.billtime;
     var billtotalvalue = 0;
+    var billtotalvaluetemp = 0;
 
 
     // Set our collection
@@ -898,6 +902,9 @@ router.post('/addpurchasebill', function(req, res) {
     purchase.find({'purchsId':id},{},function(e,docs){
         if(docs[0].billtotalvalue != null){
             billtotalvalue = parseFloat(docs[0].billtotalvalue);
+        }
+        for(var i in docs[0].bill){
+            billtotalvaluetemp = billtotalvaluetemp + parseFloat(docs[0].bill[i].billvalue);
         }
 
         // update to the DB
@@ -918,7 +925,7 @@ router.post('/addpurchasebill', function(req, res) {
             }
         });
 
-        billtotalvalue = billtotalvalue + parseFloat(billvalue);
+        billtotalvalue = billtotalvaluetemp + parseFloat(billvalue);
 
         //update   billtotalvalue   to db
         purchase.update({"purchsId" : id}, 
@@ -951,15 +958,19 @@ router.post('/addpay', function(req, res) {
     var payvalue = req.body.payvalue;
     var paytime = req.body.paytime;
     var paytotalvalue = 0;
+    var paytotalvaluetemp = 0;
 
     // Set our collection
     var purchase = db.get('purchasecontract');
 
-    //get billtotalvalue 
+    //get paytotalvaluetemp 
     purchase.find({"purchsId" : id},{},function(e,docs){
         if(docs[0].paytotalvalue != null){
             paytotalvalue = parseFloat(docs[0].paytotalvalue);
         }
+        for(var i in docs[0].pay){
+            paytotalvaluetemp = paytotalvaluetemp + parseFloat(docs[0].pay[i].payvalue);
+        } 
         
         // update to the DB
         purchase.update({"purchsId" : id}, 
@@ -978,7 +989,7 @@ router.post('/addpay', function(req, res) {
             }
         });
 
-        paytotalvalue = parseFloat(payvalue) + paytotalvalue;
+        paytotalvalue = parseFloat(payvalue) + paytotalvaluetemp;
 
 
         //update   billtotalvalue to db
@@ -1837,7 +1848,11 @@ router.post('/updatebill', function(req, res) {
         };
 
 
-        billtotalvalue = parseFloat(docs[0].billtotalvalue);
+       // billtotalvalue = parseFloat(docs[0].billtotalvalue);
+        for(var i in docs[0].bill){
+            billtotalvalue = billtotalvalue + parseFloat(docs[0].bill[i].billvalue);
+        }
+
         billvaluebef = docs[0].bill[flag].billvalue;
         billnobef = docs[0].bill[flag].billno;
         billownerbef = docs[0].bill[flag].billowner;
@@ -1903,7 +1918,10 @@ router.post('/deletebill', function(req, res) {
                 return;
         };
  
-        billtotalvalue = parseFloat(docs[0].billtotalvalue);
+        //billtotalvalue = parseFloat(docs[0].billtotalvalue);
+        for(var i in docs[0].bill){
+            billtotalvalue = billtotalvalue + parseFloat(docs[0].bill[i].billvalue);
+        }
         billvaluebef = docs[0].bill[flag].billvalue;
         billnobef = docs[0].bill[flag].billno;
     
