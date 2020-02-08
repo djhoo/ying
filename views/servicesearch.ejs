@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>查询</title>
+<link rel=’stylesheet’ href=’../stylesheets/style.css’ />
+<script language="javascript" type="text/javascript" src="../javascripts/My97DatePicker/WdatePicker.js"></script>
+</head>
+<body>
+<div id="search" style=margin:20px>
+<h1>客户记录查询</h1>
+	<form name="search" method="post" action="/service/servicesearch">
+	<table bgcolor="#EAEAEA">
+	<tr>
+	<td>	
+		<table>
+			<tr>
+				<td>基于客户名称的查询</td>
+				<td id="cstmName">
+					<select name="cstmName">
+						<option value=""></option>
+					<%
+						for(var i in customer){
+					%>
+						<option value="<%=customer[i].cstmName%>"><%=customer[i].cstmName%></option>
+					<%
+						}
+					%>
+				</td>
+			</tr>
+			<tr>
+				<td>基于账号的查询</td>
+				<td id="servUid">
+					<select name="servUid">
+						<option value=""></option>
+					<%
+						for(var i in customer){
+					%>
+						<option value="<%=customer[i].cstmName%>"><%=customer[i].cstmName%></option>
+					<%
+						}
+					%>
+				</td>
+			</tr>
+			<tr>
+				<td>基于服务类型的查询</td>
+				<td><select name="servType">
+					<option value=""></option>
+					<option value="电脑硬件">电脑硬件</option>
+					<option value="电脑软件">电脑软件</option>
+					<option value="打印机">打印机</option>
+					<option value="网络连接">网络连接</option>
+					<option value="网络设备">网络设备</option>
+					<option value="无线">无线</option>
+					<option value="服务器硬件">服务器硬件</option>
+					<option value="服务器软件">服务器软件</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td>基于服务方式的查询</td>
+				<td><select name="servWay">
+					<option value=""></option>
+					<option value="现场">现场</option>
+					<option value="远程">远程</option>
+				</select></td>
+			</tr>
+		</table>
+	</td>
+    </tr>
+    <tr><td>
+		<table id = "t1">
+			<tr id >
+				<td>基于时间段查询</td>
+				<td>开始：</td><td><input type="text" name="starttime" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" size="30"></td>
+				<td>结束：</td><td><input type="text" name="endtime" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" size="30"></td>
+			</tr>
+		</table>
+	</td></tr>
+ 
+    <tr>
+	<td>
+		<input type="submit" value="查询">
+	</td>
+    </tr>
+	</form>
+</div>	
+</body>
+<script language=JavaScript>
+/*	var obj=document.getElementById('mySelect');
+	var index=obj.selectedIndex;
+		document.getElementById('inputid').required=false;
+		document.getElementById( "inputtype").style.display= "none"; 
+		document.getElementById( "customername").style.display= "inline"; 
+		document.getElementById( "customerstatus").style.display= "none"; 
+
+		document.getElementById('mySelect').onchange=function(){
+		var index=obj.selectedIndex;
+		if((index == 0)){
+				document.getElementById('t1').style.display = "";
+				document.getElementById( "inputtype").style.display= "none"; 
+				document.getElementById( "customername").style.display= "inline"; 
+				document.getElementById( "customerstatus").style.display= "none"; 
+				document.getElementById('inputid').required=false;
+		}
+		else if(index == 2){
+			document.getElementById('t1').style.display = "none"; 
+			document.getElementById('inputid').required=false;
+			document.getElementById( "inputtype").style.display= "none"; 
+			document.getElementById( "customername").style.display= "none"; 
+			document.getElementById( "customerstatus").style.display= "inline"; 
+		}
+		else{
+			document.getElementById('t1').style.display = "none"; 
+			document.getElementById( "inputtype").style.display= "inline"; 
+			document.getElementById( "customername").style.display= "none"; 
+			document.getElementById( "customerstatus").style.display= "none"; 
+			document.getElementById('inputid').required=true;
+		}		
+	}
+*/	
+//document.getElementById( "控件ID ").style.display= "none "; 
+//document.getElementById( "控件ID ").style.display= "inline "; 
+</script>
+
+
+</html>
+

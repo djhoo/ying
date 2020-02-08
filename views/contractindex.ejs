@@ -9,10 +9,21 @@
 　　<div style="width:400px;margin:auto;margin-top:50px;">
 　　　　<h1>选择系统</h1>
 　　　　<div class="row">
-		<table><tr>
-		<td><input type="button" style="height:50px;width:200px" onclick="location='/salescontract_boot'" value="销售合同状态"></td>
-		<td><input type="button" style="height:50px;width:200px" onclick="location='/purchasecontract_boot'" value="采购合同状态"></td>
-		</tr></table>
+		<table>
+		<%
+		if(uid == "admin" || uid == "david"){
+		%>
+			<tr>
+				<td><input type="button" style="height:50px;width:200px" onclick="location='/salescontract_boot'" value="销售合同状态"></td>
+				<td><input type="button" style="height:50px;width:200px" onclick="location='/purchasecontract_boot'" value="采购合同状态"></td>	
+			</tr>
+		<%
+		}
+		%>	
+		<tr>
+			<td><input type="button" style="height:50px;width:200px" onclick="location='/service/service_boot'" value="客户服务记录"></td>
+		</tr>
+		</table>
 	</div>
 　　</div>
 </div>

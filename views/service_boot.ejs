@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>客户服务记录</title>
+	<link rel="stylesheet" href="../stylesheets/bootstrap.min.css">  
+	<link rel="stylesheet" href="../stylesheets/style.css"> 
+	<script language="javascript" type="text/javascript" src="../javascripts/jquery.min.js"></script>
+	<script language="javascript" type="text/javascript" src="../javascripts/bootstrap.min.js"></script>
+	<script language="javascript" type="text/javascript" src="../javascripts/yescom.js"></script>
+<body>
+<div class="container">
+	<h1>客户服务记录</h1>
+	<div class="row">
+		<input type="button" onclick="location='/service/addservice'" value="新增记录">
+		<input type="checkbox" class= "year" id="chk2017" value="2017" >2017
+		<input type="checkbox" class= "year" id="chk2018" checked=true>2018
+		<input type="checkbox" class= "year" id="chk2019" checked=true>2019
+		<input type="checkbox" class= "year" id="chk2020" checked=true>2020
+		<input type="button" onclick="location='/service/servicesearch'" value="查询">
+	</div>
+
+	<div class="row" id ="shyeshare">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>服务编号</th>
+					<th>客户名称</th>
+					<th>服务时间</th>
+					<th>服务时长</th>
+					<th>服务状态</th>
+					<th>服务类型</th>
+					<th>服务概要</th>			
+				</tr>
+			</thead>
+			<tbody>
+				<%
+				for(var i in servicelist){						
+				%>
+				<tr class="active" id = <%=servicelist[i].servStartTime%>>
+					<td><a href="/service/servicedetail?id=<%=encodeURIComponent(servicelist[i].servId)%>"><%=servicelist[i].servId%></a></td>
+					<td><%=servicelist[i].cstmName%></a></td>
+					<td><%=servicelist[i].servStartTime%></td>
+					<%
+						var endDate = new Date(servicelist[i].servEndTime);
+						var startDate = new Date(servicelist[i].servStartTime);
+						var duration = endDate.getTime() - startDate.getTime();
+						var time = parseInt(duration / (1000 * 60 * 60 * 24));
+					%>
+					<td><%=time%></td>
+					<td><%=servicelist[i].servStatus%></td>
+					<td><%=servicelist[i].servType%></td>
+					<td><%=servicelist[i].servBrief%></td>
+				</tr>
+				<% }%>
+			</tbody>
+		</table>
+	</div>
+</div>
+</body>
+<script language=JavaScript>
+	$(document).ready(function(){
+
+		var id;
+
+		checkSelect();
+		$(".year").change(function() { 
+			checkSelect();
+		});
+
+	});
+	
+	function checkSelect(){
+		var isChecked2017 = $('#chk2017').prop('checked'); 
+		var isChecked2018 = $('#chk2018').prop('checked'); 
+		var isChecked2019 = $('#chk2019').prop('checked'); 
+		var isChecked2020 = $('#chk2020').prop('checked');
+		if(isChecked2017){
+			$("tr[id^=2017]").show();
+		}
+		else{
+			$("tr[id^=2017]").hide();
+		}
+	  	if(isChecked2018){
+			$("tr[id^=2018]").show();
+		}
+		else{
+			$("tr[id^=2018]").hide();
+		}
+		if(isChecked2019){
+			$("tr[id^=2019]").show();
+		}
+		else{
+			$("tr[id^=2019]").hide();
+		}
+		if(isChecked2020){
+			$("tr[id^=2020]").show();
+		}
+		else{
+			$("tr[id^=2020]").hide();
+		}
+	}
+</script>
+</html>

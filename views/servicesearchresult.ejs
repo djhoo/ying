@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>客户服务记录搜索结果</title>
+	<link rel="stylesheet" href="../stylesheets/bootstrap.min.css">  
+	<link rel="stylesheet" href="../stylesheets/style.css"> 
+	<script language="javascript" type="text/javascript" src="../javascripts/jquery.min.js"></script>
+	<script language="javascript" type="text/javascript" src="../javascripts/bootstrap.min.js"></script>
+	<script language="javascript" type="text/javascript" src="../javascripts/yescom.js"></script>
+<body>
+<div class="container">
+	<h1>客户服务记录搜索结果</h1>
+	<div class="row">
+		<input type="button" onclick="location='/service/addservice'" value="新增记录">
+		<input type="button" onclick="location='/service/service_boot'" value="返回客户记录">
+		<input type="button" onclick="location='/service/servicesearch'" value="查询">
+	</div>
+	<div class="row" id ="shyeshare">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>服务编号</th>
+					<th>客户名称</th>
+					<th>服务时间</th>
+					<th>服务时长</th>
+					<th>服务状态</th>
+					<th>服务类型</th>
+					<th>服务概要</th>			
+				</tr>
+			</thead>
+			<tbody>
+				<%
+				for(var i in servicelist){						
+				%>
+				<tr class="active" id = <%=servicelist[i].servStartTime%>>
+					<td><a href="/service/servicedetail?id=<%=encodeURIComponent(servicelist[i].servId)%>"><%=servicelist[i].servId%></a></td>
+					<td><%=servicelist[i].cstmName%></a></td>
+					<td><%=servicelist[i].servStartTime%></td>
+					<%
+						var endDate = new Date(servicelist[i].servEndTime);
+						var startDate = new Date(servicelist[i].servStartTime);
+						var duration = endDate.getTime() - startDate.getTime();
+						var time = parseInt(duration / (1000 * 60 * 60 * 24));
+					%>
+					<td><%=time%></td>
+					<td><%=servicelist[i].servStatus%></td>
+					<td><%=servicelist[i].servType%></td>
+					<td><%=servicelist[i].servBrief%></td>
+				</tr>
+				<% }%>
+			</tbody>
+		</table>
+	</div>
+</div>
+</body>
+<script language=JavaScript>
+	
+</script>
+</html>

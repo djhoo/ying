@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>变更客户服务记录</title>
+<link rel=’stylesheet’ href=’../stylesheets/style.css’ />
+<script language="javascript" type="text/javascript" src="../javascripts/My97DatePicker/WdatePicker.js"></script>
+<script language="javascript" type="text/javascript" src="http://code.jquery.com/jquery-1.4.1.min.js"></script>
+<script language="javascript" type="text/javascript" src="../javascripts/selectsearch.js"></script>
+
+</head>
+<body>
+<div id="updateservice" style=margin:20px>
+	<h1>变更客户服务记录</h1>
+	<form name="updateservice" method="post" action="/service/updateservice?id=<%=encodeURIComponent(servicelist[0].servId)%>">
+		<table bgcolor="#EAEAEA">
+	     	<tr><td>服务编号</td><td bgcolor="#BFEFFF"><%=servicelist[0].servId%></td></tr>
+			<tr><td>客户名称</td><td bgcolor="#BFEFFF"><%=servicelist[0].cstmName%></td></tr>
+			<tr><td>终端名称</td><td bgcolor="#BFEFFF"><%=servicelist[0].endName%></td></tr>
+			<tr><td>服务类型</td>
+				<td><select name="servType" id ="select1" >
+				<option value="电脑硬件">电脑硬件</option>
+				<option value="电脑软件">电脑软件</option>
+				<option value="打印机">打印机</option>
+				<option value="网络连接">网络连接</option>
+				<option value="网络设备">网络设备</option>
+				<option value="无线">无线</option>
+				<option value="服务器硬件">服务器硬件</option>
+				<option value="服务器软件">服务器软件</option>
+			</select></td></tr>
+			<tr><td>服务方式</td>
+				<td><select name="servWay" id ="select2" >
+				<option value="现场">现场</option>
+				<option value="远程">远程</option>
+			</select></td></tr>
+			<tr><td>服务等级</td>
+				<td><select name="servGrade" id ="select3">
+				<option value="Level 1">Level 1</option>
+				<option value="Level 2">Level 2</option>
+				<option value="Level 3">Level 3</option>
+			</select></td></tr>
+			<tr><td>开始时间：</td><td><input id="" name="servStartTime" required="required" value ='<%=servicelist[0].servStartTime%>' class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" /></td></tr>
+			<tr><td>结束时间：</td><td><input id="" name="servEndTime" required="required" value ='<%=servicelist[0].servEndTime%>' class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" /></td></tr>
+			<tr><td>服务状态</td>
+				<td><select name="servStatus" id ="select4">
+				<option value="0%">0%</option>
+				<option value="20%">20%</option>
+				<option value="40%">40%</option>
+				<option value="60%">60%</option>
+				<option value="80%">80%</option>
+				<option value="100%">100%</option>
+			</select></td></tr>
+			<tr><td>服务概述：</td><td><input type="text"  value ='<%=servicelist[0].servBrief%>' name="servBrief" size="40"></td></tr>
+			<tr><td>服务细节：</td><td><textarea name="servDetail" id="detail" cols="45" rows="6" style="OVERFLOW: visible" ></textarea></td></tr>
+			<tr><td></td><td><input type="submit" value="确定"></td>
+				<td><input type="button" onclick="location='/search?flag=1'" value="查询"></td>
+			</tr>
+		</table >
+	</form>
+</div>	
+</body>
+<script language=JavaScript>
+$(document).ready(function(){
+	$("#select1").val('<%= servicelist[0].servType %>');
+	$("#select2").val("<%=servicelist[0].servWay%>");
+	$("#select3").val("<%=servicelist[0].servGrade%>");
+	$("#select4").val("<%=servicelist[0].servStatus%>");
+
+	//detail
+	var aa = '<%=servicelist[0].servDetail%>';
+	var reg=new RegExp("&lt;br&gt;","g");
+	aa= aa.replace(reg,"\r\n");
+	$("#detail").val(aa);
+
+});
+</script>
+</html>

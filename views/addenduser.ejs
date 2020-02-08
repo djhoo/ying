@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>新增终端用户</title>
+<link rel=’stylesheet’ href=’../stylesheets/style.css’ />
+</head>
+<body>
+<div id="addenduser">
+	<h1>新增客户与供应商</h1>
+	<form name="addenduser" method="post" action="/service/addenduser">
+          <table bgcolor="#EAEAEA">
+         
+          <tr>
+          	<td>姓名：</td><td><input type="text" required="required" name="owner"></td>
+               <td>手机：</td><td><input type="text" required="required" name="cellno"></td>
+     	</tr>
+		<tr>
+			<td>固话：</td><td><input type="text" name="telno"></td>
+			<td>邮箱：</td><td><input type="text" name="mail"></td>
+		</tr>	
+          <tr>
+          <td>其他备注：</td><td><input type="text" name="otherinfo" size="30"></td>
+		</tr>
+          <tr><td></td><td><input type="submit" value="确定"></td>
+          </tr>
+     </table>
+	</form>
+</div>	
+</body>
+</html>
