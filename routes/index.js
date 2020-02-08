@@ -25,6 +25,18 @@ router.post('/', function(req,res,next){
         username:'david',  
         password:'7003a13fbf3c3c98687daef1add996e6'
     }
+    var user4 ={
+        username:'zhangff',  
+        password:'52e3342d0f174a62945d1e1871a4bf68'
+    }
+    var user5 ={
+        username:'louislu',  
+        password:'f2a580940457c146a23828de67236a15'
+    }
+    var user6 ={
+        username:'porbhan',  
+        password:'14663b80f2cd9bfb920dbff71f86b331'
+    }
     let md5 = crypto.createHash("md5");
     let newPass = md5.update(req.body.password).digest("hex");
 
@@ -50,13 +62,18 @@ router.post('/', function(req,res,next){
             res.redirect('contractindex');                            
         });     
     }
-    else if(req.body.username==user3.username && newPass==user3.password){  
+    else if((req.body.username==user3.username && newPass==user3.password)||
+        (req.body.username==user4.username && newPass==user4.password)||
+        (req.body.username==user5.username && newPass==user5.password)||
+        (req.body.username==user6.username && newPass==user6.password)
+        )
+    {  
         req.session.regenerate(function(err) {
             if(err){
                 return res.json({ret_code: 2, ret_msg: '登录失败'});                
             }
             
-            req.session.loginUser = user3.username;
+            req.session.loginUser = req.body.username;
             //res.json({ret_code: 0, ret_msg: '登录成功'});
             res.redirect('contractindex');                            
         });     
@@ -67,7 +84,7 @@ router.post('/', function(req,res,next){
 })  
 
 router.get('/contractindex', function(req, res, next) {
-    res.render('contractindex', { title: '系统选择' });
+    res.render('contractindex', { title: '系统选择' , "uid":req.session.loginUser});
   });
 
 /*
@@ -129,9 +146,8 @@ router.post('/adduser', function(req, res) {
 
 /********************************************/
 router.get('/salescontract', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     //console.log(req.session.loginUser);
     var db = req.db;
     var sales = db.get('salescontract');
@@ -148,9 +164,7 @@ router.get('/salescontract', function(req, res) {
 
 /********************************************/
 router.get('/salescontract_boot', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
     //console.log(req.session.loginUser);
     var db = req.db;
     var sales = db.get('salescontract');
@@ -170,9 +184,7 @@ router.get('/salescontract_boot', function(req, res) {
 });
 
 router.get('/addcontract', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
     var db = req.db;
     var customer = db.get('customerlist');
     customer.find({},{},function(e,docs){
@@ -184,9 +196,8 @@ router.get('/addcontract', function(req, res) {
 });
 
 router.post('/addcontract', upload.single('attach1'), function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     var db = req.db;
     var file = req.file;
     // Get our form values. These rely on the "name" attributes
@@ -245,13 +256,14 @@ router.post('/addcontract', upload.single('attach1'), function(req, res) {
 });
 
 router.get('/addcustomer', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+    
     res.render('addcustomer', { title: '新增客户与供应商' });
 });
 
 router.post('/addcustomer', upload.single('cstmAttach'), function(req, res) {
+    indexright(req,res);
+    
     var db = req.db;
     // Get our form values. These rely on the "name" attributes
     //var cstmId = req.body.cstmId;
@@ -347,13 +359,12 @@ router.post('/addcustomer', upload.single('cstmAttach'), function(req, res) {
 });
 
 router.get('/contractdetail', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     var db = req.db;
     var sales = db.get('salescontract');
     var id = decodeURIComponent(req.query.id);
-    
+
     console.log(id);
     sales.find({'ctrctId':id},{},function(e,docs){
         if(docs.length == 0){
@@ -371,14 +382,15 @@ router.get('/contractdetail', function(req, res) {
 });
 
 router.get('/addbill', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     res.render('addbill', { title: '新增发票',id:encodeURIComponent(req.query.id)});
 });
 
 
 router.post('/addbill', function(req, res) {
+    indexright(req,res);
+
     var db = req.db;
     var id = decodeURIComponent(req.query.id);
     // Get our form values. These rely on the "name" attributes
@@ -443,13 +455,14 @@ router.post('/addbill', function(req, res) {
 });
 
 router.get('/addgather', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     res.render('addgather', { title: '新增收款',id:encodeURIComponent(req.query.id)});
 });
 
 router.post('/addgather', function(req, res) {
+    indexright(req,res);
+
     var db = req.db;
     var id = decodeURIComponent(req.query.id);
     // Get our form values. These rely on the "name" attributes
@@ -508,9 +521,8 @@ router.post('/addgather', function(req, res) {
 });
 
 router.get('/addmaterial', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     res.render('addmaterial', { title: '新增实物交付',id:encodeURIComponent(req.query.id)});
 });
 
@@ -664,9 +676,8 @@ function changeValue(value,type)
 /**************************************************************/
 /********************************************/
 router.get('/purchasecontract_boot', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     //console.log(req.session.loginUser);
     var db = req.db;
     var purchase = db.get('purchasecontract');
@@ -688,9 +699,8 @@ router.get('/purchasecontract_boot', function(req, res) {
 /**************************************************************/
 /**************************************************************/
 router.get('/addpurchase', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     var db = req.db;
     //var owner = req.query.owner;
     var customer = db.get('customerlist');
@@ -706,6 +716,8 @@ router.get('/addpurchase', function(req, res) {
 });
 
 router.post('/addpurchase', upload.single('attachpur'), function(req, res) {
+    indexright(req,res);
+
     var db = req.db;
     var id = decodeURIComponent(req.query.id);
     var owner = decodeURI(req.query.owner);
@@ -852,9 +864,8 @@ router.post('/addpurchase', upload.single('attachpur'), function(req, res) {
 /*********************************************************************/
 /*********************************************************************/
 router.get('/purchasedetail', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     var db = req.db;
     var purchase = db.get('purchasecontract');
     var id = decodeURIComponent(req.query.id);
@@ -877,14 +888,15 @@ router.get('/purchasedetail', function(req, res) {
 });
 
 router.get('/addpurchasebill', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     res.render('addpurchasebill', { title: '新增采购发票',id:encodeURIComponent(req.query.id)});
 });
 
 
 router.post('/addpurchasebill', function(req, res) {
+    indexright(req,res);
+
     var db = req.db;
     var id = decodeURIComponent(req.query.id);
     // Get our form values. These rely on the "name" attributes
@@ -945,9 +957,8 @@ router.post('/addpurchasebill', function(req, res) {
 });
 
 router.get('/addpay', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     res.render('addpay', { title: '新增付款',id:encodeURIComponent(req.query.id)});
 });
 
@@ -1012,9 +1023,8 @@ router.post('/addpay', function(req, res) {
 });
 
 router.get('/addpurchasematerial', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     res.render('addpurchasematerial', { title: '新增采购实物交付',id:encodeURIComponent(req.query.id)});
 });
 
@@ -1054,13 +1064,14 @@ router.post('/addpurchasematerial', function(req, res) {
 /******************************************************/
 //add comment
 router.get('/addcomment1', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     res.render('addcomment1', { title: '新增备注',id:encodeURIComponent(req.query.id)});
 });
 
 router.post('/addcomment1', function(req, res) {
+    indexright(req,res);
+
     var db = req.db;
     var id = decodeURIComponent(req.query.id);
     // Get our form values. These rely on the "name" attributes
@@ -1101,9 +1112,8 @@ router.post('/addcomment1', function(req, res) {
 });
 
 router.get('/addcomment2', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     res.render('addcomment2', { title: '新增备注',id:encodeURIComponent(req.query.id)});
 });
 
@@ -1152,9 +1162,8 @@ router.post('/addcomment2', function(req, res) {
 
 /*search*/
 router.get('/search', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     var db = req.db;
     var customer = db.get('customerlist');
     customer.find({},{},function(e,docs){
@@ -1170,6 +1179,8 @@ router.get('/search', function(req, res) {
 });
 
 router.post('/search', function(req, res) {
+    indexright(req,res);
+
     var db = req.db;
     var flag = req.query.flag;
     // Get our form values. These rely on the "name" attributes
@@ -1386,9 +1397,7 @@ router.post('/search', function(req, res) {
 /********************************************************************************/
 /********************************************************************************/
 router.get('/customerview', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
 
     var db = req.db;
     var customer = db.get('customerlist');
@@ -1409,13 +1418,13 @@ router.get('/customerview', function(req, res) {
 //上传附件
 /********************************************************************************/
 router.get('/addattach', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     res.render('addattach', { title: '上传附件',id:encodeURIComponent(req.query.id),flag:req.query.flag});
 });
 
 router.post('/addattach', upload.single('attach'), function(req, res) {
+    indexright(req,res);
 //router.post('/addmaterial', function(req, res) {
     var db = req.db;
     var id = decodeURIComponent(req.query.id);
@@ -1474,6 +1483,8 @@ router.post('/addattach', upload.single('attach'), function(req, res) {
 });
 
 router.get('/download', function(req, res){
+    indexright(req,res);
+
     var flag = req.query.flag;
     var name = req.query.name;
     var filename = "upload/"+name;
@@ -1522,9 +1533,8 @@ router.get('/download', function(req, res){
 //变更销售合同
 /********************************************************************************/
 router.get('/updatecontract', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     var id = decodeURIComponent(req.query.id);
     var db = req.db;
     var sales = db.get('salescontract');
@@ -1541,9 +1551,8 @@ router.get('/updatecontract', function(req, res) {
 });
 
 router.post('/updatecontract', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     var db = req.db;
     var sales = db.get('salescontract');
     var purchase = db.get('purchasecontract');
@@ -1614,9 +1623,8 @@ router.post('/updatecontract', function(req, res) {
 //删除销售合同
 /********************************************************************************/
 router.post('/deletecontract', function(req, res) {
-     if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     var ctrctId = decodeURIComponent(req.query.id);
     console.log(ctrctId);
     var db = req.db;
@@ -1651,9 +1659,8 @@ router.post('/deletecontract', function(req, res) {
 //变更采购合同
 /********************************************************************************/
 router.get('/updatepurchase', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     var id = decodeURIComponent(req.query.id);
     var db = req.db;
     var purchase = db.get('purchasecontract');
@@ -1670,9 +1677,8 @@ router.get('/updatepurchase', function(req, res) {
 });
 
 router.post('/updatepurchase', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     var db = req.db;
     var purchase = db.get('purchasecontract');
     //console.log(sales);
@@ -1760,9 +1766,8 @@ router.post('/updatepurchase', function(req, res) {
 //删除采购合同
 /********************************************************************************/
 router.post('/deletepurchase', function(req, res) {
-     if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     var purchsId = decodeURIComponent(req.query.id);
     var ctrctId = decodeURIComponent(req.query.ctrctId);
     console.log(purchsId);
@@ -1800,9 +1805,8 @@ router.post('/deletepurchase', function(req, res) {
 //变更销售合同的发票内容
 /********************************************************************************/
 router.get('/updatebill', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     var ctrctId = decodeURIComponent(req.query.id);
     var flag = req.query.flag;
     var db = req.db;
@@ -1820,9 +1824,8 @@ router.get('/updatebill', function(req, res) {
 
 
 router.post('/updatebill', function(req, res) {
-     if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     var ctrctId = decodeURIComponent(req.query.id);
     var flag = req.query.flag;
     var billvalue = req.body.billvalue;
@@ -1901,9 +1904,8 @@ router.post('/updatebill', function(req, res) {
 //删除销售合同的发票内容
 /********************************************************************************/
 router.post('/deletebill', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     var ctrctId = decodeURIComponent(req.query.id);
     var flag = req.query.flag;
     var billvaluebef = 0;
@@ -1962,9 +1964,8 @@ router.post('/deletebill', function(req, res) {
 //删除实物内容
 /********************************************************************************/
 router.post('/deletematerial', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     var ctrctId = decodeURIComponent(req.query.id);
     var flag = req.query.flag;
    
@@ -2012,17 +2013,15 @@ router.post('/deletematerial', function(req, res) {
 //增加联系人内容
 /********************************************************************************/
 router.get('/addcontact', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     var cstmName = decodeURIComponent(req.query.cstmName);
     res.render('addcontact', { title: '增加联系人',cstmName:encodeURIComponent(req.query.cstmName)});
 });
 
 router.post('/addcontact', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     var cstmName = decodeURIComponent(req.query.cstmName);
 
     var owner = req.body.owner;
@@ -2057,9 +2056,8 @@ router.post('/addcontact', function(req, res) {
 //删除联系人
 /********************************************************************************/
 router.post('/deletecontact', function(req, res) {
-     if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     var cstmName = decodeURIComponent(req.query.cstmName);
     var owner = decodeURIComponent(req.query.owner);
 
@@ -2109,9 +2107,8 @@ router.get('/updatepay', function(req, res) {
 //变更销售合同的收款内容
 /********************************************************************************/
 router.get('/updategather', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     var ctrctId = decodeURIComponent(req.query.id);
     var flag = req.query.flag;
     var db = req.db;
@@ -2128,9 +2125,8 @@ router.get('/updategather', function(req, res) {
 });
 
 router.post('/updategather', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     var ctrctId = decodeURIComponent(req.query.id);
     var flag = req.query.flag;
     
@@ -2187,9 +2183,8 @@ router.post('/updategather', function(req, res) {
 //删除销售合同的收款内容
 /********************************************************************************/
 router.post('/deletegather', function(req, res) {
-    if (!req.session.loginUser) {
-        return res.redirect("/");
-    }
+    indexright(req,res);
+
     var ctrctId = decodeURIComponent(req.query.id);
     var flag = req.query.flag;
     
@@ -2244,7 +2239,19 @@ router.post('/deletegather', function(req, res) {
     });
 });
 
-
+function indexright(req, res)
+{
+    if (!req.session.loginUser) {
+        return res.redirect("/");
+    }
+    if( (req.session.loginUser == "zhangff") ||
+        (req.session.loginUser == "louislu") ||
+        (req.session.loginUser == "porbhan")         
+        )
+    {
+        return res.redirect("/");
+    }
+}
 
 //that of all
 
