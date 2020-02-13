@@ -8,7 +8,7 @@
 <body>
 <div id="addcontact" style=margin:20px>
 	<h1>新增发票</h1>
-	<form name="addcontact" method="post" action="/addcontact?cstmName=<%= cstmName%>">
+	<form name="addcontact" method="post" action="/addcontact?cstmName=<%= cstmName%>&flag=<%=flag%>">
 		<table bgcolor="#EAEAEA">
 	     	<tr><td>联系人：</td><td><input type="text" required="required" name="owner"></td></tr>
 			<tr><td>手机：</td><td><input type="tel"  required="required" name="cellno"></td></tr>

@@ -26,16 +26,20 @@
      			<td>手机：</td><td><%=customer[0].contact[i].cellno%></td>
      			<td>固话：</td><td><%=customer[0].contact[i].telno%></td>
      			<td>邮箱：</td><td><%=customer[0].contact[i].mail%></td>
+                    <%
+                         if(flag==1){
+                    %>
                     <td>
                     <form name="deletecontact" method="post" action="/deletecontact?cstmName=<%=encodeURIComponent(customer[0].cstmName)%>&owner=<%= encodeURIComponent(customer[0].contact[i].owner)%>" onSubmit="javascript:return window.confirm('确认删除吗？')"> 
                          <input type="submit" value="删除">
                     </form>
                     </td>
+                    <% } %>
      		</tr>
           <% }} %>
 
                <tr>
-                    <td><input type="button" onclick="location='/addcontact?cstmName=<%= encodeURIComponent(customer[0].cstmName)%>'" value="增加"></td>
+                    <td><input type="button" onclick="location='/addcontact?cstmName=<%= encodeURIComponent(customer[0].cstmName)%>&flag=<%=flag%>'" value="增加"></td>
                     </tr>
           <tr>
           <tr>
@@ -43,12 +47,35 @@
           </tr>
 		<td>公司附件：</td>
 		</tr>
+          
           <%
           if(customer[0].attach != null){
                for(var i in customer[0].attach){
           %>
           <tr><td><a href="/download?flag=3&name=<%=customer[0].attach[i].filename%>"><%=customer[0].attach[i].originalname%></a></td></tr>
           <% }} %>
+
+          <%
+              if(flag==1){
+          %>
+          <tr>
+               <td><input type="button" onclick="location='/salescontract_boot'" value="返回"></td>
+          </tr>
+          <% } %>
+          <%
+              if(flag==2){
+          %>
+          <tr>
+               <td><input type="button" onclick="location='/service/addservice'" value="返回"></td>
+          </tr>
+          <% } %>
+          <%
+              if(flag==3){
+          %>
+          <tr>
+               <td><input type="button" onclick="location='/service/service_boot'" value="返回"></td>
+          </tr>
+          <% } %>
           
      </table>
      <%

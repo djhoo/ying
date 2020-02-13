@@ -16,7 +16,7 @@
 	     	<tr><td>服务编号</td><td><input type="text" name="servId" required="required" size="40"></td></tr>
 			<tr><td>客户名称</td>
 			<td>
-				<select name="cstmName">
+				<select name="cstmName" id ="selectName">
 				<%
 					for(var i in customer){
 				%>
@@ -27,17 +27,27 @@
 			</td>
 			</tr>
 			<tr><td>终端用户</td>
-			<td>
-				<select name="endName">
-				<%
-					for(var i in enduser){
-				%>
-					<option value="<%=enduser[i].owner%>"><%=enduser[i].owner%></option>
-				<%
-					}
-				%>
-			</td>
-				<td><input type="button" onclick="location='/service/addenduser'" value="新增终端用户"></td></tr>
+
+			<%
+				for(var i in customer){
+			%>
+				<td id = "<%=i%>" class="endclass">
+					<select id="selectEnd<%=i%>">
+					<%
+					
+					for(var j in customer[i].contact){
+					%>
+						<option value="<%=customer[i].contact[j].owner%>"><%=customer[i].contact[j].owner%></option>
+					<%
+						}
+					%>			
+				</td>
+				<td id = "add<%=i%>" class="endclass"><input type="button" onclick="location='/customerview?name=<%=customer[i].cstmName%>&flag=2'" value="新增终端用户"></td>
+			<%
+				}
+			%>
+
+			</tr>
 			<tr><td>服务类型</td>
 				<td><select name="servType">
 				<option value="电脑硬件">电脑硬件</option>
@@ -60,8 +70,8 @@
 				<option value="Level 2">Level 2</option>
 				<option value="Level 3">Level 3</option>
 			</select></td></tr>
-			<tr><td>开始时间：</td><td><input id="" name="servStartTime" required="required" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" /></td></tr>
-			<tr><td>结束时间：</td><td><input id="" name="servEndTime" required="required" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd',readOnly:true})" /></td></tr>
+			<tr><td>开始时间：</td><td><input id="" name="servStartTime" required="required" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd HH:mm:ss',readOnly:true})" /></td></tr>
+			<tr><td>结束时间：</td><td><input id="" name="servEndTime" required="required" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy/MM/dd HH:mm:ss',readOnly:true})" /></td></tr>
 			<tr><td>服务概述：</td><td><input type="text"  name="servBrief"></td></tr>
 			<tr><td>添加附件：</td><td><input type="file" name="attach1"></td></tr>
 			<tr><td></td><td><input type="submit" value="确定"></td>
@@ -71,4 +81,24 @@
 	</form>
 </div>	
 </body>
+<script language="javascript">
+$(document).ready(function(){
+		$(".endclass").hide();
+		$("select[id^='selectEnd']").attr("name","");
+		$("#0").show();
+		$("#selectEnd0").attr("name","endName");
+		$("#add0").show();
+		})
+
+	document.getElementById('selectName').onchange=function(){
+		var obj=document.getElementById('selectName');
+		var index=obj.selectedIndex;
+		$(".endclass").hide();
+		$("select[id^='selectEnd']").attr("name","");
+		$("#"+index).show();
+		$("#selectEnd"+index).attr("name","endName");
+		$("#add"+index).show();
+
+	}
+</script>
 </html>

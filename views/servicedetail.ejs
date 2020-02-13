@@ -13,11 +13,11 @@
 			<table>
 			<tr>
 				<td>客户服务细节：</td>
-				<td><input type="button" onclick="location='/service/addservice'" value="新增合同"></td>
+				<td><input type="button" onclick="location='/service/addservice'" value="新增服务单"></td>
 				<td><input type="button" onclick="location='/service/service_boot'" value="返回"></td>
-				<td><input type="button" onclick="location='/search?flag=1'" value="查询"></td>
+				<td><input type="button" onclick="location='/service/servicesearch'" value="查询"></td>
 				<%
-						if(servicelist[0].ctrctStatus != "100%"){
+					if(uid == "david" || uid == "admin"){
 			    %>
 				<td>
 				<form name="deleteservice" method="post" action="/service/deleteservice?id=<%= encodeURIComponent(servicelist[0].servId)%>" onSubmit="javascript:return window.confirm('确认删除吗？')"> 
@@ -35,7 +35,7 @@
 				<tr>
 					<td>客户名称</td><td bgcolor="#BFEFFF"><%=servicelist[0].cstmName%></td>
 					<%
-						if(servicelist[0].ctrctStatus != "100%"){
+						if(uid == servicelist[0].servUid || uid == "david"){
 			    	%>
 					<td><input type="button" onclick="location='/service/updateservice?id=<%= encodeURIComponent(servicelist[0].servId)%>'" value="变更服务"></td>
 					<%
@@ -53,6 +53,18 @@
 					<td>服务方式：</td><td bgcolor="#BFEFFF"><%=servicelist[0].servWay%></td>
 					<td>结束时间:</td><td bgcolor="#BFEFFF"><%=servicelist[0].servEndTime%></td>
 					<td>服务状态：</td><td bgcolor="#BFEFFF"><%=servicelist[0].servStatus%></td>
+				</tr>
+				<tr>
+					<td></td><td></td>
+					<td></td><td></td>
+					<%
+						var endDate = new Date(servicelist[0].servEndTime);
+						var startDate = new Date(servicelist[0].servStartTime);
+						var duration = endDate.getTime() - startDate.getTime();
+						var time = duration/ (1000.0 * 60.0 * 60.0 );
+						var time1 = time.toFixed(1);
+					%>
+					<td>服务时间:</td><td bgcolor="#BFEFFF"><%=time1%>小时</td>
 				</tr>
 			</table>
 		</td></tr>

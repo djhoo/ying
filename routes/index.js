@@ -1397,15 +1397,19 @@ router.post('/search', function(req, res) {
 /********************************************************************************/
 /********************************************************************************/
 router.get('/customerview', function(req, res) {
-    indexright(req,res);
+     if (!req.session.loginUser) {
+        return res.redirect("/");
+    }
 
     var db = req.db;
     var customer = db.get('customerlist');
     var name = decodeURI(req.query.name);
+    var flag = req.query.flag;
 
     customer.find({cstmName:name},{},function(e,docs){
             res.render('customerview', {
-                "customer" : docs
+                "customer" : docs,
+                "flag" : flag,
             });
         
         //console.log(docs[0].ctrctId);
@@ -2013,15 +2017,21 @@ router.post('/deletematerial', function(req, res) {
 //增加联系人内容
 /********************************************************************************/
 router.get('/addcontact', function(req, res) {
-    indexright(req,res);
+    if (!req.session.loginUser) {
+        return res.redirect("/");
+    }
 
     var cstmName = decodeURIComponent(req.query.cstmName);
-    res.render('addcontact', { title: '增加联系人',cstmName:encodeURIComponent(req.query.cstmName)});
+    var flag = req.query.flag;
+    res.render('addcontact', { title: '增加联系人',cstmName:encodeURIComponent(req.query.cstmName),flag:flag});
 });
 
 router.post('/addcontact', function(req, res) {
-    indexright(req,res);
+    if (!req.session.loginUser) {
+        return res.redirect("/");
+    }
 
+    var flag = req.query.flag;
     var cstmName = decodeURIComponent(req.query.cstmName);
 
     var owner = req.body.owner;
@@ -2047,7 +2057,7 @@ router.post('/addcontact', function(req, res) {
                 return;
             }
             else {
-                res.redirect("customerview?name="+encodeURIComponent(cstmName));
+                res.redirect("customerview?name="+encodeURIComponent(cstmName)+"&flag="+flag);
             }
     });   
 });
@@ -2073,7 +2083,7 @@ router.post('/deletecontact', function(req, res) {
         if (error) {
           console.log('deletepurchase update salse Error:'+ error);
         }else{
-          res.redirect("customerview?name="+encodeURIComponent(cstmName));
+          res.redirect("customerview?name="+encodeURIComponent(cstmName)+"&flag=1");
         }
     });
 
