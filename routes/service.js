@@ -21,7 +21,7 @@ router.get('/service_boot', function(req, res) {
     
     //sales.find({},{sort: {ctrctEndTime:1}},function(e,docs){
     //sales.find({}).sort({"ctrctId":1}).toArray(function(e,docs){
-    service.find({},null,function(e,docs){
+    service.find({},{sort:{"servStartTime":1}},function(e,docs){
    
         res.render('service_boot', {
             "servicelist" : docs
@@ -390,7 +390,7 @@ router.get('/servicesearch', function(req, res) {
     indexright(req, res);
     var db = req.db;
     var customer = db.get('customerlist');
-    customer.find({},{},function(e,docs){
+    customer.find({},{sort:{"cstmName":1}},function(e,docs){
         res.render('servicesearch', {
             "customer" : docs,
             title: '查找',
@@ -478,7 +478,7 @@ router.post('/servicesearch', function(req, res) {
 
     var service = db.get('servicerecord');
         
-    service.find(condition,{},function(e,docs){
+    service.find(condition,{sort:{"servStartTime":1}},function(e,docs){
         res.render("servicesearchresult", {
             "servicelist" : docs
         });

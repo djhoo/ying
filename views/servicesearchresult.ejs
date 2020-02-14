@@ -41,9 +41,10 @@
 						var endDate = new Date(servicelist[i].servEndTime);
 						var startDate = new Date(servicelist[i].servStartTime);
 						var duration = endDate.getTime() - startDate.getTime();
-						var time = parseInt(duration / (1000 * 60 * 60 * 24));
+						var time = duration / (1000.0 * 60.0 * 60.0 );
+						var time1 = time.toFixed(1);
 					%>
-					<td><%=time%></td>
+					<td><%=time1%></td>
 					<td><%=servicelist[i].servStatus%></td>
 					<td><%=servicelist[i].servType%></td>
 					<td><%=servicelist[i].servBrief%></td>
