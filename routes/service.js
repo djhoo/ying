@@ -38,15 +38,12 @@ router.get('/addservice', function(req, res) {
     var customer = db.get('customerlist');
     var enduser = db.get('enduserlist');
     var doctemp;
-    customer.find({},{},function(e,docs){
-        enduser.find({},{},function(e,docs1){
+    customer.find({},{sort:{"cstmName":1}},function(e,docs){
            res.render('addservice', {
-            "customer" : docs,
-            "enduser" : docs1,
+            "customer" : docs
             });
-        });
-        //console.log(docs[0].ctrctId);
     });
+        //console.log(docs[0].ctrctId);
 /*
     enduser.find({},{},function(e,docs1){
          res.render('addservice', {
