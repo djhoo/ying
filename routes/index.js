@@ -187,7 +187,7 @@ router.get('/addcontract', function(req, res) {
     indexright(req,res);
     var db = req.db;
     var customer = db.get('customerlist');
-    customer.find({},{},function(e,docs){
+    customer.find({},{sort:{"cstmName":1}},function(e,docs){
         res.render('addcontract', {
             "customer" : docs
         });
@@ -357,6 +357,8 @@ router.post('/addcustomer', upload.single('cstmAttach'), function(req, res) {
         });
     */
 });
+
+
 
 router.get('/contractdetail', function(req, res) {
     indexright(req,res);
@@ -704,7 +706,7 @@ router.get('/addpurchase', function(req, res) {
     var db = req.db;
     //var owner = req.query.owner;
     var customer = db.get('customerlist');
-    customer.find({},{},function(e,docs){
+    customer.find({},{sort:{"cstmName":1}},function(e,docs){
         res.render('addpurchase', {
             "customer" : docs,
             id:encodeURIComponent(req.query.id),
@@ -2061,6 +2063,64 @@ router.post('/addcontact', function(req, res) {
             }
     });   
 });
+
+/********************************************************************************/
+//变更联系人内容
+/********************************************************************************/
+router.get('/updatecontact', function(req, res) {
+    if (!req.session.loginUser) {
+        return res.redirect("/");
+    }
+
+    var cstmName = decodeURIComponent(req.query.cstmName);
+    var number = req.query.number;
+    var flag = req.query.flag;
+    var db = req.db;
+    var customer = db.get('customerlist');
+    customer.find({cstmName:cstmName},{},function(e,docs){
+            res.render('updatecontact', {
+                "customer" : docs,
+                "flag" : flag,
+                "number":number,
+            });
+        
+        //console.log(docs[0].ctrctId);
+    });
+});
+router.post('/updatecontact', function(req, res) {
+    if (!req.session.loginUser) {
+        return res.redirect("/");
+    }
+
+    var cstmName = decodeURIComponent(req.query.cstmName);
+    var number = req.query.number;
+    var flag = req.query.flag;
+    var cellno = req.body.cellno;
+    var telno = req.body.telno;
+    var mail = req.body.mail;
+
+    var db = req.db;
+    var customer = db.get('customerlist');
+    customer.find({cstmName:cstmName},{},function(e,docs){
+            
+        customer.update({"cstmName" : cstmName,"contact.owner":docs[0].contact[number].owner}, 
+           {$set:{
+                        "contact.$.cellno":cellno,
+                        "contact.$.telno":telno,
+                        "contact.$.mail":mail,
+            }},{upset:true},
+             function(error, result){
+            if (error) {
+              console.log('updategather  Error:'+ error);
+            }else{
+               res.redirect("customerview?name="+encodeURIComponent(cstmName)+"&flag="+flag);
+            }
+        });
+        //console.log(docs[0].ctrctId);
+    });
+});
+
+
 
 /********************************************************************************/
 //删除联系人

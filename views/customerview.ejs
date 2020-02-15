@@ -26,6 +26,9 @@
      			<td>手机：</td><td><%=customer[0].contact[i].cellno%></td>
      			<td>固话：</td><td><%=customer[0].contact[i].telno%></td>
      			<td>邮箱：</td><td><%=customer[0].contact[i].mail%></td>
+                    <td>
+                         <input type="button" onclick="location='/updatecontact?cstmName=<%= encodeURIComponent(customer[0].cstmName)%>&number=<%= i%>&flag=<%=flag%>'" value="变更">
+                    </td>
                     <%
                          if(flag==1){
                     %>
