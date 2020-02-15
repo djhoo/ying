@@ -39,7 +39,7 @@
 				%>
 				<tr class="active" id = <%=servicelist[i].servStartTime%>>
 					<td><a href="/service/servicedetail?id=<%=encodeURIComponent(servicelist[i].servId)%>"><%=servicelist[i].servId%></a></td>
-					<td><a href="/customerview?name=<%=encodeURI(servicelist[i].cstmName)%>&flag=3"><%=servicelist[i].cstmName%></a></td>
+					<td><a href="/customer/customerview?name=<%=encodeURI(servicelist[i].cstmName)%>&flag=3"><%=servicelist[i].cstmName%></a></td>
 					<td><%=servicelist[i].servStartTime%></td>
 					<%
 						var endDate = new Date(servicelist[i].servEndTime);

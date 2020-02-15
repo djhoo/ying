@@ -37,7 +37,7 @@
 					%>
 					<tr>
 						<td bgcolor="#BFEFFF"><a href="/contractdetail?id=<%=encodeURIComponent(result[i].ctrctId)%>"><%=result[i].ctrctId%></a></td>
-						<td bgcolor="#aaaa00"><a href="/customerview?name=<%=encodeURI(result[i].cstmName)%>"><%=result[i].cstmName%></a></td>
+						<td bgcolor="#aaaa00"><%=result[i].cstmName%></a></td>
 						<td bgcolor="#BFEFFF"><%=result[i].ctrctValue%></td>
 						<td bgcolor="#aaaa00"><%=result[i].ctrctValue - result[i].billtotalvalue%></td>
 						<td bgcolor="#BFEFFF"><%=result[i].ctrctGross%></td>

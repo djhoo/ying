@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>变更联系人</title>
+<link rel=’stylesheet’ href=’../stylesheets/style.css’ />
+<script language="javascript" type="text/javascript" src="../javascripts/My97DatePicker/WdatePicker.js"></script>
+</head>
+<body>
+<div id="updatecontact" style=margin:20px>
+	<h1>变更联系人</h1>
+	<form name="updatecontact" method="post" action="/customer/updatecontact?cstmName=<%=encodeURIComponent(customer[0].cstmName)%>&number=<%= number%>&flag=<%=flag%>">
+		<table bgcolor="#EAEAEA">
+	     	<tr><td>联系人：</td><td bgcolor="#BFEFFF"><%=customer[0].contact[number].owner%></td></tr>
+			<tr><td>手机：</td><td><input type="tel"  required="required" name="cellno" value="<%=customer[0].contact[number].cellno%>"></td></tr>
+			<tr><td>固话：</td><td><input type="tel"   name="telno" value="<%=customer[0].contact[number].telno%>"></td></tr>
+			<tr><td>邮箱：</td><td><input type="email"  name="mail" value="<%=customer[0].contact[number].mail%>"></td></tr>
+			<tr><td></td><td><input type="submit" value="确定"></td></tr>
+		</table >
+	</form>
+
+</div>	
+</body>
+</html>

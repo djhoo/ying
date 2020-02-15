@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>客户与供应商</title>
-<link rel=’stylesheet’ href=’/stylesheets/style.css’ />
+<link rel=’stylesheet’ href=’../stylesheets/style.css’ />
 </head>
 <body>
 <div id="customerview">
@@ -27,13 +27,13 @@
      			<td>固话：</td><td><%=customer[0].contact[i].telno%></td>
      			<td>邮箱：</td><td><%=customer[0].contact[i].mail%></td>
                     <td>
-                         <input type="button" onclick="location='/updatecontact?cstmName=<%= encodeURIComponent(customer[0].cstmName)%>&number=<%= i%>&flag=<%=flag%>'" value="变更">
+                         <input type="button" onclick="location='/customer/updatecontact?cstmName=<%= encodeURIComponent(customer[0].cstmName)%>&number=<%= i%>&flag=<%=flag%>'" value="变更">
                     </td>
                     <%
                          if(flag==1){
                     %>
                     <td>
-                    <form name="deletecontact" method="post" action="/deletecontact?cstmName=<%=encodeURIComponent(customer[0].cstmName)%>&owner=<%= encodeURIComponent(customer[0].contact[i].owner)%>" onSubmit="javascript:return window.confirm('确认删除吗？')"> 
+                    <form name="deletecontact" method="post" action="/customer/deletecontact?cstmName=<%=encodeURIComponent(customer[0].cstmName)%>&owner=<%= encodeURIComponent(customer[0].contact[i].owner)%>" onSubmit="javascript:return window.confirm('确认删除吗？')"> 
                          <input type="submit" value="删除">
                     </form>
                     </td>
@@ -42,7 +42,7 @@
           <% }} %>
 
                <tr>
-                    <td><input type="button" onclick="location='/addcontact?cstmName=<%= encodeURIComponent(customer[0].cstmName)%>&flag=<%=flag%>'" value="增加"></td>
+                    <td><input type="button" onclick="location='/customer/addcontact?cstmName=<%= encodeURIComponent(customer[0].cstmName)%>&flag=<%=flag%>'" value="增加"></td>
                     </tr>
           <tr>
           <tr>

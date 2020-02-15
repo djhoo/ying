@@ -34,7 +34,7 @@
 					%>
 					<tr>
 						<td bgcolor="#BFEFFF"><a href="/purchasedetail?id=<%=encodeURIComponent(result[i].purchsId)%>"><%=result[i].purchsId%></a></td>
-						<td bgcolor="#aaaa00"><a href="/customerview?name=<%=encodeURI(result[i].purchsName)%>"><%=result[i].purchsName%></a></td>
+						<td bgcolor="#aaaa00"><%=result[i].purchsName%></a></td>
 						<td bgcolor="#BFEFFF"><%=result[i].purchsValue%></td>
 						<td bgcolor="#aaaa00"><%=result[i].purchsValue - result[i].paytotalvalue%></td>
 						<td bgcolor="#BFEFFF"><%=result[i].purchsTime%></td>
