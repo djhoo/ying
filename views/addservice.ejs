@@ -33,8 +33,7 @@
 			%>
 				<td id = "<%=i%>" class="endclass">
 					<select id="selectEnd<%=i%>">
-					<%
-					
+					<%					
 					for(var j in customer[i].contact){
 					%>
 						<option value="<%=customer[i].contact[j].owner%>"><%=customer[i].contact[j].owner%></option>
@@ -83,12 +82,20 @@
 </body>
 <script language="javascript">
 $(document).ready(function(){
-		$(".endclass").hide();
-		$("select[id^='selectEnd']").attr("name","");
-		$("#0").show();
-		$("#selectEnd0").attr("name","endName");
-		$("#add0").show();
-		})
+	$(".endclass").hide();
+	$("select[id^='selectEnd']").attr("name","");
+	$("#0").show();
+	$("#selectEnd0").attr("name","endName");
+	$("#add0").show();
+
+	var user = '<%- JSON.stringify(customer) %>'
+	var user1 = JSON.parse(user);
+ 	var sortB = JSON.stringify(user1,["cstmName"]);
+ 	var array = [];
+ 	for(var i in user1){
+ 		array[i] = user1[i].cstmName;
+ 	}
+})
 
 	document.getElementById('selectName').onchange=function(){
 		var obj=document.getElementById('selectName');

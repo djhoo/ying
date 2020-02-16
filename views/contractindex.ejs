@@ -22,6 +22,13 @@
 		%>	
 		<tr>
 			<td><input type="button" style="height:50px;width:200px" onclick="location='/service/service_boot'" value="客户服务记录"></td>
+			<%
+			if(uid == "admin" || uid == "david"){
+			%>
+			<td><input type="button" style="height:50px;width:200px" onclick="location='/customer/customer_boot'" value="客户管理"></td>
+			<%
+			}
+			%>	
 		</tr>
 		</table>
 	</div>

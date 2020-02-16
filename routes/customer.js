@@ -11,6 +11,20 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
+router.get('/customer_boot', function(req, res, next) {
+   indexright(req, res);
+
+    var db = req.db;
+    var customer = db.get('customerlist');
+
+    customer.find({},{},function(e,docs){
+            res.render('customer_boot', {
+                "customer" : docs,
+           });
+        
+        //console.log(docs[0].ctrctId);
+    });
+});
 
 
 router.get('/customerview', function(req, res) {
@@ -247,7 +261,25 @@ router.post('/deletecontact', function(req, res) {
 });
 
 
+/********************************************************************************/
+//删除销售合同
+/********************************************************************************/
+router.post('/deletecustomer', function(req, res) {
+    indexright(req, res);
+    var cstmName = decodeURIComponent(req.query.cstmName);
+ //   console.log(ctrctId);
+    var db = req.db;
+    var customer = db.get('customerlist');
 
+    customer.remove({"cstmName" : cstmName},  function(error, result){
+        if (error) {
+          console.log('deletecustomer Error:'+ error);
+        }else{
+          res.redirect("customer_boot");
+        }
+    });
+
+});
 
 
 

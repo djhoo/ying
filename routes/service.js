@@ -38,7 +38,13 @@ router.get('/addservice', function(req, res) {
     var customer = db.get('customerlist');
     var enduser = db.get('enduserlist');
     var doctemp;
+    var sortData;
     customer.find({},{sort:{"cstmName":1}},function(e,docs){
+//           sortData = docs.sort(function(a,b){
+//            return (a.cstmName).localeCompare(b.cstmName, "zh")
+//            });
+//           console.log(docs);
+//           console.log(sortData);
            res.render('addservice', {
             "customer" : docs
             });

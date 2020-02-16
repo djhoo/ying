@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>客户管理</title>
+	<link rel="stylesheet" href="../stylesheets/bootstrap.min.css">  
+	<link rel="stylesheet" href="../stylesheets/style.css"> 
+	<script language="javascript" type="text/javascript" src="../javascripts/jquery.min.js"></script>
+	<script language="javascript" type="text/javascript" src="../javascripts/bootstrap.min.js"></script>
+	<script language="javascript" type="text/javascript" src="../javascripts/yescom.js"></script>
+<body>
+<div class="container">
+	<h1>客户管理</h1>
+	<div class="row">
+		<input type="button" onclick="location='/customer/addcustomer'" value="新增客戶">
+	</div>
+
+	<div class="row" id ="shyeshare">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>客户名称</th>
+					<th>公司地址</th>
+					<th>其他备注</th>			
+				</tr>
+			</thead>
+			<tbody>
+				<%
+				for(var i in customer){						
+				%>
+				<tr class="active" id = <%=customer[i].cstmName%>>
+					<td><a href="/customer/customerview?name=<%=encodeURI(customer[i].cstmName)%>&flag=3"><%=customer[i].cstmName%></a></td>
+					<td><%=customer[i].cstmAddr%></td>
+					<td><%=customer[i].otherinfo%></td>
+                    <td>
+						<form name="deletecustomer" method="post" action="/customer/deletecustomer?cstmName=<%= encodeURIComponent(customer[i].cstmName)%>" onSubmit="javascript:return window.confirm('不要轻易删除，确认删除吗？')"> 
+							<input type="submit" value="删除">
+						</form>
+					</td>
+				</tr>
+				<% } %>
+			</tbody>
+		</table>
+	</div>
+</div>
+</body>
+<script language=JavaScript>
+	$(document).ready(function(){
+
+		var id;
+
+		checkSelect();
+		$(".year").change(function() { 
+			checkSelect();
+		});
+
+	});
+	
+</script>
+</html>
