@@ -12,7 +12,7 @@
          
           <tr>
           	<td>公司名称：</td>
-               <td><input type="text" required="required" onkeyup="this.value=this.value.replace(/[, ]/g,'')" name="cstmName"></td>
+               <td><input type="text" id = "inputCstm" required="required" onkeyup="this.value=this.value.replace(/[, ]/g,'')" onblur="checkName()" name="cstmName"></td>
      	</tr>
           <tr>
               <td>公司地址：</td>
@@ -38,4 +38,22 @@
 	</form>
 </div>	
 </body>
+<script language="javascript">
+var userTemp = '<%- JSON.stringify(customer) %>'
+var user = JSON.parse(userTemp);
+function checkName()
+{
+     var x=document.getElementById("inputCstm").value
+     for( i in user){
+          if(user[i].cstmName == x)
+          {
+               alert("the name "+x+" is exist, please change the name");
+               document.getElementById("inputCstm").value="";
+               document.getElementById("inputCstm").focus();
+          }
+     }
+}
+
+
+</script>
 </html>

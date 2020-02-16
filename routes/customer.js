@@ -37,7 +37,17 @@ router.get('/customerview', function(req, res) {
 router.get('/addcustomer', function(req, res) {
     indexright(req,res);
     
-    res.render('addcustomer', { title: '新增客户与供应商' });
+    var db = req.db;
+    var customer = db.get('customerlist');
+
+    customer.find({},{},function(e,docs){
+            res.render('addcustomer', {
+                "customer" : docs,
+                 title: '新增客户与供应商'
+            });
+        
+        //console.log(docs[0].ctrctId);
+    });
 });
 
 router.post('/addcustomer', upload.single('cstmAttach'), function(req, res) {
