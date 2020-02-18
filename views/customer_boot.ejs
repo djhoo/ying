@@ -37,6 +37,9 @@
 							<input type="submit" value="删除">
 						</form>
 					</td>
+					 <td>
+                         <input type="button" onclick="location='/customer/updatecustomer?cstmName=<%= encodeURIComponent(customer[i].cstmName)%>'" value="变更">
+                    </td>
 				</tr>
 				<% } %>
 			</tbody>

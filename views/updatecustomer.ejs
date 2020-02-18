@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>变更客户与供应商</title>
+<link rel=’stylesheet’ href=’../stylesheets/style.css’ />
+</head>
+<body>
+<div id="updatecustomer">
+	<h1>变更客户与供应商</h1>
+	<form name="updatecustomer" method="post" action="/customer/updatecustomer?cstmName=<%=encodeURIComponent(customer[0].cstmName)%>">
+          <table bgcolor="#EAEAEA">
+         
+          <tr>
+               <td>公司名称：</td><td><%=customer[0].cstmName%></td>
+          </tr>
+          <tr>
+              <td>公司地址：</td>
+              <td><input type="text" required="required" name="cstmAddr" value='<%=customer[0].cstmAddr%>'></td>
+     	</tr>
+          <tr>
+          <td>其他备注：</td><td><input type="text" name="otherinfo" value='<%=customer[0].otherinfo%>'></td>
+		</tr>
+          <tr><td></td><td><input type="submit" value="确定"></td>
+          </tr>
+     </table>
+	</form>
+</div>	
+</body>
+<script language="javascript">
+</script>
+</html>

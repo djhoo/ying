@@ -174,6 +174,57 @@ router.post('/addcontact', function(req, res) {
             }
     });   
 });
+/********************************************************************************/
+//变更客户
+/********************************************************************************/
+router.get('/updatecustomer', function(req, res) {
+    if (!req.session.loginUser) {
+        return res.redirect("/");
+    }
+
+    var cstmName = decodeURIComponent(req.query.cstmName);
+    var db = req.db;
+    var customer = db.get('customerlist');
+    customer.find({"cstmName":cstmName},{},function(e,docs){
+            res.render('updatecustomer', {
+                "customer" : docs,
+            });
+        
+        //console.log(docs[0].ctrctId);
+    });
+});
+
+router.post('/updatecustomer', function(req, res) {
+    if (!req.session.loginUser) {
+        return res.redirect("/");
+    } 
+    var cstmName = decodeURIComponent(req.query.cstmName);
+    var db = req.db;
+    var customer = db.get('customerlist');
+    //console.log(sales);
+
+    var cstmAddr = req.body.cstmAddr;
+    var otherinfo = req.body.otherinfo;
+    customer.update({"cstmName" : cstmName}, 
+            {$set:{
+                "cstmAddr" : cstmAddr,
+                "otherinfo" : otherinfo,
+                }},
+             function (err, doc) {
+                if (err) {
+                    // If it failed, return error
+                    res.send("There was a problem update the information to the database.");
+                    return;
+                }
+                else {
+                    // And forward to success page
+                    res.redirect("customer_boot");
+                }
+            });
+    
+});
+
+
 
 /********************************************************************************/
 //变更联系人内容
