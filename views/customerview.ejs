@@ -48,7 +48,7 @@
           <tr>
           <td>其他备注：</td><td><%=customer[0].otherinfo%></td>
           </tr>
-		<td>公司附件：</td>
+		<td>公司附件：<input type="button" onclick="location='/customer/addcustomerattach?cstmName=<%= encodeURIComponent(customer[0].cstmName)%>'" value="上传"></td>
 		</tr>
           
           <%
@@ -77,6 +77,13 @@
           %>
           <tr>
                <td><input type="button" onclick="location='/service/service_boot'" value="返回"></td>
+          </tr>
+          <% } %>
+            <%
+              if(flag==4){
+          %>
+          <tr>
+               <td><input type="button" onclick="location='/customer/customer_boot'" value="返回"></td>
           </tr>
           <% } %>
           

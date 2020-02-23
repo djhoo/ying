@@ -224,7 +224,43 @@ router.post('/updatecustomer', function(req, res) {
     
 });
 
+/********************************************************************************/
+//上传附件
+/********************************************************************************/
+router.get('/addcustomerattach', function(req, res) {
+    indexright(req, res);
+    res.render('addcustomerattach', { title: '上传附件',cstmName:encodeURIComponent(req.query.cstmName)});
+});
 
+router.post('/addcustomerattach', upload.single('attach'), function(req, res) {
+//router.post('/addmaterial', function(req, res) {
+    indexright(req, res);
+    var db = req.db;
+    var cstmName = decodeURIComponent(req.query.cstmName);
+    var file = req.file;
+    var customer = db.get('customerlist');
+
+     // update to the DB
+    customer.update({"cstmName" : cstmName}, 
+        {$push:{"attach":{
+                "originalname":file.originalname,
+                "filename":file.filename,
+                "path":file.path
+            }}},
+        function (err, doc) {
+        if (err) {
+            // If it failed, return error
+            res.send("There was a problem adding the information to the database.");
+            return;
+        }
+        else {
+            
+            res.redirect("customerview?name="+encodeURIComponent(cstmName)+"&flag=3");
+        }
+    });
+   
+
+});
 
 /********************************************************************************/
 //变更联系人内容
