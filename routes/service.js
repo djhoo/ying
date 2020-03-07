@@ -21,7 +21,7 @@ router.get('/service_boot', function(req, res) {
     
     //sales.find({},{sort: {ctrctEndTime:1}},function(e,docs){
     //sales.find({}).sort({"ctrctId":1}).toArray(function(e,docs){
-    service.find({},{sort:{"servStartTime":1}},function(e,docs){
+    service.find({},{sort:{"servStartTime":-1}},function(e,docs){
    
         res.render('service_boot', {
             "servicelist" : docs

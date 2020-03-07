@@ -107,7 +107,7 @@
 						<input type="button" onclick="location='/updatebill?id=<%= encodeURIComponent(saleslist[0].ctrctId)%>&flag=<%= i%>'" value="变更">
 					</td>
 					<td>
-						<form name="deletecontract" method="post" action="/deletebill?id=<%= encodeURIComponent(saleslist[0].ctrctId)%>&flag=<%= i%>" onSubmit="javascript:return window.confirm('确认删除吗？')"> 
+						<form name="deletecontract" method="post" action="/deletebill?id=<%= encodeURIComponent(saleslist[0].ctrctId)%>&flag=<%= i%>" onSubmit="javascript:return window.confirm('你确认删除吗？')"> 
 							<input type="submit" value="删除">
 						</form>
 					</td>

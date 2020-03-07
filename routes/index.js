@@ -172,7 +172,7 @@ router.get('/salescontract_boot', function(req, res) {
     
     //sales.find({},{sort: {ctrctEndTime:1}},function(e,docs){
     //sales.find({}).sort({"ctrctId":1}).toArray(function(e,docs){
-    sales.find({},null,function(e,docs){
+    sales.find({},{sort:{"ctrctTime":-1}},function(e,docs){
    
         res.render('salescontract_boot', {
             "saleslist" : docs,
@@ -584,7 +584,7 @@ router.get('/purchasecontract_boot', function(req, res) {
     
     //sales.find({},{sort: {ctrctEndTime:1}},function(e,docs){
     //sales.find({}).sort({"ctrctId":1}).toArray(function(e,docs){
-        purchase.find({},null,function(e,docs){
+        purchase.find({},{sort:{"purchsTime":-1}},function(e,docs){
    
         res.render('purchasecontract_boot', {
             "purchaselist" : docs,
