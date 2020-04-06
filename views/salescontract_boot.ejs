@@ -60,7 +60,7 @@
 						var ratio = (saleslist[i].gathertotalvalue)/saleslist[i].ctrctValue * 100;
 						var ratio2 = ratio.toFixed(2);
 					%>
-					<td><%=ratio2%>%</td>
+					<td class="totalratio"><%=ratio2%>%</td>
 					<%
 						var ratiob = (saleslist[i].billtotalvalue)/saleslist[i].ctrctValue * 100;
 						var ratiob2 = ratiob.toFixed(2);
@@ -142,7 +142,7 @@
 						var ratio = (saleslist[i].gathertotalvalue)/saleslist[i].ctrctValue * 100;
 						var ratio2 = ratio.toFixed(2);
 					%>
-					<td><%=ratio2%>%</td>
+					<td class="totalratio"><%=ratio2%>%</td>
 					<%
 						var ratiob = (saleslist[i].billtotalvalue)/saleslist[i].ctrctValue * 100;
 						var ratiob2 = ratiob.toFixed(2);
@@ -229,7 +229,7 @@
 						var ratio = (saleslist[i].gathertotalvalue)/saleslist[i].ctrctValue * 100;
 						var ratio2 = ratio.toFixed(2);
 					%>
-					<td><%=ratio2%>%</td>
+					<td class="totalratio"><%=ratio2%>%</td>
 					<%
 						var ratiob = (saleslist[i].billtotalvalue)/saleslist[i].ctrctValue * 100;
 						var ratiob2 = ratiob.toFixed(2);
@@ -318,7 +318,7 @@
 						var ratio = (saleslist[i].gathertotalvalue)/saleslist[i].ctrctValue * 100;
 						var ratio2 = ratio.toFixed(2);
 					%>
-					<td><%=ratio2%>%</td>
+					<td class="totalratio"><%=ratio2%>%</td>
 					<%
 						var ratiob = (saleslist[i].billtotalvalue)/saleslist[i].ctrctValue * 100;
 						var ratiob2 = ratiob.toFixed(2);
@@ -329,7 +329,6 @@
 				</tr>
 				<% }}%>
 				
-
 			</tbody>
 		</table>
 	</div>
@@ -342,6 +341,14 @@
 	$(document).ready(function(){
 
 		var id;
+		$(".totalratio").each(function(){
+              
+            if($(this).html()!=("100.00%")){
+            	//$(this).css('background-color','#FFAE38');//
+            	$(this).css('color','red');//
+            };
+
+        });
 
 		$(".ctrctValue").each(function(ii,vv){
    			//ii 指第几个元素的序列号。
