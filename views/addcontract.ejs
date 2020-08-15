@@ -22,9 +22,7 @@
 			</select></td></tr>
 			<tr><td>签约客户：</td>
 			<td>
-				<span class="second">
-				<input type="text" name="makeupCo" required="required" id="makeupCo" class="makeinp"  style="width:250px;" onfocus="setfocus(this)" oninput="setinput(this);" placeholder="请选择或输入"/>
-				<br><select name="cstmName" id="typenum" onchange="changeF(this)" size="10" style="display:none;width:250px">
+				<select name="cstmName">		
 				<%
 					for(var i in customer){
 				%>
@@ -32,7 +30,6 @@
 				<%
 					}
 				%>
-				</span>
 			</td>
 				<td><input type="button" onclick="location='/customer/addcustomer'" value="新增客户"></td></tr>
 			<tr><td>合同金额：</td><td><input type="number" required="required" step="0.01" name="ctrctValue"></td></tr>
