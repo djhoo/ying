@@ -15,7 +15,7 @@
     "formidable": "^1.1.1",
     "jade": "~1.11.0",
     "moment": "^2.19.1",
-    "mongodb": "^1.4.4",
+    "mongodb": "^3.6.1",
     "monk": "^1.0.1",
     "morgan": "~1.8.1",
     "multer": "latest",
